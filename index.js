@@ -1,68 +1,133 @@
-const express=require('express');
-const app=express();
+const express = require('express');
+const app = express();
+
 app.use(express.json());
 
-const TOKEN = process.env.TOKEN || 'EAARvvDeYJj4BRCb8075Kw3XvgZBIZAgLM5Vmp1BZBtnsp4dtrU1jqTVZBsxsoDqtrdSONqaaweyxhAZB8UcPODPGWkTPB3emFnm4Ti9CkZCOJ9sVvqa5Eq1dNfEIbxzhSuj9cgzSIHV9f12KjzNCS7cSJbDVmZAKZBH0opplFWyFgQrwQL7Mwg1FzPHvAypZCmVaYPgv8qHxiNP2ZAmMAAuVNZAXwZDZD';
-const VERIFY = 'my_secret_token_123';
+const TOKEN = process.env.TOKEN;
+const VERIFY = process.env.VERIFY_TOKEN;
 
-app.get('/webhook',(req,res)=>{
-  if(req.query['hub.verify_token']===VERIFY){
-    res.send(req.query['hub.challenge']);
-  } else {
-    res.sendStatus(403);
-  }
+app.get('/', (req, res) => {
+  res.status(200).send('Bot is running');
 });
 
-app.post('/webhook',(req,res)=>{
-  const body=req.body;
-  if(body.object==='page'){
-    body.entry.forEach(entry=>{
-      const event=entry.messaging[0];
-      const id=event.sender.id;
-      if(event.postback?.payload==='GET_STARTED')getName(id);
-      if(event.postback?.payload==='SERVICE')reply(id,'Манай үйлчилгээний талаар энд дарна уу 👇');
-      if(event.postback?.payload==='LOCATION')reply(id,'Манай хаяг: Улаанбаатар хот 📍');
-      if(event.postback?.payload==='SCHEDULE')reply(id,'Цагийн хуваарь: ...');
-      if(event.postback?.payload==='CONTACT')reply(id,'Холбоо барих: 70599999, 91191215 📞');
-      if(event.message?.text)getName(id);
-    });
-    res.sendStatus(200);
+app.get('/webhook', (req, res) => {
+  console.log('GET /webhook query:', req.query);
+
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  if (mode === 'subscribe' && token === VERIFY) {
+    console.log('Webhook verified successfully');
+    return res.status(200).send(challenge);
   }
+
+  console.log('Webhook verification failed');
+  return res.sendStatus(403);
 });
 
-async function getName(id){
-  const r=await fetch('https://graph.facebook.com/'+id+'?fields=first_name&access_token='+TOKEN);
-  const p=await r.json();
-  const name=p.first_name||'та';
-  buttons(id,name);
+app.post('/webhook', async (req, res) => {
+  console.log('POST /webhook received');
+  console.log(JSON.stringify(req.body, null, 2));
+
+  const body = req.body;
+
+  if (body.object === 'page') {
+    for (const entry of body.entry || []) {
+      for (const event of entry.messaging || []) {
+        console.log('EVENT:', JSON.stringify(event, null, 2));
+
+        const id = event.sender?.id;
+        if (!id) continue;
+
+        try {
+          if (event.postback?.payload === 'GET_STARTED') {
+            await getName(id);
+          } else if (event.postback?.payload === 'SERVICE') {
+            await reply(id, 'Манай үйлчилгээний талаар энд дарна уу 👇');
+          } else if (event.postback?.payload === 'LOCATION') {
+            await reply(id, 'Манай хаяг: Улаанбаатар хот 📍');
+          } else if (event.postback?.payload === 'SCHEDULE') {
+            await reply(id, 'Цагийн хуваарь: ...');
+          } else if (event.postback?.payload === 'CONTACT') {
+            await reply(id, 'Холбоо барих: 70599999, 91191215 📞');
+          } else if (event.message?.text) {
+            await getName(id);
+          } else {
+            console.log('Unhandled event type');
+          }
+        } catch (error) {
+          console.error('Error handling event:', error);
+        }
+      }
+    }
+
+    return res.sendStatus(200);
+  }
+
+  return res.sendStatus(404);
+});
+
+async function getName(id) {
+  const url = `https://graph.facebook.com/${id}?fields=first_name&access_token=${TOKEN}`;
+  const r = await fetch(url);
+  const p = await r.json();
+
+  console.log('getName response:', p);
+
+  const name = p.first_name || 'та';
+  await buttons(id, name);
 }
 
-async function buttons(id,name){
-  await fetch('https://graph.facebook.com/v18.0/me/messages?access_token='+TOKEN,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      recipient:{id},
-      message:{attachment:{type:'template',payload:{
-        template_type:'button',
-        text:'Сайн байна уу '+name+'! Та Soyol Spa Salon-д холбогдлоо 🌸',
-        buttons:[
-          {type:'postback',title:'Үйлчилгээ',payload:'SERVICE'},
-          {type:'postback',title:'Хаяг, байршил',payload:'LOCATION'},
-          {type:'postback',title:'Холбогдох',payload:'CONTACT'},
-          {type:'postback',title:'Цагийн хуваарь',payload:'SCHEDULE'}
-        ]
-      }}}
-    })
-  });
+async function buttons(id, name) {
+  const response = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'button',
+              text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸`,
+              buttons: [
+                { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
+                { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
+                { type: 'postback', title: 'Холбогдох', payload: 'CONTACT' },
+                { type: 'postback', title: 'Цагийн хуваарь', payload: 'SCHEDULE' }
+              ]
+            }
+          }
+        }
+      })
+    }
+  );
+
+  const data = await response.json();
+  console.log('buttons response:', data);
 }
 
-async function reply(id,text){
-  await fetch('https://graph.facebook.com/v18.0/me/messages?access_token='+TOKEN,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({recipient:{id},message:{text}})
-  });
+async function reply(id, text) {
+  const response = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: { text }
+      })
+    }
+  );
+
+  const data = await response.json();
+  console.log('reply response:', data);
 }
 
-app.listen(process.env.PORT||3000,()=>console.log('Bot running'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Bot running on port ${PORT}`);
+});app.listen(process.env.PORT||3000,()=>console.log('Bot running'));
