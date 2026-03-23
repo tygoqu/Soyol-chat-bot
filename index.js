@@ -130,4 +130,69 @@ async function reply(id, text) {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Bot running on port ${PORT}`);
+});  return res.sendStatus(404);
+});
+
+async function getName(id) {
+  const url = `https://graph.facebook.com/${id}?fields=first_name&access_token=${TOKEN}`;
+  const r = await fetch(url);
+  const p = await r.json();
+
+  console.log('getName response:', p);
+
+  const name = p.first_name || 'та';
+  await buttons(id, name);
+}
+
+async function buttons(id, name) {
+  const response = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'button',
+              text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸`,
+              buttons: [
+                { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
+                { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
+                { type: 'postback', title: 'Холбогдох', payload: 'CONTACT' },
+                { type: 'postback', title: 'Цагийн хуваарь', payload: 'SCHEDULE' }
+              ]
+            }
+          }
+        }
+      })
+    }
+  );
+
+  const data = await response.json();
+  console.log('buttons response:', data);
+}
+
+async function reply(id, text) {
+  const response = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: { text }
+      })
+    }
+  );
+
+  const data = await response.json();
+  console.log('reply response:', data);
+}
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Bot running on port ${PORT}`);
 });app.listen(process.env.PORT||3000,()=>console.log('Bot running'));
