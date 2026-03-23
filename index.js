@@ -47,10 +47,10 @@ app.post('/webhook', async (req, res) => {
             await reply(id, 'Манай үйлчилгээний талаар энд дарна уу 👇');
           } else if (event.postback?.payload === 'LOCATION') {
             await reply(id, 'Манай хаяг: Улаанбаатар хот 📍');
-          } else if (event.postback?.payload === 'SCHEDULE') {
-            await reply(id, 'Цагийн хуваарь: ...');
           } else if (event.postback?.payload === 'CONTACT') {
             await reply(id, 'Холбоо барих: 70599999, 91191215 📞');
+          } else if (event.postback?.payload === 'SCHEDULE') {
+            await reply(id, 'Цагийн хуваарь: ...');
           } else if (event.message?.text) {
             await getName(id);
           } else {
@@ -92,13 +92,11 @@ async function buttons(id, name) {
             type: 'template',
             payload: {
               template_type: 'button',
-              text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸`
+              text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸`,
               buttons: [
-                buttons: [
-  { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
-  { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
-  { type: 'postback', title: 'Холбогдох', payload: 'CONTACT' }
-]
+                { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
+                { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
+                { type: 'postback', title: 'Холбогдох', payload: 'CONTACT' }
               ]
             }
           }
