@@ -46,7 +46,7 @@ app.post('/webhook', async (req, res) => {
           } else if (event.postback?.payload === 'SERVICE') {
             await reply(id, 'Манай үйлчилгээний талаар энд дарна уу 👇');
           } else if (event.postback?.payload === 'LOCATION') {
-            await reply(id, 'Манай хаяг: Улаанбаатар хот 📍');
+            await reply(id, 'Манай хаяг: 3, 4-р хороолол Ачлал их дэлгүүрийн замын эсрэг талд Soyol Spa Salon 📍');
           } else if (event.postback?.payload === 'CONTACT') {
             await reply(id, 'Холбоо барих: 70599999, 91191215 📞');
           } else if (event.postback?.payload === 'SCHEDULE') {
