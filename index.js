@@ -92,12 +92,13 @@ async function buttons(id, name) {
             type: 'template',
             payload: {
               template_type: 'button',
-              text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸`,
+              text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸`
               buttons: [
-                { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
-                { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
-                { type: 'postback', title: 'Холбогдох', payload: 'CONTACT' },
-                { type: 'postback', title: 'Цагийн хуваарь', payload: 'SCHEDULE' }
+                buttons: [
+  { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
+  { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
+  { type: 'postback', title: 'Холбогдох', payload: 'CONTACT' }
+]
               ]
             }
           }
