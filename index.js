@@ -11,8 +11,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/webhook', (req, res) => {
-  console.log('GET /webhook query:', req.query);
-
   const mode = req.query['hub.mode'];
   const token = req.query['hub.verify_token'];
   const challenge = req.query['hub.challenge'];
@@ -44,13 +42,17 @@ app.post('/webhook', async (req, res) => {
           if (event.postback?.payload === 'GET_STARTED') {
             await getName(id);
           } else if (event.postback?.payload === 'SERVICE') {
-            await reply(id, 'Манай үйлчилгээний талаар энд дарна уу 👇');
+            await serviceMenu(id);
           } else if (event.postback?.payload === 'LOCATION') {
-            await reply(id, 'Манай хаяг: 3, 4-р хороолол Ачлал их дэлгүүрийн замын эсрэг талд Soyol Spa Salon 📍');
+            await locationMenu(id);
           } else if (event.postback?.payload === 'CONTACT') {
             await reply(id, 'Холбоо барих: 70599999, 91191215 📞');
-          } else if (event.postback?.payload === 'SCHEDULE') {
-            await reply(id, 'Цагийн хуваарь: ...');
+          } else if (event.postback?.payload === 'BEAUTY_SERVICE') {
+            await reply(id, 'Гоо сайхны үйлчилгээний мэдээлэл удахгүй нэмэгдэнэ ✨');
+          } else if (event.postback?.payload === 'BLANK_1') {
+            await reply(id, 'Энд дараагийн үйлчилгээний мэдээлэл орно.');
+          } else if (event.postback?.payload === 'BLANK_2') {
+            await reply(id, 'Энд гурав дахь үйлчилгээний мэдээлэл орно.');
           } else if (event.message?.text) {
             await getName(id);
           } else {
@@ -76,10 +78,10 @@ async function getName(id) {
   console.log('getName response:', p);
 
   const name = p.first_name || 'та';
-  await buttons(id, name);
+  await mainMenu(id, name);
 }
 
-async function buttons(id, name) {
+async function mainMenu(id, name) {
   const response = await fetch(
     `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
     {
@@ -106,7 +108,81 @@ async function buttons(id, name) {
   );
 
   const data = await response.json();
-  console.log('buttons response:', data);
+  console.log('mainMenu response:', data);
+}
+
+async function serviceMenu(id) {
+  const response = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'button',
+              text: 'Үйлчилгээний төрлөө сонгоно уу 💆',
+              buttons: [
+                {
+                  type: 'postback',
+                  title: 'Гоо сайхны үйлчилгээ',
+                  payload: 'BEAUTY_SERVICE'
+                },
+                {
+                  type: 'postback',
+                  title: 'Blank 1',
+                  payload: 'BLANK_1'
+                },
+                {
+                  type: 'postback',
+                  title: 'Blank 2',
+                  payload: 'BLANK_2'
+                }
+              ]
+            }
+          }
+        }
+      })
+    }
+  );
+
+  const data = await response.json();
+  console.log('serviceMenu response:', data);
+}
+
+async function locationMenu(id) {
+  const response = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'button',
+              text: 'Манай хаяг: 3, 4-р хороолол Ачлал их дэлгүүрийн замын эсрэг талд Soyol Spa Salon 📍',
+              buttons: [
+                {
+                  type: 'web_url',
+                  title: 'Google Maps',
+                  url: 'https://maps.google.com/?q=Soyol+Spa+Salon'
+                }
+              ]
+            }
+          }
+        }
+      })
+    }
+  );
+
+  const data = await response.json();
+  console.log('locationMenu response:', data);
 }
 
 async function reply(id, text) {
