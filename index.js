@@ -124,7 +124,7 @@ async function serviceMenu(id) {
             type: 'template',
             payload: {
               template_type: 'button',
-              text: 'Үйлчилгээний төрлөө сонгоно уу 💆',
+              text: 'Манай үйлчилгээнүүд 💆',
               buttons: [
                 {
                   type: 'postback',
