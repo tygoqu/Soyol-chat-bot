@@ -171,7 +171,7 @@ async function locationMenu(id) {
                 {
                   type: 'web_url',
                   title: 'Google Maps',
-                  url: 'https://maps.google.com/?q=Soyol+Spa+Salon'
+                  url: 'https://maps.app.goo.gl/1N6JiRKXzVELWoUR8'
                 }
               ]
             }
