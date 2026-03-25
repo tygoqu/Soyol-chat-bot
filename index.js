@@ -329,7 +329,7 @@ async function setPersistentMenu() {
                 payload: 'SCHEDULE'
               },
               {
-                type: 'phone_number',
+                type: 'call',
                 title: 'Ажилтантай холбогдох',
                 payload: '+97670599999'
               }
