@@ -42,17 +42,17 @@ app.post('/webhook', async (req, res) => {
           if (event.postback?.payload === 'GET_STARTED') {
             await getName(id);
           } else if (event.postback?.payload === 'SERVICE') {
-            await serviceMenu(id);
+            await serviceCarousel(id);
           } else if (event.postback?.payload === 'LOCATION') {
             await locationMenu(id);
           } else if (event.postback?.payload === 'CONTACT') {
             await reply(id, 'Холбоо барих: 70599999, 91191215 📞');
           } else if (event.postback?.payload === 'BEAUTY_SERVICE') {
             await reply(id, 'Гоо сайхны үйлчилгээний мэдээлэл удахгүй нэмэгдэнэ ✨');
-          } else if (event.postback?.payload === 'BLANK_1') {
-            await reply(id, 'Энд дараагийн үйлчилгээний мэдээлэл орно.');
-          } else if (event.postback?.payload === 'BLANK_2') {
-            await reply(id, 'Энд гурав дахь үйлчилгээний мэдээлэл орно.');
+          } else if (event.postback?.payload === 'SPA_SERVICE') {
+            await reply(id, 'Spa үйлчилгээний мэдээлэл удахгүй нэмэгдэнэ ♨️');
+          } else if (event.postback?.payload === 'MASSAGE_SERVICE') {
+            await reply(id, 'Массажны үйлчилгээний мэдээлэл удахгүй нэмэгдэнэ 💆');
           } else if (event.message?.text) {
             await getName(id);
           } else {
@@ -111,7 +111,7 @@ async function mainMenu(id, name) {
   console.log('mainMenu response:', data);
 }
 
-async function serviceMenu(id) {
+async function serviceCarousel(id) {
   const response = await fetch(
     `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
     {
@@ -123,23 +123,43 @@ async function serviceMenu(id) {
           attachment: {
             type: 'template',
             payload: {
-              template_type: 'button',
-              text: 'Манай үйлчилгээнүүд 💆',
-              buttons: [
+              template_type: 'generic',
+              elements: [
                 {
-                  type: 'postback',
                   title: 'Гоо сайхны үйлчилгээ',
-                  payload: 'BEAUTY_SERVICE'
+                  image_url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
+                  subtitle: 'Арьс арчилгаа, нүүрний үйлчилгээ, гоо заслын арчилгаа',
+                  buttons: [
+                    {
+                      type: 'postback',
+                      title: 'Дэлгэрэнгүй',
+                      payload: 'BEAUTY_SERVICE'
+                    }
+                  ]
                 },
                 {
-                  type: 'postback',
-                  title: 'Blank 1',
-                  payload: 'BLANK_1'
+                  title: 'Spa үйлчилгээ',
+                  image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=80',
+                  subtitle: 'Тайвшруулах болон бие сэргээх үйлчилгээ',
+                  buttons: [
+                    {
+                      type: 'postback',
+                      title: 'Дэлгэрэнгүй',
+                      payload: 'SPA_SERVICE'
+                    }
+                  ]
                 },
                 {
-                  type: 'postback',
-                  title: 'Blank 2',
-                  payload: 'BLANK_2'
+                  title: 'Массаж',
+                  image_url: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=900&q=80',
+                  subtitle: 'Биеийн алжаал тайлах массажны үйлчилгээ',
+                  buttons: [
+                    {
+                      type: 'postback',
+                      title: 'Дэлгэрэнгүй',
+                      payload: 'MASSAGE_SERVICE'
+                    }
+                  ]
                 }
               ]
             }
@@ -150,7 +170,7 @@ async function serviceMenu(id) {
   );
 
   const data = await response.json();
-  console.log('serviceMenu response:', data);
+  console.log('serviceCarousel response:', data);
 }
 
 async function locationMenu(id) {
@@ -171,7 +191,7 @@ async function locationMenu(id) {
                 {
                   type: 'web_url',
                   title: 'Google Maps',
-                  url: 'https://maps.app.goo.gl/1N6JiRKXzVELWoUR8'
+                  url: 'https://maps.google.com/?q=Soyol+Spa+Salon'
                 }
               ]
             }
