@@ -33,6 +33,7 @@ app.post('/webhook', async (req, res) => {
           else if (payload === 'BEAUTY_SERVICE') await reply(id, 'Гоо сайхны үйлчилгээ:\n• Нүүр арчилгаа\n• Арьс цэвэрлэгээ\n• Арьс чийгшүүлэх үйлчилгээ ✨');
           else if (payload === 'HAIR_SERVICE') await reply(id, 'Үсчин үйлчилгээ:\n• Үс засах\n• Үс угаах\n• Үс будах\n• Үс эмчлэх ✂️');
           else if (payload === 'NAIL_SERVICE') await reply(id, 'Маникюр үйлчилгээ:\n• Гель хавтан\n• Хумс уртасгалт\n• Хумсны чимэглэл\n• Педикюр 💅');
+          else if (payload === 'BEAUTY_PRODUCT') await reply(id, 'Гоо сайхны бүтээгдэхүүн:\n• Үс арчилгаа\n• Арьс арчилгаа');
           else if (event.message?.text) await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно. 🙏');
         }
       }
@@ -105,6 +106,13 @@ async function sendServiceCarousel(id) {
                 image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80',
                 subtitle: 'Хумсны чимэглэл, гель, уртасгалт үйлчилгээ',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_SERVICE' }]
+              },
+              {
+                title: 'Гоо сайхны бүтээгдэхүүн',
+                image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1226&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                subtitle: 'Үс арчилгаа, арьс арчилгааны бүтээгдэхүүн',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'BEAUTY_PRODUCT' }]
+              }
               }
             ]
           }
