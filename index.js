@@ -29,12 +29,12 @@ app.post('/webhook', async (req, res) => {
           else if (payload === 'LOCATION') await sendLocationMenu(id);
           else if (payload === 'CONTACT') await sendContactMenu(id);
           else if (payload === 'SCHEDULE') await sendSchedule(id);
-          else if (payload === 'STAFF') await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно. 🙏');
+          else if (payload === 'STAFF') await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
           else if (payload === 'BEAUTY_SERVICE') await reply(id, 'Гоо сайхны үйлчилгээ:\n• Нүүр арчилгаа\n• Арьс цэвэрлэгээ\n• Арьс чийгшүүлэх үйлчилгээ ✨');
           else if (payload === 'HAIR_SERVICE') await reply(id, 'Үсчин үйлчилгээ:\n• Үс засах\n• Үс угаах\n• Үс будах\n• Үс эмчлэх ✂️');
           else if (payload === 'NAIL_SERVICE') await reply(id, 'Маникюр үйлчилгээ:\n• Гель хавтан\n• Хумс уртасгалт\n• Хумсны чимэглэл\n• Педикюр 💅');
-          else if (payload === 'BEAUTY_PRODUCT') await reply(id, 'Гоо сайхны бүтээгдэхүүн:\n• Үс арчилгаа\n• Арьс арчилгаа');
-          else if (event.message?.text) await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно. 🙏');
+          else if (payload === 'BEAUTY_PRODUCT') await reply(id, 'Гоо сайхны бүтээгдэхүүн:\n• Үс арчилгаа\n• Арьс арчилгаа ✨');
+          else if (event.message?.text) await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно. ');
         }
       }
       return res.sendStatus(200);
@@ -67,7 +67,7 @@ async function sendMainMenu(id) {
             buttons: [
               { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
               { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
-              { type: 'postback', title: 'Холбогдох', payload: 'CONTACT' }
+              { type: 'postback', title: 'Холбоо барих', payload: 'CONTACT' }
             ]
           }
         }
