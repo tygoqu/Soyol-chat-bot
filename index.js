@@ -113,7 +113,6 @@ async function sendServiceCarousel(id) {
                 subtitle: 'Үс арчилгаа, арьс арчилгааны бүтээгдэхүүн',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'BEAUTY_PRODUCT' }]
               }
-              }
             ]
           }
         }
