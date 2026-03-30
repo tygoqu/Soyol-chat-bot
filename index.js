@@ -160,9 +160,14 @@ async function sendBeautyCarousel(id) {
               {
                 title: 'Энгийн массаж',
                 image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-                subtitle: '3 давхар цэвэрлэгээ, арьс чангалах масссаж',
+                subtitle: '3 шатлалт цэвэрлэгээ:\n  •Гуужуулалт \n  •Хөөсөн цэвэрлэгээ\n  •Тосон цэвэрлэгээ\n Арьс чангалах масссаж\n Энгийн маск\n  Үнэ - 65.000₮',
                 buttons: [
-                  { type: 'postback', title: 'Үнэ асуух', payload: 'ASK_BEAUTY_PRICE' }
+                  { type: 'postback', title: '',  payload: {
+            template_type: 'button',
+            text: 'Цаг авах 🕰️',
+            buttons: [
+              { type: 'phone_number', title: '70599999', payload: '+97670599999' },
+              { type: 'phone_number', title: '91191215', payload: '+97691191215' }
                 ]
               },
               {
