@@ -18,12 +18,15 @@ app.post('/webhook', async (req, res) => {
   try {
     const body = req.body;
     console.log('Received:', JSON.stringify(body, null, 2));
+
     if (body.object === 'page') {
       for (const entry of body.entry || []) {
         for (const event of entry.messaging || []) {
           const id = event.sender?.id;
           if (!id) continue;
+
           const payload = event.postback?.payload;
+
           if (payload === 'GET_STARTED' || payload === 'MAIN_MENU') await sendMainMenu(id);
           else if (payload === 'SERVICE') await sendServiceCarousel(id);
           else if (payload === 'LOCATION') await sendLocationMenu(id);
@@ -35,9 +38,18 @@ app.post('/webhook', async (req, res) => {
           else if (payload === 'EYELASH_SERVICE') await sendEyelashCarousel(id);
           else if (payload === 'NAIL_SERVICE') await sendNailCarousel(id);
           else if (payload === 'HAIR_PRODUCT') await sendHairProductCarousel(id);
+          else if (payload === 'STAFF') {
+            await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
+          }
+          else if (event.message?.text) {
+            await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
+          }
+        }
       }
+
       return res.sendStatus(200);
     }
+
     res.sendStatus(404);
   } catch (err) {
     console.error('Error:', err);
