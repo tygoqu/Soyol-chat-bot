@@ -29,15 +29,12 @@ app.post('/webhook', async (req, res) => {
           else if (payload === 'LOCATION') await sendLocationMenu(id);
           else if (payload === 'CONTACT') await sendContactMenu(id);
           else if (payload === 'SCHEDULE') await sendSchedule(id);
-          else if (payload === 'STAFF') await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
-          else if (payload === 'BEAUTY_SERVICE') await reply(id, 'Гоо сайхны үйлчилгээ:\n• Нүүр арчилгаа\n• Арьс цэвэрлэгээ\n• Арьс чийгшүүлэх үйлчилгээ ✨');
-          else if (payload === 'HAIR_SERVICE') await reply(id, 'Үсчин:\n• Үс засах\n• Үс угаах\n• Үс будах\n• Үс эмчлэх ✂️');
-          else if (payload === 'EYEBROW_SERVICE') await reply(id, 'Лазер 6D шивээс:\n• Хөмсөгний шивээс 👁️');
-          else if (payload === 'EYELASH_SERVICE') await reply(id, 'Сормуус:\n• Сормуус\n• Сормуусны хими 👁️');
-          else if (payload === 'NAIL_SERVICE') await reply(id, 'Маникюр, Педикюр:\n• Гоёлын будалт\n• Гоёлын хумс\n• Чимэглэл\n• Педикюр 💅');
-          else if (payload === 'HAIR_PRODUCT') await reply(id, 'Үс арчилгааны бүтээгдэхүүн:\n• Үс арчилгаа ✨');
-          else if (event.message?.text) await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно. ');
-        }
+          else if (payload === 'BEAUTY_SERVICE') await sendBeautyCarousel(id);
+          else if (payload === 'HAIR_SERVICE') await sendHairCarousel(id);
+          else if (payload === 'EYEBROW_SERVICE') await sendEyebrowCarousel(id);
+          else if (payload === 'EYELASH_SERVICE') await sendEyelashCarousel(id);
+          else if (payload === 'NAIL_SERVICE') await sendNailCarousel(id);
+          else if (payload === 'HAIR_PRODUCT') await sendHairProductCarousel(id);
       }
       return res.sendStatus(200);
     }
@@ -93,20 +90,20 @@ async function sendServiceCarousel(id) {
             elements: [
               {
                 title: 'Гоо сайхны үйлчилгээ',
-                image_url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
+                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 subtitle: 'Арьс арчилгаа, нүүрний үйлчилгээ, гоо заслын арчилгаа',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'BEAUTY_SERVICE' }]
               },
               {
                 title: 'Үсчин',
                 image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1226&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                subtitle: 'Үс засах, угаах, будах үйлчилгээ',
+                subtitle: 'Үс тайралт, будалт, хими, эмчилгээ',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_SERVICE' }]
               },
               {
                 title: 'Маникюр',
                 image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80',
-                subtitle: 'Хумсны чимэглэл, гель, уртасгалт үйлчилгээ',
+                subtitle: 'Хумсны чимэглэл, гель, гоёлын будалт',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_SERVICE' }]
               },
               {
@@ -134,6 +131,168 @@ async function sendServiceCarousel(id) {
     })
   });
   console.log('carousel:', await r.json());
+}
+
+async function sendBeautyCarousel(id) {
+  const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              {
+                title: 'Энгийн массаж',
+                image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+                subtitle: '3 давхар цэвэрлэгээ, арьс чангалах масссаж',
+                buttons: [
+                  { type: 'postback', title: 'Үнэ асуух', payload: 'ASK_BEAUTY_PRICE' }
+                ]
+              },
+              {
+                title: 'Гуаша массаж',
+                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Гүн цэвэрлэгээ, хар батга цэвэрлэх',
+                buttons: [
+                  { type: 'postback', title: 'Үнэ асуух', payload: 'ASK_CLEAN_PRICE' }
+                ]
+              },
+              {
+                title: 'Арьс чийгшүүлэх',
+                image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Хуурай арьсны чийгшүүлэх үйлчилгээ',
+                buttons: [
+                  { type: 'postback', title: 'Үнэ асуух', payload: 'ASK_MOISTURE_PRICE' }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    })
+  });
+  console.log('beauty carousel:', await r.json());
+}
+
+async function sendHairCarousel(id) {
+  const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              {
+                title: 'Үс засах',
+                image_url: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Эмэгтэй, эрэгтэй үс тайралт',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_CUT_DETAIL' }]
+              },
+              {
+                title: 'Үс угаах',
+                image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Үс угаалт, хуйх арчилгаа',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_WASH_DETAIL' }]
+              },
+              {
+                title: 'Үс будах',
+                image_url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Будаг, өнгө сэргээх үйлчилгээ',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_COLOR_DETAIL' }]
+              },
+              {
+                title: 'Үс эмчлэх',
+                image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Гэмтэлтэй үсний арчилгаа',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_TREATMENT_DETAIL' }]
+              }
+            ]
+          }
+        }
+      }
+    })
+  });
+  console.log('hair carousel:', await r.json());
+}
+
+async function sendNailCarousel(id) {
+  const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              {
+                title: 'Гоёлын будалт',
+                image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80',
+                subtitle: 'Хумсны будалт, дизайн',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_ART_DETAIL' }]
+              },
+              {
+                title: 'Гоёлын хумс',
+                image_url: 'https://images.unsplash.com/photo-1610992015732-2449b76344bc?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Уртасгалт, гель хумс',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_EXTENSION_DETAIL' }]
+              },
+              {
+                title: 'Чимэглэл',
+                image_url: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Чулуу, шигтгээ, special design',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_DECOR_DETAIL' }]
+              },
+              {
+                title: 'Педикюр',
+                image_url: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Хөлийн хумс арчилгаа',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'PEDICURE_DETAIL' }]
+              }
+            ]
+          }
+        }
+      }
+    })
+  });
+  console.log('nail carousel:', await r.json());
+}
+
+async function sendEyelashCarousel(id) {
+  const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              {
+                title: 'Сормуус',
+                image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80',
+                subtitle: 'Сормуус суулгах, Сормуус салгах',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'EYELASH_DETAIL' }]
+              }
+            ]
+          }
+        }
+      }
+    })
+  });
+  console.log('eyelash carousel:', await r.json());
 }
 
 async function sendLocationMenu(id) {
