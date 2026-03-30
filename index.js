@@ -31,9 +31,11 @@ app.post('/webhook', async (req, res) => {
           else if (payload === 'SCHEDULE') await sendSchedule(id);
           else if (payload === 'STAFF') await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
           else if (payload === 'BEAUTY_SERVICE') await reply(id, 'Гоо сайхны үйлчилгээ:\n• Нүүр арчилгаа\n• Арьс цэвэрлэгээ\n• Арьс чийгшүүлэх үйлчилгээ ✨');
-          else if (payload === 'HAIR_SERVICE') await reply(id, 'Үсчин үйлчилгээ:\n• Үс засах\n• Үс угаах\n• Үс будах\n• Үс эмчлэх ✂️');
-          else if (payload === 'NAIL_SERVICE') await reply(id, 'Маникюр үйлчилгээ:\n• Гель хавтан\n• Хумс уртасгалт\n• Хумсны чимэглэл\n• Педикюр 💅');
-          else if (payload === 'BEAUTY_PRODUCT') await reply(id, 'Гоо сайхны бүтээгдэхүүн:\n• Үс арчилгаа\n• Арьс арчилгаа ✨');
+          else if (payload === 'HAIR_SERVICE') await reply(id, 'Үсчин:\n• Үс засах\n• Үс угаах\n• Үс будах\n• Үс эмчлэх ✂️');
+          else if (payload === 'EYEBROW_SERVICE') await reply(id, 'Лазер 6D шивээс:\n• Хөмсөгний шивээс 👁️');
+          else if (payload === 'EYELASH_SERVICE') await reply(id, 'Сормуус:\n• Сормуус\n• Сормуусны хими 👁️');
+          else if (payload === 'NAIL_SERVICE') await reply(id, 'Маникюр, Педикюр:\n• Гоёлын будалт\n• Гоёлын хумс\n• Чимэглэл\n• Педикюр 💅');
+          else if (payload === 'HAIR_PRODUCT') await reply(id, 'Үс арчилгааны бүтээгдэхүүн:\n• Үс арчилгаа ✨');
           else if (event.message?.text) await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно. ');
         }
       }
@@ -108,10 +110,22 @@ async function sendServiceCarousel(id) {
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_SERVICE' }]
               },
               {
-                title: 'Гоо сайхны бүтээгдэхүүн',
-                image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1226&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                subtitle: 'Үс арчилгаа, арьс арчилгааны бүтээгдэхүүн',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'BEAUTY_PRODUCT' }]
+                title: 'Сормуус',
+                image_url: 'https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                subtitle: 'Сормуус, Сормуусны хими',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'EYELASH_SERVICE' }]
+              },
+              {
+                title: 'Лазер 6D шивээс',
+                image_url: 'https://scontent.fuln6-3.fna.fbcdn.net/v/t39.30808-6/480326600_1021864419970432_6850776916430674181_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=7b2446&_nc_ohc=04eU9mz4ad4Q7kNvwH44SQX&_nc_oc=AdqZj6Gffrm7v48uTr6ikkbV5iY5DCUwvjtJUn46QMDy4Tfh3XTzxyWnk82OAkaPh-I&_nc_zt=23&_nc_ht=scontent.fuln6-3.fna&_nc_gid=2U42kHJeniYjDC0QrFfBfg&_nc_ss=7a3a8&oh=00_Afwgl0lfgfmdRkaHoT9L_Vcbcfd8vGV43JvsBcK8TfQLcg&oe=69CFDA57',
+                subtitle: 'Хөмсөгний шивээс',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'EYEBROW_SERVICE' }]
+              },
+              {
+                title: 'Үс арчилгааны бүтээгдэхүүн',
+                image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                subtitle: 'Үс арчилгаа',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_PRODUCT' }]
               }
             ]
           }
