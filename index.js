@@ -162,7 +162,7 @@ async function sendBeautyCarousel(id) {
                 image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
                 subtitle: '3 шатлалт цэвэрлэгээ:\n  •Гуужуулалт \n  •Хөөсөн цэвэрлэгээ\n  •Тосон цэвэрлэгээ\n Арьс чангалах масссаж\n Энгийн маск\n  Үнэ - 65.000₮',
                 buttons: [
-                  { type: 'postback', title: '',  payload: {
+                  { type: 'postback', title: 'Цаг авах',  payload: {
             template_type: 'button',
             text: 'Цаг авах 🕰️',
             buttons: [
