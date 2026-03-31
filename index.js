@@ -159,29 +159,50 @@ async function sendBeautyCarousel(id) {
             elements: [
               {
                 title: 'Энгийн массаж',
-                image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-                subtitle: '3 шатлалт цэвэрлэгээ, арьс чангалах массаж, энгийн маск. Үнэ: 65,000₮',
+                image_url: 'https://images.unsplash.com/photo-1731514771613-991a02407132?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dp',
+                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nАрьс чангалах массаж\nЭнгийн маск.\nҮнэ: 65,000₮',
                 buttons: [
-                  { type: 'phone_number', title: '70599999', payload: '+97670599999' },
-                  { type: 'phone_number', title: '91191215', payload: '+97691191215' }
+                  { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
               },
               {
                 title: 'Гуаша массаж',
-                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
-                subtitle: 'Гүн цэвэрлэгээ, хар батга цэвэрлэх',
+                image_url: 'https://assets.clevelandclinic.org/transform/LargeFeatureImage/b9bd499d-f631-42c3-87c6-4ba1bd3ef9f3/guasha-2177381155',
+                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nГуаша массаж\nМаск\nҮнэ: 85.000₮',
                 buttons: [
-                  { type: 'phone_number', title: '70599999', payload: '+97670599999' },
-                  { type: 'phone_number', title: '91191215', payload: '+97691191215' }
+                  { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
               },
               {
-                title: 'Арьс чийгшүүлэх',
+                title: 'Miracle CO2',
                 image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-                subtitle: 'Хуурай арьсны чийгшүүлэх үйлчилгээ',
+                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nMiracle CO2\nМаск\nҮнэ: 85.000₮',
                 buttons: [
-                  { type: 'phone_number', title: '70599999', payload: '+97670599999' },
-                  { type: 'phone_number', title: '91191215', payload: '+97691191215' }
+                  { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
+                ]
+              },
+              {
+                title: 'Carbon peel',
+                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
+                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nCarbon peel\nҮнэ: 85.000₮',
+                buttons: [
+                  { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
+                ]
+              },
+              {
+                title: 'Үү ургацаг авах',
+                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Үү, ургацагыг мэргэжлийн түвшинд авна',
+                buttons: [
+                  { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
+                ]
+              },
+              {
+                title: 'Мэнгэ түүх',
+                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Гүн цэвэрлэгээ, хар батга цэвэрлэх',
+                buttons: [
+                  { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
               }
             ]
@@ -210,25 +231,25 @@ async function sendHairCarousel(id) {
                 title: 'Үс засах',
                 image_url: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
                 subtitle: 'Эмэгтэй, эрэгтэй үс тайралт',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_CUT_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               },
               {
                 title: 'Үс угаах',
                 image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
                 subtitle: 'Үс угаалт, хуйх арчилгаа',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_WASH_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               },
               {
                 title: 'Үс будах',
                 image_url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200&auto=format&fit=crop',
                 subtitle: 'Будаг, өнгө сэргээх үйлчилгээ',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_COLOR_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               },
               {
                 title: 'Үс эмчлэх',
                 image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
                 subtitle: 'Гэмтэлтэй үсний арчилгаа',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_TREATMENT_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+70599999' }]
               }
             ]
           }
@@ -255,25 +276,25 @@ async function sendNailCarousel(id) {
                 title: 'Гоёлын будалт',
                 image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80',
                 subtitle: 'Хумсны будалт, дизайн',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_ART_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               },
               {
                 title: 'Гоёлын хумс',
                 image_url: 'https://images.unsplash.com/photo-1610992015732-2449b76344bc?q=80&w=1200&auto=format&fit=crop',
                 subtitle: 'Уртасгалт, гель хумс',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_EXTENSION_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               },
               {
                 title: 'Чимэглэл',
                 image_url: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=1200&auto=format&fit=crop',
                 subtitle: 'Чулуу, шигтгээ, special design',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_DECOR_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               },
               {
                 title: 'Педикюр',
                 image_url: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1200&auto=format&fit=crop',
                 subtitle: 'Хөлийн хумс арчилгаа',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'PEDICURE_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               }
             ]
           }
@@ -300,7 +321,7 @@ async function sendEyelashCarousel(id) {
                 title: 'Сормуус',
                 image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80',
                 subtitle: 'Сормуус суулгах, Сормуус салгах',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'EYELASH_DETAIL' }]
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
               }
             ]
           }
