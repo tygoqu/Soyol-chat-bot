@@ -366,7 +366,7 @@ async function sendContactMenu(id) {
           type: 'template',
           payload: {
             template_type: 'button',
-            text: 'Холбоо барих дугаараа сонгоно уу 📞',
+            text: 'Доорх утасны дугаараар холбогдон дэлгэрэнгүй мэдээлэл аваарай 📞',
             buttons: [
               { type: 'phone_number', title: '70599999', payload: '+97670599999' },
               { type: 'phone_number', title: '91191215', payload: '+97691191215' }
