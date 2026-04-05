@@ -42,7 +42,7 @@ app.post('/webhook', async (req, res) => {
             await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
           }
           else if (event.message?.text) {
-            await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
+            await reply(id, 'Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸');
           }
         }
       }
@@ -74,7 +74,7 @@ async function sendMainMenu(id) {
           type: 'template',
           payload: {
             template_type: 'button',
-            text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸`,
+            text: `Сайн байна уу ${name}! Та Soyol Spa Salon-д холбогдлоо 🌸 Тун удахгүй хариу өгөх болно оо.`,
             buttons: [
               { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
               { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
@@ -103,7 +103,7 @@ async function sendServiceCarousel(id) {
               {
                 title: 'Гоо сайхны үйлчилгээ',
                 image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                subtitle: 'Арьс арчилгаа, нүүрний үйлчилгээ, гоо заслын арчилгаа',
+                subtitle: 'Арьс арчилгаа, гоо сайхны үйлчилгээ',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'BEAUTY_SERVICE' }]
               },
               {
@@ -116,7 +116,7 @@ async function sendServiceCarousel(id) {
                 title: 'Үсний эмчилгээ',
                 image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1226&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 subtitle: 'Үсний эмчилгээ',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_TREATMENT' }]
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIRTREATMENT_SERVICE' }]
               },
               {
                 title: 'Маникюр, педикюр',
@@ -138,7 +138,7 @@ async function sendServiceCarousel(id) {
               },
               {
                 title: 'Чих цоолох, персинг',
-                image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                image_url: 'https://www.tovessentials.com/cdn/shop/files/TOV-241125-752_v2_c793760b-0a1a-4b37-b909-a451bbfb6016.jpg?crop=center&height=380&v=1740568534&width=380',
                 subtitle: 'Чих цоолох, персинг',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'PIERCING_SERVICE' }]
               },
@@ -146,7 +146,7 @@ async function sendServiceCarousel(id) {
                 title: 'Мэнгэ, үү, ургацаг авах',
                 image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 subtitle: 'Мэнгэ, үү, ургацгыг мэргэжлийн өндөр түвшинд авна',
-                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_PRODUCT' }]
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'REMOVAL_SERVICE' }]
               },
               {
                 title: 'Үс арчилгаа, эмчилгээний бүтээгдэхүүн',
@@ -286,6 +286,51 @@ async function sendHairCarousel(id) {
   console.log('hair carousel:', await r.json());
 }
 
+async function sendHairTreatmentCarousel(id) {
+  const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              {
+                title: 'Үс засах',
+                image_url: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Эмэгтэй, эрэгтэй үс тайралт',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс угаах',
+                image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Үс угаалт, хуйх арчилгаа',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс будах',
+                image_url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Будаг, өнгө сэргээх үйлчилгээ',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс эмчлэх',
+                image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Гэмтэлтэй үсний арчилгаа',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              }
+            ]
+          }
+        }
+      }
+    })
+  });
+  console.log('hairtreatment carousel:', await r.json());
+}
+
 async function sendNailCarousel(id) {
   const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
     method: 'POST',
@@ -384,6 +429,96 @@ async function sendEyebrowCarousel(id) {
   });
   console.log('eyebrow carousel:', await r.json());
 }
+async function sendPiercingCarousel(id) {
+  const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              {
+                title: 'Үс засах',
+                image_url: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Эмэгтэй, эрэгтэй үс тайралт',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс угаах',
+                image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Үс угаалт, хуйх арчилгаа',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс будах',
+                image_url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Будаг, өнгө сэргээх үйлчилгээ',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс эмчлэх',
+                image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Гэмтэлтэй үсний арчилгаа',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              }
+            ]
+          }
+        }
+      }
+    })
+  });
+  console.log('piercing carousel:', await r.json());
+}
+
+async function sendRemovalCarousel(id) {
+  const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              {
+                title: 'Үс засах',
+                image_url: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Эмэгтэй, эрэгтэй үс тайралт',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс угаах',
+                image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Үс угаалт, хуйх арчилгаа',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс будах',
+                image_url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Будаг, өнгө сэргээх үйлчилгээ',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              },
+              {
+                title: 'Үс эмчлэх',
+                image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+                subtitle: 'Гэмтэлтэй үсний арчилгаа',
+                buttons: [{ type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }]
+              }
+            ]
+          }
+        }
+      }
+    })
+  });
+  console.log('removal carousel:', await r.json());
+}
+
 
 async function sendHairProductCarousel(id) {
   const r = await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`, {
