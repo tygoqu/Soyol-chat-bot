@@ -38,6 +38,9 @@ app.post('/webhook', async (req, res) => {
           else if (payload === 'EYELASH_SERVICE') await sendEyelashCarousel(id);
           else if (payload === 'NAIL_SERVICE') await sendNailCarousel(id);
           else if (payload === 'HAIR_PRODUCT') await sendHairProductCarousel(id);
+          else if (payload === 'HAIRTREATMENT_SERVICE') await sendHairTreatmentCarousel(id);
+          else if (payload === 'PIERCING_SERVICE') await sendPiercingCarousel(id);
+          else if (payload === 'REMOVAL_SERVICE') await sendRemovalCarousel(id);
           else if (payload === 'STAFF') {
             await reply(id, 'Та асуух зүйлээ үлдээнэ үү. Ажилтан таны асуултанд удахгүй хариу өгөх болно.');
           }
