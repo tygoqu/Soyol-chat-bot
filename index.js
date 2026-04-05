@@ -109,30 +109,48 @@ async function sendServiceCarousel(id) {
               {
                 title: 'Үсчин',
                 image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1226&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                subtitle: 'Үс тайралт, будалт, хими, эмчилгээ',
+                subtitle: 'Үс тайралт, будалт, хими',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_SERVICE' }]
               },
               {
-                title: 'Маникюр',
+                title: 'Үсний эмчилгээ',
+                image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1226&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                subtitle: 'Үсний эмчилгээ',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_TREATMENT' }]
+              },
+              {
+                title: 'Маникюр, педикюр',
                 image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80',
                 subtitle: 'Хумсны чимэглэл, гель, гоёлын будалт',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_SERVICE' }]
               },
               {
-                title: 'Сормуус',
+                title: 'Сормуус, хөмсөг',
                 image_url: 'https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 subtitle: 'Сормуус, Сормуусны хими',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'EYELASH_SERVICE' }]
               },
               {
-                title: 'Лазер 6D шивээс',
-                image_url: 'https://scontent.fuln6-3.fna.fbcdn.net/v/t39.30808-6/480326600_1021864419970432_6850776916430674181_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=7b2446&_nc_ohc=04eU9mz4ad4Q7kNvwH44SQX&_nc_oc=AdqZj6Gffrm7v48uTr6ikkbV5iY5DCUwvjtJUn46QMDy4Tfh3XTzxyWnk82OAkaPh-I&_nc_zt=23&_nc_ht=scontent.fuln6-3.fna&_nc_gid=2U42kHJeniYjDC0QrFfBfg&_nc_ss=7a3a8&oh=00_Afwgl0lfgfmdRkaHoT9L_Vcbcfd8vGV43JvsBcK8TfQLcg&oe=69CFDA57',
+                title: '6D Лазер шивээс',
+                image_url: 'https://www.facebook.com/photo.php?fbid=781825203974356&set=pb.100064406513460.-2207520000&type=3',
                 subtitle: 'Хөмсөгний шивээс',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'EYEBROW_SERVICE' }]
               },
               {
-                title: 'Үс арчилгааны бүтээгдэхүүн',
+                title: 'Чих цоолох, персинг',
                 image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                subtitle: 'Чих цоолох, персинг',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'PIERCING_SERVICE' }]
+              },
+              {
+                title: 'Мэнгэ, үү, ургацаг авах',
+                image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                subtitle: 'Мэнгэ, үү, ургацгыг мэргэжлийн өндөр түвшинд авна',
+                buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_PRODUCT' }]
+              },
+              {
+                title: 'Үс арчилгаа, эмчилгээний бүтээгдэхүүн',
+                image_url: 'https://images.unsplash.com/photo-1626379501846-0df4067b8bb9?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 subtitle: 'Үс арчилгаа',
                 buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_PRODUCT' }]
               }
@@ -160,7 +178,7 @@ async function sendBeautyCarousel(id) {
               {
                 title: 'Энгийн массаж',
                 image_url: 'https://images.unsplash.com/photo-1731514771613-991a02407132?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dp',
-                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nАрьс чангалах массаж\nЭнгийн маск.\nҮнэ: 65,000₮',
+                subtitle: 'Энгийн массаж.\nҮнэ: 65,000₮',
                 buttons: [
                   { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
@@ -168,39 +186,47 @@ async function sendBeautyCarousel(id) {
               {
                 title: 'Гуаша массаж',
                 image_url: 'https://assets.clevelandclinic.org/transform/LargeFeatureImage/b9bd499d-f631-42c3-87c6-4ba1bd3ef9f3/guasha-2177381155',
-                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nГуаша массаж\nМаск\nҮнэ: 85.000₮',
+                subtitle: 'Гуаша массаж\nҮнэ: 85.000₮',
                 buttons: [
                   { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
               },
               {
                 title: 'Miracle CO2',
-                image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nMiracle CO2\nМаск\nҮнэ: 85.000₮',
+                image_url: 'https://www.lerden.ru/assets/images/data/photo-2024-09-05-17-50-40.webp',
+                subtitle: 'Miracle CO2\nҮнэ: 85.000₮-өөс 65.000₮ болж хямдарлаа',
                 buttons: [
                   { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
               },
               {
                 title: 'Carbon peel',
-                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
-                subtitle: '3 шатлалт цэвэрлэгээ\n•Гуужуулалт\n•Хөөсөн цэвэрлэгээ\n•Хөөсөн цэвэрлэгээ\nCarbon peel\nҮнэ: 85.000₮',
+                image_url: 'https://elaraclinics.com/wp-content/uploads/2023/12/close-up-of-cosmetologist-s-hand-making-hardware-c-2023-11-27-05-28-55-utc-1024x683.jpg',
+                subtitle: 'Үхэжсэн эд эсийг зөөлнөөр гуужуулна\nҮнэ: 85.000₮',
                 buttons: [
                   { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
               },
               {
-                title: 'Үү ургацаг авах',
-                image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
-                subtitle: 'Үү, ургацагыг мэргэжлийн түвшинд авна',
+                title: 'Green peel',
+                image_url: 'https://static.wixstatic.com/media/1271a4_97c99e40720c40b28dccfba938a373df~mv2.jpg/v1/fill/w_270,h_411,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/424961441_809218821248442_8848183980442323113_n.jpg',
+                subtitle: 'Green peel\nҮнэ: 85.000₮',
                 buttons: [
                   { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
               },
               {
-                title: 'Мэнгэ түүх',
+                title: 'Батга цэвэрлэгээ',
                 image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
-                subtitle: 'Гүн цэвэрлэгээ, хар батга цэвэрлэх',
+                subtitle: 'Арьсны гүн цэвэрлэгээ\nҮнэ: 85.000₮-120.000₮',
+                buttons: [
+                  { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
+                ]
+              },
+              {
+                title: 'Carboxy',
+                image_url: 'https://www.lerden.ru/assets/images/data/photo-2024-09-05-17-50-40.webp',
+                subtitle: 'Карбоксин үйлчилгээ\nҮнэ: 85.000₮-өөс 65.000₮ болж хямдарлаа',
                 buttons: [
                   { type: 'phone_number', title: 'Цаг авах', payload: '+97670599999' }
                 ]
