@@ -546,7 +546,7 @@ app.listen(PORT, async () => {
     console.error('Startup error:', e.message);
     console.log(`Server running on port ${PORT}`);
   }
-});
+});{
   console.log(`Loaded ${subscribers.size} subscribers from Google Sheets`);
 });
 
