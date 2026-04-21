@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -8,9 +10,31 @@ const VERIFY = process.env.VERIFY_TOKEN;
 const PAGE_ID = process.env.PAGE_ID || '422150027892054';
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'soyol2024';
 
-// ─── In-memory subscriber store (persists while server runs) ───
-// For production, replace with a database
-const subscribers = new Set();
+// ─── Persistent subscriber store (saved to disk) ───
+const SUBSCRIBERS_FILE = path.join(__dirname, 'subscribers.json');
+
+function loadSubscribers() {
+  try {
+    if (fs.existsSync(SUBSCRIBERS_FILE)) {
+      const data = JSON.parse(fs.readFileSync(SUBSCRIBERS_FILE, 'utf8'));
+      return new Set(data);
+    }
+  } catch (e) {
+    console.error('Failed to load subscribers:', e.message);
+  }
+  return new Set();
+}
+
+function saveSubscribers() {
+  try {
+    fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify([...subscribers]), 'utf8');
+  } catch (e) {
+    console.error('Failed to save subscribers:', e.message);
+  }
+}
+
+const subscribers = loadSubscribers();
+console.log(`Loaded ${subscribers.size} subscribers from disk`);
 
 // ─── Helper: send any message ───
 async function sendMessage(recipientId, messageBody) {
@@ -81,6 +105,7 @@ app.post('/webhook', async (req, res) => {
           // Auto-subscribe anyone who messages
           if (!subscribers.has(id)) {
             subscribers.add(id);
+            saveSubscribers();
             console.log(`New subscriber: ${id} | Total: ${subscribers.size}`);
           }
 
