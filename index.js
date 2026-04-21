@@ -906,7 +906,7 @@ async function sendContactMenu(id) {
 }
 
 async function sendSchedule(id) {
-  return reply(id, 'Цаг захиалах бол энэ линкээр орно уу: https://soyol-chat-bot.onrender.com/booking');
+  return reply(id, 'Цагийн хуваарь:\nДаваа - Баасан: 9:00 - 21:00\nБямба - Ням: 10:00 - 21:00 🕘');
 }
 
 const PORT = process.env.PORT || 10000;
