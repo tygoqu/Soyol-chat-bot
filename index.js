@@ -582,7 +582,7 @@ async function sendMainMenu(id) {
             buttons: [
               { type: 'postback', title: 'Үйлчилгээ', payload: 'SERVICE' },
               { type: 'postback', title: 'Хаяг, байршил', payload: 'LOCATION' },
-              { type: 'postback', title: 'Холбоо барих', payload: 'CONTACT' }
+              { type: 'phone_number', title: 'Холбоо барих', payload: '+97670599999' }
             ]
           }
         }
