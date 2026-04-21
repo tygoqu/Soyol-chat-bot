@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Soyol Spa Salon — Цаг захиалах</title>
+<title>Цаг захиалах</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,7 +11,6 @@
   --purple: #7b2d8b;
   --purple-light: #a855b5;
   --purple-pale: #f5eaf7;
-  --purple-mid: #e8d0ed;
   --gray: #6b7280;
   --gray-light: #f9fafb;
   --gray-border: #e5e7eb;
@@ -20,34 +19,31 @@
   --green: #10b981;
   --red: #ef4444;
 }
-body {
-  font-family: 'Nunito', sans-serif;
-  background: #f3f4f6;
-  color: var(--text);
-  min-height: 100vh;
-}
+body { font-family: 'Nunito', sans-serif; background: #f3f4f6; color: var(--text); min-height: 100vh; }
 .topbar {
   background: var(--white);
   border-bottom: 1px solid var(--gray-border);
   padding: 0 1.5rem;
-  height: 64px;
+  height: 72px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
-.topbar-logo { height: 44px; width: auto; }
-.topbar-title { font-size: 0.85rem; font-weight: 600; color: var(--purple); letter-spacing: 0.02em; }
-.topbar-phone { font-size: 0.78rem; color: var(--gray); font-weight: 500; }
+.topbar-logo { height: 52px; width: auto; display: block; }
+.topbar-title, .topbar-phone { display: none; }
 .stepbar { background: var(--white); border-bottom: 1px solid var(--gray-border); padding: 0 1.5rem; }
 .stepbar-inner { display: flex; max-width: 680px; margin: 0 auto; }
 .step-tab { flex: 1; display: flex; align-items: center; gap: 0.5rem; padding: 1rem 0.5rem; border-bottom: 3px solid transparent; }
 .step-tab.active { border-bottom-color: var(--purple); }
 .step-tab.done { border-bottom-color: var(--green); }
-.step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--gray-border); color: var(--gray); font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%; background: var(--gray-border); color: var(--gray);
+  font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
 .step-tab.active .step-num { background: var(--purple); color: white; }
 .step-tab.done .step-num { background: var(--green); color: white; }
 .step-label-text { font-size: 0.78rem; font-weight: 600; color: var(--gray); white-space: nowrap; }
@@ -57,19 +53,27 @@ body {
 .section-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
 .section-sub { font-size: 0.82rem; color: var(--gray); margin-bottom: 1.25rem; }
 .card { background: var(--white); border: 1px solid var(--gray-border); border-radius: 12px; overflow: hidden; margin-bottom: 1rem; }
-.category-item { display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-border); cursor: pointer; transition: background 0.15s; gap: 0; }
+.category-item {
+  display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-border);
+  cursor: pointer; transition: background 0.15s; gap: 0;
+}
 .category-item:last-child { border-bottom: none; }
 .category-item:hover { background: var(--purple-pale); }
 .category-item.selected { background: var(--purple-pale); border-left: 3px solid var(--purple); }
-.category-icon, .category-arrow { display: none !important; }
 .category-info { flex: 1; }
 .category-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
 .category-count { font-size: 0.75rem; color: var(--gray); margin-top: 0.1rem; }
-.service-item { display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-border); cursor: pointer; transition: background 0.15s; gap: 1rem; }
+.service-item {
+  display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-border);
+  cursor: pointer; transition: background 0.15s; gap: 1rem;
+}
 .service-item:last-child { border-bottom: none; }
 .service-item:hover { background: var(--purple-pale); }
 .service-item.selected { background: var(--purple-pale); }
-.service-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--gray-border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.service-check {
+  width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--gray-border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
 .service-item.selected .service-check { background: var(--purple); border-color: var(--purple); }
 .service-check::after { content: '✓'; color: white; font-size: 0.7rem; display: none; font-weight: 700; }
 .service-item.selected .service-check::after { display: block; }
@@ -77,21 +81,26 @@ body {
 .service-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
 .service-duration { font-size: 0.75rem; color: var(--gray); margin-top: 0.1rem; }
 .service-price { font-size: 0.9rem; font-weight: 700; color: var(--purple); }
-.back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: var(--purple); cursor: pointer; margin-bottom: 1rem; padding: 0.4rem 0; }
+.back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: var(--purple); cursor: pointer; margin-bottom: 1rem; }
 .date-scroll { display: flex; gap: 0.6rem; overflow-x: auto; padding: 1.25rem; scrollbar-width: none; }
 .date-scroll::-webkit-scrollbar { display: none; }
-.date-chip { flex-shrink: 0; width: 56px; text-align: center; padding: 0.6rem 0.3rem; border: 1.5px solid var(--gray-border); border-radius: 10px; cursor: pointer; transition: all 0.15s; background: white; }
+.date-chip {
+  flex-shrink: 0; width: 56px; text-align: center; padding: 0.6rem 0.3rem; border: 1.5px solid var(--gray-border);
+  border-radius: 10px; cursor: pointer; background: white;
+}
 .date-chip:hover { border-color: var(--purple); }
 .date-chip.selected { background: var(--purple); border-color: var(--purple); color: white; }
-.date-chip.disabled { opacity: 0.35; cursor: not-allowed; }
 .date-day { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; color: var(--gray); }
 .date-chip.selected .date-day, .date-chip.selected .date-month { color: rgba(255,255,255,0.8); }
 .date-num { font-size: 1.1rem; font-weight: 700; margin-top: 0.15rem; }
 .date-month { font-size: 0.62rem; color: var(--gray); margin-top: 0.1rem; }
 .time-section { padding: 0 1.25rem 1.25rem; }
-.time-label { font-size: 0.72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; margin-top: 1rem; }
+.time-label { font-size: 0.72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin: 1rem 0 0.75rem; }
 .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-.time-chip { padding: 0.6rem 0.3rem; border: 1.5px solid var(--gray-border); border-radius: 8px; text-align: center; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; background: white; }
+.time-chip {
+  padding: 0.6rem 0.3rem; border: 1.5px solid var(--gray-border); border-radius: 8px; text-align: center;
+  font-size: 0.8rem; font-weight: 600; cursor: pointer; background: white;
+}
 .time-chip:hover { border-color: var(--purple); color: var(--purple); }
 .time-chip.selected { background: var(--purple); border-color: var(--purple); color: white; }
 .time-chip.unavailable { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
@@ -99,44 +108,54 @@ body {
 .form-group:first-child { padding-top: 1.25rem; }
 .form-group:last-child { padding-bottom: 1.25rem; }
 label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
-input, textarea { width: 100%; border: 1.5px solid var(--gray-border); border-radius: 8px; padding: 0.75rem 1rem; font-family: 'Nunito', sans-serif; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color 0.2s; background: white; }
+input, textarea {
+  width: 100%; border: 1.5px solid var(--gray-border); border-radius: 8px; padding: 0.75rem 1rem;
+  font-family: 'Nunito', sans-serif; font-size: 0.92rem; color: var(--text); outline: none; background: white;
+}
 input:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(123,45,139,0.1); }
-input.error { border-color: var(--red); }
+textarea { resize: vertical; min-height: 80px; }
 .err { font-size: 0.72rem; color: var(--red); margin-top: 0.3rem; display: none; }
 .err.show { display: block; }
-textarea { resize: vertical; min-height: 80px; }
 .summary-section { padding: 1.25rem; }
 .summary-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid var(--gray-border); gap: 1rem; }
 .summary-row:last-child { border-bottom: none; }
 .sum-key { font-size: 0.78rem; color: var(--gray); font-weight: 600; flex-shrink: 0; }
 .sum-val { font-size: 0.88rem; font-weight: 700; color: var(--text); text-align: right; }
 .sum-val.purple { color: var(--purple); }
-.bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--gray-border); padding: 1rem 1.5rem; display: flex; gap: 0.75rem; z-index: 50; box-shadow: 0 -4px 16px rgba(0,0,0,0.06); }
-.btn { flex: 1; padding: 0.85rem; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-.btn-primary { background: var(--purple); color: white; box-shadow: 0 4px 12px rgba(123,45,139,0.3); }
-.btn-primary:hover { background: var(--purple-light); transform: translateY(-1px); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--gray-border);
+  padding: 1rem 1.5rem; display: flex; gap: 0.75rem; z-index: 50; box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+}
+.btn { flex: 1; padding: 0.85rem; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; border: none; }
+.btn-primary { background: var(--purple); color: white; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-secondary { background: var(--gray-light); color: var(--gray); border: 1.5px solid var(--gray-border); flex: 0 0 auto; padding: 0.85rem 1.25rem; }
-.selected-bar { background: var(--purple-pale); border: 1px solid var(--purple-mid); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1rem; align-items: center; justify-content: space-between; display: none; }
+.selected-bar {
+  background: var(--purple-pale); border: 1px solid #eadff0; border-radius: 10px; padding: 0.75rem 1rem;
+  margin-bottom: 1rem; align-items: center; justify-content: space-between; display: none;
+}
 .selected-bar.show { display: flex; }
 .selected-bar-name, .selected-bar-price { font-size: 0.85rem; font-weight: 700; color: var(--purple); }
 .success-wrap { text-align: center; padding: 3rem 1.5rem; display: none; }
 .success-wrap.show { display: block; }
-.success-circle { width: 80px; height: 80px; background: linear-gradient(135deg, var(--purple), var(--purple-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; box-shadow: 0 8px 24px rgba(123,45,139,0.3); }
-.success-wrap h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
-.success-wrap p { font-size: 0.88rem; color: var(--gray); line-height: 1.6; }
+.success-circle {
+  width: 80px; height: 80px; background: linear-gradient(135deg, var(--purple), var(--purple-light)); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;
+}
 .success-card { background: white; border: 1px solid var(--gray-border); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0; text-align: left; }
 .panel { display: none; }
 .panel.active { display: block; }
-@media (max-width: 400px) { .time-grid { grid-template-columns: repeat(3, 1fr); } .step-label-text { display: none; } }
+@media (max-width: 400px) {
+  .time-grid { grid-template-columns: repeat(3, 1fr); }
+  .step-label-text { display: none; }
+}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <img class="topbar-logo" src="/logo.png" alt="Soyol Spa Salon">
-  <div class="topbar-title">Soyol Spa Salon</div>
-  <div class="topbar-phone">7059 9999</div>
+  <img class="topbar-logo" src="/logo.png" alt="Logo">
 </div>
+
 <div class="stepbar">
   <div class="stepbar-inner">
     <div class="step-tab active" id="stepTab1"><div class="step-num">1</div><div class="step-label-text">Үйлчилгээ</div></div>
@@ -145,6 +164,7 @@ textarea { resize: vertical; min-height: 80px; }
     <div class="step-tab" id="stepTab4"><div class="step-num">4</div><div class="step-label-text">Баталгаажуулах</div></div>
   </div>
 </div>
+
 <div class="page-wrap">
   <div class="selected-bar" id="selectedBar">
     <div class="selected-bar-name" id="selectedBarName"></div>
@@ -155,7 +175,6 @@ textarea { resize: vertical; min-height: 80px; }
     <div class="section-title">Ангилал сонгоно уу</div>
     <div class="section-sub">Доорх ангиллаас нэгийг сонгоно уу.</div>
     <div class="card" id="categoryList"></div>
-    <div class="err" id="serviceError" style="padding:0 4px;">Үйлчилгээ сонгоно уу.</div>
   </div>
 
   <div class="panel" id="panel1b">
@@ -163,7 +182,7 @@ textarea { resize: vertical; min-height: 80px; }
     <div class="section-title" id="catTitle"></div>
     <div class="section-sub">Үйлчилгээнээс нэгийг сонгоно уу.</div>
     <div class="card" id="serviceList"></div>
-    <div class="err" id="serviceListError" style="padding:0 4px;">Үйлчилгээ сонгоно уу.</div>
+    <div class="err" id="serviceError" style="padding:0 4px;">Үйлчилгээ сонгоно уу.</div>
   </div>
 
   <div class="panel" id="panel2">
@@ -273,6 +292,7 @@ function openCategory(key) {
     return;
   }
   selectedCategory = key;
+  selectedService = null;
   document.getElementById('catTitle').textContent = cat.name;
   const list = document.getElementById('serviceList');
   list.innerHTML = cat.services.map((s, i) => `
@@ -285,19 +305,19 @@ function openCategory(key) {
       <div class="service-price">${s.price}</div>
     </div>
   `).join('');
+  document.getElementById('serviceError').classList.remove('show');
   showPanel('1b');
 }
 
 function goBackToCategories() {
   showPanel(1);
-  selectedService = null;
 }
 
 function selectService(i, el) {
   document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
   el.classList.add('selected');
   selectedService = CATEGORIES[selectedCategory].services[i];
-  document.getElementById('serviceListError').classList.remove('show');
+  document.getElementById('serviceError').classList.remove('show');
   updateSelectedBar();
 }
 
@@ -348,12 +368,12 @@ function goBack() {
 
 async function goNext() {
   if (document.getElementById('panel1').classList.contains('active')) {
-    document.getElementById('serviceError').classList.add('show');
+    alert('Ангилал сонгоно уу.');
     return;
   }
   if (document.getElementById('panel1b').classList.contains('active')) {
     if (!selectedService) {
-      document.getElementById('serviceListError').classList.add('show');
+      document.getElementById('serviceError').classList.add('show');
       return;
     }
     showPanel(2);
@@ -469,7 +489,6 @@ async function submitBooking() {
   nextBtn.disabled = true;
   nextBtn.textContent = 'Илгээж байна...';
   const payload = {
-    categoryKey: selectedCategory,
     categoryName: CATEGORIES[selectedCategory].name,
     serviceName: selectedService.name,
     serviceDuration: selectedService.duration,
