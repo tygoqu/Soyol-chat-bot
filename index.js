@@ -11,6 +11,11 @@ const ADMIN_SECRET = process.env.ADMIN_SECRET || 'soyol2024';
 const SHEET_ID = '1-Dqv0Jj9BCKMZc2RXaT6VC0_xwiAmz9gje3vpMKf2Yo';
 const SHEET_NAME = 'Sheet1';
 
+const fs = require('fs');
+app.get('/booking', (req, res) => {
+  res.send(fs.readFileSync('./booking.html', 'utf8'));
+});
+
 // ─── Google Sheets auth ───
 function getSheets() {
   const auth = new google.auth.GoogleAuth({
