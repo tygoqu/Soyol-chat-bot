@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { google } = require('googleapis');
+const { registerInfoRoutes } = require('./infoRoutes');
 
 const app = express();
 
@@ -12,7 +13,7 @@ const VERIFY = process.env.VERIFY_TOKEN;
 const PAGE_ID = process.env.PAGE_ID || '422150027892054';
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'soyol2024';
 registerInfoRoutes(app, ADMIN_SECRET);
-const { registerInfoRoutes } = require('./infoRoutes');
+
 
 const SHEET_ID = '1-Dqv0Jj9BCKMZc2RXaT6VC0_xwiAmz9gje3vpMKf2Yo';
 const SUBSCRIBERS_SHEET = 'Sheet1';
