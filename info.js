@@ -159,16 +159,14 @@ function registerInfoRoutes(app, adminSecret) {
 </head>
 <body>
   <div class="topbar"><img src="/logo.png" alt="logo"></div>
-  <div class="wrap">
     <div class="hero">
-      <h1>${esc(info.hero_title)}</h1>
-      <p>${esc(info.hero_text)}</p>
-      <div class="buttons">
-        <a class="btn btn-primary" href="/booking">Цаг захиалах</a>
-        <a class="btn btn-secondary" href="tel:+97670599999">Залгах</a>
-      </div>
+    <h1>${esc(info.hero_title)}</h1>
+    <p>${esc(info.hero_text)}</p>
+    <div class="buttons">
+      <a class="btn btn-primary" href="/booking">Цаг захиалах</a>
+      <a class="btn btn-secondary" href="tel:+97670599999">Залгах</a>
     </div>
-
+  </div>
     ${info.announcement ? `<div class="card"><h2>Зар мэдээ</h2><p>${esc(info.announcement)}</p></div>` : ''}
 
     <div class="row">
