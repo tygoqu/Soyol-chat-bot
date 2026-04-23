@@ -14,9 +14,7 @@
       --radius-md: 16px;
       --radius-sm: 12px;
       --shadow-soft: 0 18px 50px rgba(0,0,0,0.08);
-      --shadow-glow: 0 14px 32px var(--glow);
       --nav-h: 78px;
-      --step-h: 62px;
     }
 
     [data-theme="rose"] {
@@ -195,6 +193,7 @@
     }
 
     .confetti-wrap { z-index: 200; overflow: hidden; }
+
     .confetti-piece {
       position: absolute;
       top: -20px;
@@ -314,7 +313,6 @@
     .bottom-next svg,
     .bottom-back svg,
     .cta-btn svg,
-    .theme-dot svg,
     .cat-icon svg,
     .mini-icon svg,
     .summary-badge svg,
@@ -381,6 +379,7 @@
       border: 2px solid transparent;
       cursor: pointer;
       transition: transform .2s ease, border-color .2s ease;
+      background: transparent;
     }
 
     .theme-dot:hover { transform: scale(1.12); }
@@ -438,7 +437,7 @@
     .step-tab.active .step-num {
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       color: #fff;
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 14px 32px var(--glow);
     }
 
     .step-tab.done .step-num {
@@ -461,7 +460,7 @@
       z-index: 2;
       max-width: 940px;
       margin: 0 auto;
-      padding: 26px 16px 118px;
+      padding: 46px 16px 118px;
     }
 
     .hero-card,
@@ -552,7 +551,7 @@
     .main-btn {
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       color: #fff;
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 14px 32px var(--glow);
       border: none;
     }
 
@@ -631,9 +630,7 @@
       background: var(--primary);
     }
 
-    .dot.done {
-      background: var(--success);
-    }
+    .dot.done { background: var(--success); }
 
     .panel { display: none; }
     .panel.active {
@@ -703,9 +700,7 @@
       font-weight: 800;
     }
 
-    .glass-card {
-      overflow: hidden;
-    }
+    .glass-card { overflow: hidden; }
 
     .category-item,
     .service-item {
@@ -837,7 +832,7 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       border-color: transparent;
       color: #fff;
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 14px 32px var(--glow);
     }
 
     .service-price {
@@ -882,7 +877,7 @@
       border-color: transparent;
       color: #fff;
       transform: translateY(-3px);
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 14px 32px var(--glow);
     }
 
     .date-day {
@@ -913,13 +908,20 @@
       font-weight: 700;
     }
 
-    .time-wrap {
+    .time-hint {
       padding: 0 20px 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
     }
 
-    .time-group {
-      margin-top: 10px;
+    .time-wrap {
+      display: none;
+      padding: 0 20px 20px;
+      animation: fadeUp .28s ease;
     }
+
+    .time-group { margin-top: 10px; }
 
     .time-label {
       font-size: 11px;
@@ -964,7 +966,7 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       border-color: transparent;
       color: #fff;
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 14px 32px var(--glow);
     }
 
     .time-chip.unavailable {
@@ -1109,7 +1111,7 @@
       justify-content: center;
       color: #fff;
       margin: 0 auto 18px;
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 14px 32px var(--glow);
       animation: popIn .45s cubic-bezier(.2,1.4,.45,1) both;
     }
 
@@ -1169,7 +1171,7 @@
       border: none;
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       color: #fff;
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 14px 32px var(--glow);
       font-size: 15px;
       padding: 0 20px;
     }
@@ -1194,10 +1196,6 @@
 
       .topbar-left .pill-btn span { display: none; }
 
-      .step-label {
-        font-size: 11px;
-      }
-
       .time-grid {
         grid-template-columns: repeat(3, 1fr);
       }
@@ -1211,26 +1209,14 @@
       .logo { height: 42px; }
       .theme-pop { right: 12px; left: 12px; }
       .hero-card { padding: 18px; }
-      .hero-actions {
-        flex-direction: column;
-      }
+      .hero-actions { flex-direction: column; }
       .main-btn,
       .ghost-btn,
-      .cta-btn {
-        width: 100%;
-      }
-      .mini-stack {
-        grid-template-columns: 1fr;
-      }
-      .summary-row {
-        flex-direction: column;
-      }
-      .summary-value {
-        text-align: left;
-      }
-      .step-label {
-        display: none;
-      }
+      .cta-btn { width: 100%; }
+      .mini-stack { grid-template-columns: 1fr; }
+      .summary-row { flex-direction: column; }
+      .summary-value { text-align: left; }
+      .step-label { display: none; }
     }
   </style>
 </head>
@@ -1400,7 +1386,7 @@
     <div class="panel" id="panel2">
       <div class="section-eyebrow">Алхам 2</div>
       <h2 class="section-title">Огноо ба цаг</h2>
-      <p class="section-sub">Боломжтой өдрөөс товлоод, дараа нь цаг сонгоно уу.</p>
+      <p class="section-sub">Өдрөө эхлээд сонгоод, дараа нь боломжтой цагаас сонгоно уу.</p>
 
       <div class="selected-bar" id="selectedBar">
         <div class="selected-name" id="selectedBarName">—</div>
@@ -1410,7 +1396,9 @@
       <div class="glass-card">
         <div class="date-scroll" id="dateList"></div>
 
-        <div class="time-wrap">
+        <div class="time-hint" id="timeHint">Эхлээд өдөр сонгоно уу</div>
+
+        <div class="time-wrap" id="timeWrap">
           <div class="time-group">
             <div class="time-label">Өглөө</div>
             <div class="time-grid" id="morningTimes"></div>
@@ -1534,10 +1522,7 @@
       </button>
 
       <button class="bottom-next" id="bottomNext" type="button" onclick="goNext()">
-        Үргэлжлүүлэх
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6" transform="scale(-1,1) translate(-24,0)"/>
-        </svg>
+        Үйлчилгээ сонгоно уу
       </button>
     </div>
   </div>
@@ -1673,9 +1658,9 @@
       }
     };
 
-    const MORNING_TIMES = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
-    const AFTERNOON_TIMES = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30'];
-    const EVENING_TIMES = ['16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30'];
+    const MORNING_TIMES = ['09:00', '10:00', '11:00'];
+    const AFTERNOON_TIMES = ['12:00', '13:00', '14:00', '15:00'];
+    const EVENING_TIMES = ['16:00', '17:00', '18:00', '19:00', '20:00'];
 
     let currentPanel = '1';
     let selectedCategoryKey = '';
@@ -1790,6 +1775,7 @@
       selectedService = selectedCategory.services[index];
       document.getElementById('serviceError').classList.remove('show');
       updateSelectedBar();
+      updateBottomBar();
     }
 
     function updateSelectedBar() {
@@ -1810,6 +1796,8 @@
       const months = ['1-р', '2-р', '3-р', '4-р', '5-р', '6-р', '7-р', '8-р', '9-р', '10-р', '11-р', '12-р'];
 
       list.innerHTML = '';
+      document.getElementById('timeWrap').style.display = 'none';
+      document.getElementById('timeHint').style.display = 'block';
 
       for (let i = 0; i < 14; i++) {
         const d = new Date(today);
@@ -1825,14 +1813,22 @@
           <div class="date-num">${d.getDate()}</div>
           <div class="date-month">${months[d.getMonth()]}</div>
         `;
+
         chip.addEventListener('click', async () => {
           document.querySelectorAll('.date-chip').forEach(c => c.classList.remove('selected'));
           chip.classList.add('selected');
+
           selectedDate = iso;
           selectedTime = '';
+
           await loadUnavailableTimes(iso);
+
+          document.getElementById('timeHint').style.display = 'none';
+          document.getElementById('timeWrap').style.display = 'block';
+
           renderTimes();
           document.getElementById('dateTimeError').classList.remove('show');
+          updateBottomBar();
         });
 
         list.appendChild(chip);
@@ -1840,6 +1836,13 @@
     }
 
     function renderTimes() {
+      if (!selectedDate) {
+        document.getElementById('morningTimes').innerHTML = '';
+        document.getElementById('afternoonTimes').innerHTML = '';
+        document.getElementById('eveningTimes').innerHTML = '';
+        return;
+      }
+
       renderTimeGroup(MORNING_TIMES, 'morningTimes');
       renderTimeGroup(AFTERNOON_TIMES, 'afternoonTimes');
       renderTimeGroup(EVENING_TIMES, 'eveningTimes');
@@ -1868,6 +1871,7 @@
       selectedTime = time;
       renderTimes();
       document.getElementById('dateTimeError').classList.remove('show');
+      updateBottomBar();
     }
 
     async function loadUnavailableTimes(date) {
@@ -1924,18 +1928,36 @@
 
       back.style.display = currentPanel === '1' ? 'none' : 'inline-flex';
 
+      if (currentPanel === '1') {
+        next.disabled = true;
+        next.textContent = 'Ангилал сонгоно уу';
+        return;
+      }
+
+      if (currentPanel === '1b') {
+        next.disabled = !selectedService;
+        next.textContent = 'Үргэлжлүүлэх';
+        return;
+      }
+
+      if (currentPanel === '2') {
+        next.disabled = !(selectedDate && selectedTime);
+        next.textContent = 'Үргэлжлүүлэх';
+        return;
+      }
+
+      if (currentPanel === '3') {
+        next.disabled = false;
+        next.textContent = 'Үргэлжлүүлэх';
+        return;
+      }
+
       if (currentPanel === '4') {
+        next.disabled = false;
         next.innerHTML = `
           Захиалга үүсгэх
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        `;
-      } else {
-        next.innerHTML = `
-          Үргэлжлүүлэх
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6" transform="scale(-1,1) translate(-24,0)"/>
           </svg>
         `;
       }
@@ -1998,15 +2020,16 @@
     }
 
     async function goNext() {
-      if (currentPanel === '1') {
-        return;
-      }
+      if (currentPanel === '1') return;
 
       if (currentPanel === '1b') {
         if (!selectedService) {
           document.getElementById('serviceError').classList.add('show');
           return;
         }
+        selectedDate = '';
+        selectedTime = '';
+        unavailableTimes = [];
         buildDates();
         renderTimes();
         showPanel('2');
@@ -2057,7 +2080,7 @@
     async function submitBooking() {
       const button = document.getElementById('bottomNext');
       button.disabled = true;
-      button.innerHTML = 'Илгээж байна...';
+      button.textContent = 'Илгээж байна...';
 
       const payload = {
         categoryKey: selectedCategoryKey,
