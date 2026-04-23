@@ -30,7 +30,7 @@ const conversations = new Map();
 const SYSTEM_PROMPT = `Та Soyol Spa Salon-ын AI туслах юм. Монгол хэлээр богино, найрсаг байдлаар хариулна уу. Хариултаа 3-4 өгүүлбэрт багтааж байна уу.
 
 📍 БАЙРШИЛ & ХОЛБОО БАРИХ:
-- Хаяг: 3, 4-р хороолол, Ачлал их дэлгүүрийн замын эсрэг талд
+- Хаяг: 3, 4-р хороолол, Ачлал их дэлгүүрийн замын эсрэг талд Soyol Spa Salon
 - Утас: 7059-9999, 9119-1215
 - Цагийн хуваарь: Даваа-Баасан 9:00-21:00, Бямба-Ням 10:00-21:00
 
@@ -1012,15 +1012,135 @@ async function sendBeautyCarousel(id) {
 }
 
 async function sendHairCarousel(id) {
-  return reply(id, 'Үсчний үйлчилгээ удахгүй нэмэгдэнэ.');
-}
+  const bookingUrl = 'https://soyol-chat-bot.onrender.com/booking';
 
-async function sendEyebrowCarousel(id) {
-  return reply(id, 'Хөмсөгний үйлчилгээ удахгүй нэмэгдэнэ.');
+  const elements = [
+    {
+      title: 'Эрэгтэй үс засалт',
+      image_url: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 25,000₮',
+    },
+    {
+      title: 'Эмэгтэй тайралт',
+      image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Эмэгтэй үс засалт',
+      image_url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Бүх төрлийн хими',
+      image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: '20–40% хямдрал',
+    },
+    {
+      title: 'Өнгө гаргаж будах',
+      image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1200&auto=format&fit=crop',
+      subtitle: '20–40% хямдрал',
+    }
+  ].map((item) => ({
+    title: item.title,
+    image_url: item.image_url,
+    subtitle: item.subtitle,
+    buttons: [
+      {
+        type: 'web_url',
+        title: 'Цаг авах',
+        url: bookingUrl,
+        webview_height_ratio: 'full',
+      },
+    ],
+  }));
+
+  const r = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              elements,
+            },
+          },
+        },
+      }),
+    }
+  );
+
+  console.log('hair:', await r.json());
 }
 
 async function sendEyelashCarousel(id) {
-  return reply(id, 'Сормуусны үйлчилгээ удахгүй нэмэгдэнэ.');
+  const bookingUrl = 'https://soyol-chat-bot.onrender.com/booking';
+
+  const elements = [
+    {
+      title: 'Сормуус',
+      image_url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 65,000₮',
+    },
+    {
+      title: 'Хөмсөг засах',
+      image_url: 'https://images.unsplash.com/photo-1487412912498-0447578fcca8?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 10,000₮',
+    },
+    {
+      title: 'Хөмсөг хими',
+      image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Сормуус хими',
+      image_url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: '6D үстэй мэт уусгалттай хөмсөгний шивээс',
+      image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+      subtitle: '450,000₮ → 250,000₮',
+    }
+  ].map((item) => ({
+    title: item.title,
+    image_url: item.image_url,
+    subtitle: item.subtitle,
+    buttons: [
+      {
+        type: 'web_url',
+        title: 'Цаг авах',
+        url: bookingUrl,
+        webview_height_ratio: 'full',
+      },
+    ],
+  }));
+
+  const r = await fetch(
+    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              elements,
+            },
+          },
+        },
+      }),
+    }
+  );
+
+  console.log('eyes:', await r.json());
 }
 
 async function sendNailCarousel(id) {
