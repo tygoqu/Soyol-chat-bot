@@ -1,544 +1,2148 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="mn" data-theme="rose">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Цаг захиалах</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --purple: #7b2d8b;
-  --purple-light: #a855b5;
-  --purple-pale: #f5eaf7;
-  --gray: #6b7280;
-  --gray-light: #f9fafb;
-  --gray-border: #e5e7eb;
-  --white: #ffffff;
-  --text: #1f2937;
-  --green: #10b981;
-  --red: #ef4444;
-}
-body { font-family: 'Nunito', sans-serif; background: #f3f4f6; color: var(--text); min-height: 100vh; }
-.topbar {
-  background: var(--white);
-  border-bottom: 1px solid var(--gray-border);
-  padding: 0 1.5rem;
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-.topbar-logo { height: 52px; width: auto; display: block; }
-.topbar-title, .topbar-phone { display: none; }
-.stepbar { background: var(--white); border-bottom: 1px solid var(--gray-border); padding: 0 1.5rem; }
-.stepbar-inner { display: flex; max-width: 680px; margin: 0 auto; }
-.step-tab { flex: 1; display: flex; align-items: center; gap: 0.5rem; padding: 1rem 0.5rem; border-bottom: 3px solid transparent; }
-.step-tab.active { border-bottom-color: var(--purple); }
-.step-tab.done { border-bottom-color: var(--green); }
-.step-num {
-  width: 24px; height: 24px; border-radius: 50%; background: var(--gray-border); color: var(--gray);
-  font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
-}
-.step-tab.active .step-num { background: var(--purple); color: white; }
-.step-tab.done .step-num { background: var(--green); color: white; }
-.step-label-text { font-size: 0.78rem; font-weight: 600; color: var(--gray); white-space: nowrap; }
-.step-tab.active .step-label-text { color: var(--purple); }
-.step-tab.done .step-label-text { color: var(--green); }
-.page-wrap { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
-.section-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
-.section-sub { font-size: 0.82rem; color: var(--gray); margin-bottom: 1.25rem; }
-.card { background: var(--white); border: 1px solid var(--gray-border); border-radius: 12px; overflow: hidden; margin-bottom: 1rem; }
-.category-item {
-  display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-border);
-  cursor: pointer; transition: background 0.15s; gap: 0;
-}
-.category-item:last-child { border-bottom: none; }
-.category-item:hover { background: var(--purple-pale); }
-.category-item.selected { background: var(--purple-pale); border-left: 3px solid var(--purple); }
-.category-info { flex: 1; }
-.category-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
-.category-count { font-size: 0.75rem; color: var(--gray); margin-top: 0.1rem; }
-.service-item {
-  display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-border);
-  cursor: pointer; transition: background 0.15s; gap: 1rem;
-}
-.service-item:last-child { border-bottom: none; }
-.service-item:hover { background: var(--purple-pale); }
-.service-item.selected { background: var(--purple-pale); }
-.service-check {
-  width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--gray-border); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-}
-.service-item.selected .service-check { background: var(--purple); border-color: var(--purple); }
-.service-check::after { content: '✓'; color: white; font-size: 0.7rem; display: none; font-weight: 700; }
-.service-item.selected .service-check::after { display: block; }
-.service-info { flex: 1; }
-.service-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
-.service-duration { font-size: 0.75rem; color: var(--gray); margin-top: 0.1rem; }
-.service-price { font-size: 0.9rem; font-weight: 700; color: var(--purple); }
-.back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: var(--purple); cursor: pointer; margin-bottom: 1rem; }
-.date-scroll { display: flex; gap: 0.6rem; overflow-x: auto; padding: 1.25rem; scrollbar-width: none; }
-.date-scroll::-webkit-scrollbar { display: none; }
-.date-chip {
-  flex-shrink: 0; width: 56px; text-align: center; padding: 0.6rem 0.3rem; border: 1.5px solid var(--gray-border);
-  border-radius: 10px; cursor: pointer; background: white;
-}
-.date-chip:hover { border-color: var(--purple); }
-.date-chip.selected { background: var(--purple); border-color: var(--purple); color: white; }
-.date-day { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; color: var(--gray); }
-.date-chip.selected .date-day, .date-chip.selected .date-month { color: rgba(255,255,255,0.8); }
-.date-num { font-size: 1.1rem; font-weight: 700; margin-top: 0.15rem; }
-.date-month { font-size: 0.62rem; color: var(--gray); margin-top: 0.1rem; }
-.time-section { padding: 0 1.25rem 1.25rem; }
-.time-label { font-size: 0.72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin: 1rem 0 0.75rem; }
-.time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-.time-chip {
-  padding: 0.6rem 0.3rem; border: 1.5px solid var(--gray-border); border-radius: 8px; text-align: center;
-  font-size: 0.8rem; font-weight: 600; cursor: pointer; background: white;
-}
-.time-chip:hover { border-color: var(--purple); color: var(--purple); }
-.time-chip.selected { background: var(--purple); border-color: var(--purple); color: white; }
-.time-chip.unavailable { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
-.form-group { margin-bottom: 1.1rem; padding: 0 1.25rem; }
-.form-group:first-child { padding-top: 1.25rem; }
-.form-group:last-child { padding-bottom: 1.25rem; }
-label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
-input, textarea {
-  width: 100%; border: 1.5px solid var(--gray-border); border-radius: 8px; padding: 0.75rem 1rem;
-  font-family: 'Nunito', sans-serif; font-size: 0.92rem; color: var(--text); outline: none; background: white;
-}
-input:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(123,45,139,0.1); }
-textarea { resize: vertical; min-height: 80px; }
-.err { font-size: 0.72rem; color: var(--red); margin-top: 0.3rem; display: none; }
-.err.show { display: block; }
-.summary-section { padding: 1.25rem; }
-.summary-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid var(--gray-border); gap: 1rem; }
-.summary-row:last-child { border-bottom: none; }
-.sum-key { font-size: 0.78rem; color: var(--gray); font-weight: 600; flex-shrink: 0; }
-.sum-val { font-size: 0.88rem; font-weight: 700; color: var(--text); text-align: right; }
-.sum-val.purple { color: var(--purple); }
-.bottom-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--gray-border);
-  padding: 1rem 1.5rem; display: flex; gap: 0.75rem; z-index: 50; box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
-}
-.btn { flex: 1; padding: 0.85rem; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; border: none; }
-.btn-primary { background: var(--purple); color: white; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-secondary { background: var(--gray-light); color: var(--gray); border: 1.5px solid var(--gray-border); flex: 0 0 auto; padding: 0.85rem 1.25rem; }
-.selected-bar {
-  background: var(--purple-pale); border: 1px solid #eadff0; border-radius: 10px; padding: 0.75rem 1rem;
-  margin-bottom: 1rem; align-items: center; justify-content: space-between; display: none;
-}
-.selected-bar.show { display: flex; }
-.selected-bar-name, .selected-bar-price { font-size: 0.85rem; font-weight: 700; color: var(--purple); }
-.success-wrap { text-align: center; padding: 3rem 1.5rem; display: none; }
-.success-wrap.show { display: block; }
-.success-circle {
-  width: 80px; height: 80px; background: linear-gradient(135deg, var(--purple), var(--purple-light)); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;
-}
-.success-card { background: white; border: 1px solid var(--gray-border); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0; text-align: left; }
-.panel { display: none; }
-.panel.active { display: block; }
-@media (max-width: 400px) {
-  .time-grid { grid-template-columns: repeat(3, 1fr); }
-  .step-label-text { display: none; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soyol Spa Salon — Цаг захиалах</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --shadow-soft: 0 18px 50px rgba(0,0,0,0.08);
+      --shadow-glow: 0 14px 32px var(--glow);
+      --nav-h: 78px;
+      --step-h: 62px;
+    }
+
+    [data-theme="rose"] {
+      --bg: #faf4fb;
+      --bg2: #f2e7f7;
+      --card: rgba(255,255,255,0.80);
+      --card-strong: rgba(255,255,255,0.94);
+      --line: rgba(107,33,128,0.12);
+      --text: #25142c;
+      --muted: #776785;
+      --primary: #6b2180;
+      --primary-2: #9657b0;
+      --primary-3: #eddcff;
+      --glow: rgba(107,33,128,0.24);
+      --orb1: rgba(150,87,176,0.18);
+      --orb2: rgba(107,33,128,0.12);
+      --orb3: rgba(224,190,255,0.18);
+      --success: #23956e;
+      --danger: #d64646;
+    }
+
+    [data-theme="noir"] {
+      --bg: #0f0b14;
+      --bg2: #16101d;
+      --card: rgba(27,18,36,0.80);
+      --card-strong: rgba(33,23,43,0.94);
+      --line: rgba(192,132,224,0.12);
+      --text: #f5edf9;
+      --muted: #ac95bb;
+      --primary: #c287ea;
+      --primary-2: #9f63cc;
+      --primary-3: #2c1c38;
+      --glow: rgba(194,135,234,0.26);
+      --orb1: rgba(194,135,234,0.14);
+      --orb2: rgba(159,99,204,0.10);
+      --orb3: rgba(100,70,130,0.18);
+      --success: #44c292;
+      --danger: #ef6d6d;
+    }
+
+    [data-theme="blush"] {
+      --bg: #fff6f8;
+      --bg2: #fde8ee;
+      --card: rgba(255,255,255,0.84);
+      --card-strong: rgba(255,255,255,0.95);
+      --line: rgba(181,25,94,0.12);
+      --text: #2d0f19;
+      --muted: #8f6070;
+      --primary: #b5195e;
+      --primary-2: #da4c83;
+      --primary-3: #fde0eb;
+      --glow: rgba(181,25,94,0.22);
+      --orb1: rgba(218,76,131,0.16);
+      --orb2: rgba(181,25,94,0.12);
+      --orb3: rgba(255,196,214,0.18);
+      --success: #23956e;
+      --danger: #d64646;
+    }
+
+    [data-theme="sage"] {
+      --bg: #f2f8f4;
+      --bg2: #e5f2e9;
+      --card: rgba(255,255,255,0.84);
+      --card-strong: rgba(255,255,255,0.95);
+      --line: rgba(45,122,90,0.12);
+      --text: #10241b;
+      --muted: #5e7f6d;
+      --primary: #2d7a5a;
+      --primary-2: #56a07f;
+      --primary-3: #dff3e8;
+      --glow: rgba(45,122,90,0.22);
+      --orb1: rgba(86,160,127,0.16);
+      --orb2: rgba(45,122,90,0.12);
+      --orb3: rgba(182,231,204,0.18);
+      --success: #23956e;
+      --danger: #d64646;
+    }
+
+    [data-theme="gold"] {
+      --bg: #faf6ef;
+      --bg2: #f5ecd7;
+      --card: rgba(255,255,255,0.84);
+      --card-strong: rgba(255,255,255,0.95);
+      --line: rgba(138,98,0,0.12);
+      --text: #261d08;
+      --muted: #806b3a;
+      --primary: #8a6200;
+      --primary-2: #bf932f;
+      --primary-3: #fbecc2;
+      --glow: rgba(138,98,0,0.22);
+      --orb1: rgba(191,147,47,0.16);
+      --orb2: rgba(138,98,0,0.12);
+      --orb3: rgba(255,227,152,0.18);
+      --success: #23956e;
+      --danger: #d64646;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 8%, var(--orb1), transparent 28%),
+        radial-gradient(circle at 88% 18%, var(--orb2), transparent 25%),
+        radial-gradient(circle at 55% 85%, var(--orb3), transparent 28%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background .45s ease, color .25s ease;
+    }
+
+    .bg-grid,
+    .bg-glow,
+    .sparkles,
+    .confetti-wrap {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .bg-grid {
+      z-index: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 88%);
+      opacity: .55;
+    }
+
+    .bg-glow {
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-glow::before,
+    .bg-glow::after {
+      content: '';
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(90px);
+      animation: floatOrb 14s ease-in-out infinite;
+    }
+
+    .bg-glow::before {
+      width: 360px;
+      height: 360px;
+      left: -90px;
+      top: 4%;
+      background: var(--orb1);
+    }
+
+    .bg-glow::after {
+      width: 320px;
+      height: 320px;
+      right: -70px;
+      bottom: 10%;
+      background: var(--orb2);
+      animation-delay: -5s;
+    }
+
+    .sparkles {
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .spark {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: .18;
+      animation: twinkle linear infinite;
+    }
+
+    .confetti-wrap { z-index: 200; overflow: hidden; }
+    .confetti-piece {
+      position: absolute;
+      top: -20px;
+      border-radius: 2px;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-24px) scale(1.06); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: .05; transform: scale(1); }
+      50% { opacity: .25; transform: scale(1.8); }
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.86); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-130%); }
+      100% { transform: translateX(130%); }
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 18px;
+      background: color-mix(in srgb, var(--card-strong) 80%, transparent);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      animation: slideDown .65s ease both;
+    }
+
+    .topbar-inner {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-left,
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-left { justify-content: flex-start; }
+    .topbar-right { justify-content: flex-end; }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      height: 48px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 8px 18px var(--glow));
+      animation: fadeUp .7s ease .1s both;
+    }
+
+    .pill-btn,
+    .theme-pill,
+    .main-btn,
+    .ghost-btn,
+    .bottom-next,
+    .bottom-back,
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      border-radius: 999px;
+      text-decoration: none;
+      line-height: 1.1;
+      white-space: nowrap;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
+    }
+
+    .pill-btn svg,
+    .theme-pill svg,
+    .main-btn svg,
+    .ghost-btn svg,
+    .bottom-next svg,
+    .bottom-back svg,
+    .cta-btn svg,
+    .theme-dot svg,
+    .cat-icon svg,
+    .mini-icon svg,
+    .summary-badge svg,
+    .success-ring svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+    }
+
+    .pill-btn {
+      padding: 0 16px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--card) 70%, transparent);
+      color: var(--primary);
+      font-size: 13px;
+    }
+
+    .pill-btn:hover,
+    .main-btn:hover,
+    .ghost-btn:hover,
+    .cta-btn:hover,
+    .bottom-next:hover,
+    .bottom-back:hover {
+      transform: translateY(-2px);
+    }
+
+    .theme-pill {
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--card) 70%, transparent);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .theme-pill:hover { color: var(--primary); }
+
+    .theme-pop {
+      position: absolute;
+      top: calc(var(--nav-h) + 10px);
+      right: 18px;
+      z-index: 60;
+      background: var(--card-strong);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-soft);
+      display: none;
+      animation: fadeUp .2s ease;
+    }
+
+    .theme-pop.show { display: block; }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .theme-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .theme-dot:hover { transform: scale(1.12); }
+    .theme-dot.active { border-color: var(--text); transform: scale(1.08); }
+    .theme-dot[data-theme="rose"] { background: linear-gradient(135deg, #6b2180, #9657b0); }
+    .theme-dot[data-theme="noir"] { background: linear-gradient(135deg, #1b1224, #c287ea); }
+    .theme-dot[data-theme="blush"] { background: linear-gradient(135deg, #b5195e, #da4c83); }
+    .theme-dot[data-theme="sage"] { background: linear-gradient(135deg, #2d7a5a, #56a07f); }
+    .theme-dot[data-theme="gold"] { background: linear-gradient(135deg, #8a6200, #bf932f); }
+
+    .stepbar {
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 40;
+      background: color-mix(in srgb, var(--card-strong) 78%, transparent);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stepbar-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: stretch;
+      padding: 0 14px;
+    }
+
+    .step-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 10px;
+      border-bottom: 2.5px solid transparent;
+      transition: all .22s ease;
+    }
+
+    .step-tab.active { border-bottom-color: var(--primary); }
+    .step-tab.done { border-bottom-color: var(--success); }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--line);
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex: 0 0 24px;
+    }
+
+    .step-tab.active .step-num {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .step-tab.done .step-num {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .step-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: var(--muted);
+    }
+
+    .step-tab.active .step-label { color: var(--primary); }
+    .step-tab.done .step-label { color: var(--success); }
+
+    .page-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 26px 16px 118px;
+    }
+
+    .hero-card,
+    .glass-card,
+    .success-card {
+      background: color-mix(in srgb, var(--card) 85%, transparent);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-card {
+      overflow: hidden;
+      padding: 24px;
+      margin-bottom: 18px;
+      position: relative;
+      animation: fadeUp .7s ease .05s both;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent, rgba(255,255,255,0.24), transparent);
+      transform: translateX(-130%);
+      animation: shimmer 7s linear infinite;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--primary-3);
+      color: var(--primary);
+      border: 1px solid var(--line);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(38px, 7vw, 68px);
+      line-height: .94;
+      font-weight: 600;
+      letter-spacing: -.03em;
+      margin-bottom: 10px;
+    }
+
+    .hero-title .accent { color: var(--primary); }
+
+    .hero-sub {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .main-btn,
+    .ghost-btn,
+    .cta-btn {
+      padding: 0 20px;
+      font-size: 14px;
+    }
+
+    .main-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+      border: none;
+    }
+
+    .ghost-btn {
+      background: color-mix(in srgb, var(--card-strong) 80%, transparent);
+      color: var(--primary);
+      border: 1px solid var(--line);
+    }
+
+    .mini-stack {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .mini-card {
+      background: color-mix(in srgb, var(--card-strong) 86%, transparent);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      min-height: 124px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .mini-card:nth-child(1) { animation-delay: .12s; }
+    .mini-card:nth-child(2) { animation-delay: .18s; }
+    .mini-card:nth-child(3) { animation-delay: .24s; }
+    .mini-card:nth-child(4) { animation-delay: .3s; }
+
+    .mini-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-3);
+      border: 1px solid var(--line);
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .mini-label {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .mini-value {
+      font-size: 14px;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .progress-dots {
+      display: flex;
+      gap: 6px;
+      margin: 4px 0 18px;
+      padding-left: 4px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--line);
+      transition: all .28s ease;
+    }
+
+    .dot.active {
+      width: 20px;
+      border-radius: 8px;
+      background: var(--primary);
+    }
+
+    .dot.done {
+      background: var(--success);
+    }
+
+    .panel { display: none; }
+    .panel.active {
+      display: block;
+      animation: fadeUp .26s ease;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(30px, 5vw, 50px);
+      line-height: .98;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+
+    .section-sub {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: opacity .2s ease;
+    }
+
+    .back-link:hover { opacity: .75; }
+    .back-link svg { width: 16px; height: 16px; }
+
+    .selected-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--primary-3);
+      border: 1px solid var(--line);
+      color: var(--primary);
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      animation: fadeUp .3s ease;
+    }
+
+    .selected-bar.show { display: flex; }
+
+    .selected-name,
+    .selected-price {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .glass-card {
+      overflow: hidden;
+    }
+
+    .category-item,
+    .service-item {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-item::before,
+    .service-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary-3), transparent 70%);
+      opacity: 0;
+      transition: opacity .22s ease;
+      pointer-events: none;
+    }
+
+    .category-item:hover::before,
+    .service-item:hover::before,
+    .service-item.selected::before {
+      opacity: 1;
+    }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .category-item:last-child { border-bottom: none; }
+
+    .category-item:hover {
+      transform: translateX(2px);
+      background: color-mix(in srgb, var(--primary-3) 58%, transparent);
+    }
+
+    .cat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      background: var(--primary-3);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      flex: 0 0 46px;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .category-item:hover .cat-icon {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      transform: scale(1.07) rotate(-2deg);
+    }
+
+    .cat-content,
+    .service-content {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cat-name,
+    .service-name {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .cat-meta,
+    .service-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.6;
+    }
+
+    .cat-arrow {
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+      transition: transform .2s ease, color .2s ease;
+    }
+
+    .category-item:hover .cat-arrow {
+      transform: translateX(3px);
+      color: var(--primary);
+    }
+
+    .service-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      transition: background .18s ease, transform .18s ease;
+    }
+
+    .service-item:last-child { border-bottom: none; }
+    .service-item:hover { background: color-mix(in srgb, var(--primary-3) 56%, transparent); }
+    .service-item.selected { background: color-mix(in srgb, var(--primary-3) 70%, transparent); }
+
+    .service-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      flex: 0 0 24px;
+      transition: all .22s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-item.selected .service-check {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .service-price {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary);
+      flex: 0 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .date-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 20px;
+      scrollbar-width: none;
+    }
+
+    .date-scroll::-webkit-scrollbar { display: none; }
+
+    .date-chip {
+      flex: 0 0 62px;
+      text-align: center;
+      padding: 12px 4px;
+      border-radius: 18px;
+      border: 1.5px solid var(--line);
+      background: color-mix(in srgb, var(--card-strong) 80%, transparent);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+      animation: popIn .35s ease both;
+    }
+
+    .date-chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      background: var(--primary-3);
+    }
+
+    .date-chip.selected {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      border-color: transparent;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .date-day {
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .date-chip.selected .date-day,
+    .date-chip.selected .date-month {
+      color: rgba(255,255,255,.78);
+    }
+
+    .date-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .date-month {
+      font-size: 10px;
+      margin-top: 4px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .time-wrap {
+      padding: 0 20px 20px;
+    }
+
+    .time-group {
+      margin-top: 10px;
+    }
+
+    .time-label {
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+      margin: 0 0 10px;
+    }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .time-chip {
+      min-height: 44px;
+      border-radius: 13px;
+      border: 1.5px solid var(--line);
+      background: color-mix(in srgb, var(--card-strong) 82%, transparent);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+      animation: popIn .28s ease both;
+    }
+
+    .time-chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      background: var(--primary-3);
+      color: var(--primary);
+    }
+
+    .time-chip.selected {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .time-chip.unavailable {
+      opacity: .28;
+      cursor: not-allowed;
+      text-decoration: line-through;
+      transform: none !important;
+    }
+
+    .form-block {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .form-block:last-child { border-bottom: none; }
+
+    .field-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .field-input,
+    .field-textarea {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: color-mix(in srgb, var(--card-strong) 82%, transparent);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .field-input:focus,
+    .field-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--glow);
+    }
+
+    .field-textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .field-error {
+      display: none;
+      margin-top: 8px;
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .field-error.show { display: block; }
+
+    .field-input.error,
+    .field-textarea.error {
+      border-color: var(--danger);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary-row:last-child { border-bottom: none; }
+
+    .summary-key {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+      flex: 0 0 auto;
+      padding-top: 3px;
+    }
+
+    .summary-value {
+      text-align: right;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .summary-value.accent { color: var(--primary); }
+
+    .summary-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--primary-3);
+      color: var(--primary);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .error-banner {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(214,70,70,.10);
+      color: var(--danger);
+      border: 1px solid rgba(214,70,70,.24);
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 14px;
+      animation: fadeUp .2s ease;
+    }
+
+    .error-banner.show { display: block; }
+
+    .success-wrap {
+      display: none;
+      text-align: center;
+      padding: 34px 6px 12px;
+      animation: fadeUp .5s ease;
+    }
+
+    .success-wrap.show { display: block; }
+
+    .success-ring {
+      width: 94px;
+      height: 94px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin: 0 auto 18px;
+      box-shadow: var(--shadow-glow);
+      animation: popIn .45s cubic-bezier(.2,1.4,.45,1) both;
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(34px, 7vw, 54px);
+      line-height: .96;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .success-sub {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+      margin-bottom: 18px;
+    }
+
+    .success-card {
+      overflow: hidden;
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 70;
+      background: color-mix(in srgb, var(--card-strong) 88%, transparent);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid var(--line);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bottom-inner {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .bottom-back {
+      width: 52px;
+      min-width: 52px;
+      border: 1.5px solid var(--line);
+      background: var(--primary-3);
+      color: var(--primary);
+      display: none;
+    }
+
+    .bottom-next {
+      flex: 1;
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+      font-size: 15px;
+      padding: 0 20px;
+    }
+
+    .bottom-next:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .topbar-left .pill-btn span { display: none; }
+
+      .step-label {
+        font-size: 11px;
+      }
+
+      .time-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .mini-stack {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .logo { height: 42px; }
+      .theme-pop { right: 12px; left: 12px; }
+      .hero-card { padding: 18px; }
+      .hero-actions {
+        flex-direction: column;
+      }
+      .main-btn,
+      .ghost-btn,
+      .cta-btn {
+        width: 100%;
+      }
+      .mini-stack {
+        grid-template-columns: 1fr;
+      }
+      .summary-row {
+        flex-direction: column;
+      }
+      .summary-value {
+        text-align: left;
+      }
+      .step-label {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="topbar">
-  <img class="topbar-logo" src="/logo.png" alt="Logo">
-</div>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="sparkles" id="sparkles"></div>
+  <div class="confetti-wrap" id="confetti"></div>
 
-<div class="stepbar">
-  <div class="stepbar-inner">
-    <div class="step-tab active" id="stepTab1"><div class="step-num">1</div><div class="step-label-text">Үйлчилгээ</div></div>
-    <div class="step-tab" id="stepTab2"><div class="step-num">2</div><div class="step-label-text">Огноо, цаг</div></div>
-    <div class="step-tab" id="stepTab3"><div class="step-num">3</div><div class="step-label-text">Мэдээлэл</div></div>
-    <div class="step-tab" id="stepTab4"><div class="step-num">4</div><div class="step-label-text">Баталгаажуулах</div></div>
-  </div>
-</div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <a class="pill-btn" href="tel:+97670599999">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7l.4 2.6a2 2 0 0 1-.6 1.8l-1.3 1.3a16 16 0 0 0 7 7l1.3-1.3a2 2 0 0 1 1.8-.6l2.6.4A2 2 0 0 1 22 16.9z"/>
+          </svg>
+          <span>Залгах</span>
+        </a>
+      </div>
 
-<div class="page-wrap">
-  <div class="selected-bar" id="selectedBar">
-    <div class="selected-bar-name" id="selectedBarName"></div>
-    <div class="selected-bar-price" id="selectedBarPrice"></div>
-  </div>
+      <div class="logo-wrap">
+        <img class="logo" src="/logo.png" alt="Soyol Spa Salon logo">
+      </div>
 
-  <div class="panel active" id="panel1">
-    <div class="section-title">Ангилал сонгоно уу</div>
-    <div class="section-sub">Доорх ангиллаас нэгийг сонгоно уу.</div>
-    <div class="card" id="categoryList"></div>
-  </div>
-
-  <div class="panel" id="panel1b">
-    <div class="back-btn" onclick="goBackToCategories()">← Буцах</div>
-    <div class="section-title" id="catTitle"></div>
-    <div class="section-sub">Үйлчилгээнээс нэгийг сонгоно уу.</div>
-    <div class="card" id="serviceList"></div>
-    <div class="err" id="serviceError" style="padding:0 4px;">Үйлчилгээ сонгоно уу.</div>
-  </div>
-
-  <div class="panel" id="panel2">
-    <div class="section-title">Огноо, цаг сонгоно уу</div>
-    <div class="section-sub">Боломжтой цагаас сонгоно уу.</div>
-    <div class="card">
-      <div class="date-scroll" id="dateList"></div>
-      <div class="time-section">
-        <div class="time-label">Өглөө</div>
-        <div class="time-grid" id="morningTimes"></div>
-        <div class="time-label">Үдээс хойш</div>
-        <div class="time-grid" id="afternoonTimes"></div>
+      <div class="topbar-right">
+        <button class="theme-pill" id="themeToggle" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/>
+          </svg>
+          Theme
+        </button>
       </div>
     </div>
-    <div class="err" id="dateTimeError" style="padding:0 4px;">Огноо болон цаг сонгоно уу.</div>
+  </header>
+
+  <div class="theme-pop" id="themePop">
+    <div class="theme-grid">
+      <button class="theme-dot active" data-theme="rose" title="Rose"></button>
+      <button class="theme-dot" data-theme="noir" title="Noir"></button>
+      <button class="theme-dot" data-theme="blush" title="Blush"></button>
+      <button class="theme-dot" data-theme="sage" title="Sage"></button>
+      <button class="theme-dot" data-theme="gold" title="Gold"></button>
+    </div>
   </div>
 
-  <div class="panel" id="panel3">
-    <div class="section-title">Таны мэдээлэл</div>
-    <div class="section-sub">Холбоо барих мэдээллээ оруулна уу.</div>
-    <div class="card">
-      <div class="form-group">
-        <label for="nameInput">Нэр</label>
-        <input id="nameInput" type="text" placeholder="Нэрээ оруулна уу">
-        <div class="err" id="nameError">Нэрээ оруулна уу.</div>
+  <div class="stepbar">
+    <div class="stepbar-inner">
+      <div class="step-tab active" id="step1">
+        <div class="step-num">1</div>
+        <div class="step-label">Үйлчилгээ</div>
       </div>
-      <div class="form-group">
-        <label for="phoneInput">Утас</label>
-        <input id="phoneInput" type="tel" placeholder="Утасны дугаар">
-        <div class="err" id="phoneError">Зөв утасны дугаар оруулна уу.</div>
+      <div class="step-tab" id="step2">
+        <div class="step-num">2</div>
+        <div class="step-label">Огноо · Цаг</div>
       </div>
-      <div class="form-group">
-        <label for="noteInput">Тайлбар (заавал биш)</label>
-        <textarea id="noteInput" placeholder="Нэмэлт тайлбар"></textarea>
+      <div class="step-tab" id="step3">
+        <div class="step-num">3</div>
+        <div class="step-label">Мэдээлэл</div>
+      </div>
+      <div class="step-tab" id="step4">
+        <div class="step-num">4</div>
+        <div class="step-label">Баталгаажуулах</div>
       </div>
     </div>
   </div>
 
-  <div class="panel" id="panel4">
-    <div class="section-title">Баталгаажуулах</div>
-    <div class="section-sub">Захиалгын мэдээллээ шалгана уу.</div>
-    <div class="card summary-section" id="summaryBox"></div>
-  </div>
+  <main class="page-wrap">
+    <section class="hero-card">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"/>
+            </svg>
+            Онлайн захиалга
+          </div>
+          <h1 class="hero-title">Цагаа <span class="accent">амархан</span> захиалаарай</h1>
+          <p class="hero-sub">
+            Өөрт тохирох үйлчилгээг сонгоод, огноо цагаа товлоод, хэдхэн алхмаар захиалгаа дуусгаарай.
+          </p>
+          <div class="hero-actions">
+            <button class="main-btn" type="button" onclick="scrollToCurrentPanel()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="16" rx="3"/>
+                <path d="M16 3v4M8 3v4M3 10h18"/>
+              </svg>
+              Цаг захиалах
+            </button>
+            <a class="ghost-btn" href="tel:+97670599999">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7l.4 2.6a2 2 0 0 1-.6 1.8l-1.3 1.3a16 16 0 0 0 7 7l1.3-1.3a2 2 0 0 1 1.8-.6l2.6.4A2 2 0 0 1 22 16.9z"/>
+              </svg>
+              Холбогдох
+            </a>
+          </div>
+        </div>
 
-  <div class="success-wrap" id="successWrap">
-    <div class="success-circle">✓</div>
-    <h2>Захиалга амжилттай!</h2>
-    <p>Таны захиалга амжилттай хадгалагдлаа.</p>
-    <div class="success-card" id="successCard"></div>
-  </div>
-</div>
+        <div class="mini-stack">
+          <div class="mini-card">
+            <div class="mini-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+              </svg>
+            </div>
+            <div class="mini-label">Ажиллах цаг</div>
+            <div class="mini-value">09:00 – 21:00</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="mini-label">Байршил</div>
+            <div class="mini-value">Ачлал их дэлгүүрийн эсрэг талд</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7l.4 2.6a2 2 0 0 1-.6 1.8l-1.3 1.3a16 16 0 0 0 7 7l1.3-1.3a2 2 0 0 1 1.8-.6l2.6.4A2 2 0 0 1 22 16.9z"/>
+              </svg>
+            </div>
+            <div class="mini-label">Утас</div>
+            <div class="mini-value">7059-9999</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"/>
+              </svg>
+            </div>
+            <div class="mini-label">Туршлага</div>
+            <div class="mini-value">Beauty · Hair · Nails · Brows</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="bottom-bar" id="bottomBar">
-  <button class="btn btn-secondary" id="backBtn" onclick="goBack()" style="display:none;">Буцах</button>
-  <button class="btn btn-primary" id="nextBtn" onclick="goNext()">Үргэлжлүүлэх</button>
-</div>
+    <div class="progress-dots">
+      <div class="dot active" id="dot1"></div>
+      <div class="dot" id="dot2"></div>
+      <div class="dot" id="dot3"></div>
+      <div class="dot" id="dot4"></div>
+    </div>
 
-<script>
-const CATEGORIES = {
-  beauty: {
-    name: 'Гоо сайхны үйлчилгээ',
-    services: [
-      { name: 'Энгийн массаж', duration: '45 мин', price: '65,000₮' },
-      { name: 'Гуаша массаж', duration: '60 мин', price: '85,000₮' },
-      { name: 'Miracle CO2', duration: '45 мин', price: '65,000₮ - 85,000₮' },
-      { name: 'Carbon peel', duration: '45 мин', price: '85,000₮' },
-      { name: 'Green peel', duration: '45 мин', price: '85,000₮' },
-      { name: 'Батга цэвэрлэгээ', duration: '60 мин', price: '85,000₮ - 120,000₮' },
-      { name: 'Carboxy', duration: '45 мин', price: '65,000₮' }
-    ]
-  },
-  hair: { name: 'Үсчин', services: [] },
-  nail: { name: 'Маникюр, педикюр', services: [] },
-  eyelash: { name: 'Сормуус, хөмсөг', services: [] },
-  tattoo: { name: '6D Лазер шивээс', services: [] },
-  piercing: { name: 'Чих цоолох, персинг', services: [] },
-  removal: { name: 'Мэнгэ, үү, ургацаг авах', services: [] },
-  hairtreat: { name: 'Үсний эмчилгээ', services: [] }
-};
+    <div class="panel active" id="panel1">
+      <div class="section-eyebrow">Алхам 1</div>
+      <h2 class="section-title">Ямар үйлчилгээ авах вэ?</h2>
+      <p class="section-sub">Ангилал сонгоод доторх үйлчилгээгээ үргэлжлүүлнэ үү.</p>
+      <div class="glass-card" id="categoryList"></div>
+    </div>
 
-let currentPanel = 1;
-let selectedCategory = '';
-let selectedService = null;
-let selectedDate = '';
-let selectedTime = '';
-let unavailableTimes = [];
+    <div class="panel" id="panel1b">
+      <div class="back-link" onclick="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Буцах
+      </div>
+      <div class="section-eyebrow">Алхам 1</div>
+      <h2 class="section-title" id="serviceCategoryTitle">Үйлчилгээ сонгох</h2>
+      <p class="section-sub">Доорх жагсаалтаас өөрт тохирох үйлчилгээг сонгоно уу.</p>
+      <div class="glass-card" id="serviceList"></div>
+      <div class="error-banner" id="serviceError">Үйлчилгээ сонгоно уу.</div>
+    </div>
 
-const MORNING = ['10:00', '10:30', '11:00', '11:30', '12:00'];
-const AFTERNOON = ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'];
+    <div class="panel" id="panel2">
+      <div class="section-eyebrow">Алхам 2</div>
+      <h2 class="section-title">Огноо ба цаг</h2>
+      <p class="section-sub">Боломжтой өдрөөс товлоод, дараа нь цаг сонгоно уу.</p>
 
-function renderCategories() {
-  const list = document.getElementById('categoryList');
-  list.innerHTML = Object.entries(CATEGORIES).map(([key, cat]) => `
-    <div class="category-item" onclick="openCategory('${key}')">
-      <div class="category-info">
-        <div class="category-name">${cat.name}</div>
-        <div class="category-count">${cat.services.length ? cat.services.length + ' үйлчилгээ' : 'Удахгүй нэмэгдэнэ'}</div>
+      <div class="selected-bar" id="selectedBar">
+        <div class="selected-name" id="selectedBarName">—</div>
+        <div class="selected-price" id="selectedBarPrice">—</div>
+      </div>
+
+      <div class="glass-card">
+        <div class="date-scroll" id="dateList"></div>
+
+        <div class="time-wrap">
+          <div class="time-group">
+            <div class="time-label">Өглөө</div>
+            <div class="time-grid" id="morningTimes"></div>
+          </div>
+
+          <div class="time-group">
+            <div class="time-label">Өдөр</div>
+            <div class="time-grid" id="afternoonTimes"></div>
+          </div>
+
+          <div class="time-group">
+            <div class="time-label">Орой</div>
+            <div class="time-grid" id="eveningTimes"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-banner" id="dateTimeError">Огноо болон цаг сонгоно уу.</div>
+    </div>
+
+    <div class="panel" id="panel3">
+      <div class="section-eyebrow">Алхам 3</div>
+      <h2 class="section-title">Таны мэдээлэл</h2>
+      <p class="section-sub">Холбоо барих мэдээллээ оруулаад захиалгаа үргэлжлүүлнэ үү.</p>
+
+      <div class="glass-card">
+        <div class="form-block">
+          <label class="field-label" for="nameInput">Нэр</label>
+          <input class="field-input" id="nameInput" type="text" placeholder="Нэрээ бичнэ үү">
+          <div class="field-error" id="nameError">Нэрээ оруулна уу.</div>
+        </div>
+
+        <div class="form-block">
+          <label class="field-label" for="phoneInput">Утас</label>
+          <input class="field-input" id="phoneInput" type="tel" placeholder="Утасны дугаар">
+          <div class="field-error" id="phoneError">Зөв утасны дугаар оруулна уу.</div>
+        </div>
+
+        <div class="form-block">
+          <label class="field-label" for="noteInput">Нэмэлт тайлбар</label>
+          <textarea class="field-textarea" id="noteInput" placeholder="Хүсвэл нэмэлт хүсэлтээ бичиж болно"></textarea>
+        </div>
       </div>
     </div>
-  `).join('');
-}
 
-function openCategory(key) {
-  const cat = CATEGORIES[key];
-  if (!cat.services.length) {
-    alert('Энэ ангиллын үйлчилгээ удахгүй нэмэгдэнэ!');
-    return;
-  }
-  selectedCategory = key;
-  selectedService = null;
-  document.getElementById('catTitle').textContent = cat.name;
-  const list = document.getElementById('serviceList');
-  list.innerHTML = cat.services.map((s, i) => `
-    <div class="service-item" onclick="selectService(${i}, this)">
-      <div class="service-check"></div>
-      <div class="service-info">
-        <div class="service-name">${s.name}</div>
-        <div class="service-duration">${s.duration}</div>
+    <div class="panel" id="panel4">
+      <div class="section-eyebrow">Алхам 4</div>
+      <h2 class="section-title">Баталгаажуулах</h2>
+      <p class="section-sub">Мэдээллээ шалгаад захиалга үүсгэнэ үү.</p>
+
+      <div class="summary-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+        Захиалгын товч мэдээлэл
       </div>
-      <div class="service-price">${s.price}</div>
+
+      <div class="glass-card">
+        <div class="summary-row">
+          <div class="summary-key">Ангилал</div>
+          <div class="summary-value" id="summaryCategory">—</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">Үйлчилгээ</div>
+          <div class="summary-value accent" id="summaryService">—</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">Үнэ</div>
+          <div class="summary-value accent" id="summaryPrice">—</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">Огноо</div>
+          <div class="summary-value" id="summaryDate">—</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">Цаг</div>
+          <div class="summary-value" id="summaryTime">—</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">Нэр</div>
+          <div class="summary-value" id="summaryName">—</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">Утас</div>
+          <div class="summary-value" id="summaryPhone">—</div>
+        </div>
+        <div class="summary-row" id="summaryNoteRow" style="display:none;">
+          <div class="summary-key">Тайлбар</div>
+          <div class="summary-value" id="summaryNote">—</div>
+        </div>
+      </div>
     </div>
-  `).join('');
-  document.getElementById('serviceError').classList.remove('show');
-  showPanel('1b');
-}
 
-function goBackToCategories() {
-  showPanel(1);
-}
-
-function selectService(i, el) {
-  document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedService = CATEGORIES[selectedCategory].services[i];
-  document.getElementById('serviceError').classList.remove('show');
-  updateSelectedBar();
-}
-
-function updateSelectedBar() {
-  const bar = document.getElementById('selectedBar');
-  if (!selectedService || !selectedCategory) {
-    bar.classList.remove('show');
-    return;
-  }
-  document.getElementById('selectedBarName').textContent = `${CATEGORIES[selectedCategory].name} — ${selectedService.name}`;
-  document.getElementById('selectedBarPrice').textContent = selectedService.price;
-  bar.classList.add('show');
-}
-
-function showPanel(panel) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById(`panel${panel}`).classList.add('active');
-  const map = { 1: 1, '1b': 1, 2: 2, 3: 3, 4: 4 };
-  currentPanel = map[panel];
-  updateSteps();
-  updateButtons();
-}
-
-function updateSteps() {
-  [1,2,3,4].forEach(i => {
-    const el = document.getElementById(`stepTab${i}`);
-    el.classList.remove('active', 'done');
-    if (i === currentPanel) el.classList.add('active');
-    else if (i < currentPanel) el.classList.add('done');
-  });
-}
-
-function updateButtons() {
-  const backBtn = document.getElementById('backBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  backBtn.style.display = currentPanel === 1 ? 'none' : 'inline-block';
-  nextBtn.textContent = currentPanel === 4 ? 'Илгээх' : 'Үргэлжлүүлэх';
-}
-
-function goBack() {
-  if (document.getElementById('successWrap').classList.contains('show')) return;
-  if (document.getElementById('panel1b').classList.contains('active')) {
-    showPanel(1);
-    return;
-  }
-  if (currentPanel > 1) showPanel(currentPanel - 1);
-}
-
-async function goNext() {
-  if (document.getElementById('panel1').classList.contains('active')) {
-    alert('Ангилал сонгоно уу.');
-    return;
-  }
-  if (document.getElementById('panel1b').classList.contains('active')) {
-    if (!selectedService) {
-      document.getElementById('serviceError').classList.add('show');
-      return;
-    }
-    showPanel(2);
-    return;
-  }
-  if (currentPanel === 2) {
-    if (!selectedDate || !selectedTime) {
-      document.getElementById('dateTimeError').classList.add('show');
-      return;
-    }
-    document.getElementById('dateTimeError').classList.remove('show');
-    showPanel(3);
-    return;
-  }
-  if (currentPanel === 3) {
-    const name = document.getElementById('nameInput').value.trim();
-    const phone = document.getElementById('phoneInput').value.trim();
-    let ok = true;
-    if (!name) { document.getElementById('nameError').classList.add('show'); ok = false; } else document.getElementById('nameError').classList.remove('show');
-    if (phone.replace(/\D/g, '').length < 8) { document.getElementById('phoneError').classList.add('show'); ok = false; } else document.getElementById('phoneError').classList.remove('show');
-    if (!ok) return;
-    renderSummary();
-    showPanel(4);
-    return;
-  }
-  if (currentPanel === 4) {
-    await submitBooking();
-  }
-}
-
-function renderDates() {
-  const list = document.getElementById('dateList');
-  const today = new Date();
-  const days = [];
-  for (let i = 0; i < 10; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() + i);
-    days.push(d);
-  }
-  list.innerHTML = days.map(d => {
-    const iso = d.toISOString().split('T')[0];
-    const day = d.toLocaleDateString('en-US', { weekday: 'short' });
-    const num = d.getDate();
-    const month = d.toLocaleDateString('en-US', { month: 'short' });
-    return `
-      <div class="date-chip" data-date="${iso}" onclick="selectDate('${iso}', this)">
-        <div class="date-day">${day}</div>
-        <div class="date-num">${num}</div>
-        <div class="date-month">${month}</div>
+    <div class="success-wrap" id="successWrap">
+      <div class="success-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
       </div>
-    `;
-  }).join('');
-}
 
-async function selectDate(date, el) {
-  document.querySelectorAll('.date-chip').forEach(x => x.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedDate = date;
-  selectedTime = '';
-  await loadUnavailableTimes(date);
-  renderTimes();
-}
+      <h2 class="success-title">Захиалга амжилттай</h2>
+      <p class="success-sub">Таны хүсэлт амжилттай хадгалагдлаа. Бид тантай удахгүй холбогдох болно.</p>
 
-async function loadUnavailableTimes(date) {
-  unavailableTimes = [];
-  try {
-    const r = await fetch('/booking-unavailable?date=' + encodeURIComponent(date));
-    const data = await r.json();
-    if (r.ok) unavailableTimes = data.unavailable || [];
-  } catch (e) {}
-}
+      <div class="success-card" id="successCard"></div>
 
-function renderTimes() {
-  const renderGroup = (arr, targetId) => {
-    document.getElementById(targetId).innerHTML = arr.map(time => {
-      const unavailable = unavailableTimes.includes(time);
-      const cls = unavailable ? 'time-chip unavailable' : 'time-chip';
-      return `<div class="${cls}" onclick="selectTime('${time}', ${unavailable})">${time}</div>`;
-    }).join('');
-  };
-  renderGroup(MORNING, 'morningTimes');
-  renderGroup(AFTERNOON, 'afternoonTimes');
-}
+      <a class="cta-btn main-btn" href="tel:+97670599999">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7l.4 2.6a2 2 0 0 1-.6 1.8l-1.3 1.3a16 16 0 0 0 7 7l1.3-1.3a2 2 0 0 1 1.8-.6l2.6.4A2 2 0 0 1 22 16.9z"/>
+        </svg>
+        Холбогдох
+      </a>
+    </div>
+  </main>
 
-function selectTime(time, unavailable) {
-  if (unavailable) return;
-  selectedTime = time;
-  document.querySelectorAll('.time-chip').forEach(x => x.classList.remove('selected'));
-  document.querySelectorAll('.time-chip').forEach(x => { if (x.textContent === time) x.classList.add('selected'); });
-  document.getElementById('dateTimeError').classList.remove('show');
-}
+  <div class="bottom-bar" id="bottomBar">
+    <div class="bottom-inner">
+      <button class="bottom-back" id="bottomBack" type="button" onclick="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
 
-function renderSummary() {
-  const box = document.getElementById('summaryBox');
-  const name = document.getElementById('nameInput').value.trim();
-  const phone = document.getElementById('phoneInput').value.trim();
-  const note = document.getElementById('noteInput').value.trim() || '-';
-  box.innerHTML = `
-    <div class="summary-row"><div class="sum-key">Ангилал</div><div class="sum-val">${CATEGORIES[selectedCategory].name}</div></div>
-    <div class="summary-row"><div class="sum-key">Үйлчилгээ</div><div class="sum-val purple">${selectedService.name}</div></div>
-    <div class="summary-row"><div class="sum-key">Хугацаа</div><div class="sum-val">${selectedService.duration}</div></div>
-    <div class="summary-row"><div class="sum-key">Үнэ</div><div class="sum-val">${selectedService.price}</div></div>
-    <div class="summary-row"><div class="sum-key">Огноо</div><div class="sum-val">${selectedDate}</div></div>
-    <div class="summary-row"><div class="sum-key">Цаг</div><div class="sum-val">${selectedTime}</div></div>
-    <div class="summary-row"><div class="sum-key">Нэр</div><div class="sum-val">${name}</div></div>
-    <div class="summary-row"><div class="sum-key">Утас</div><div class="sum-val">${phone}</div></div>
-    <div class="summary-row"><div class="sum-key">Тайлбар</div><div class="sum-val">${note}</div></div>
-  `;
-}
+      <button class="bottom-next" id="bottomNext" type="button" onclick="goNext()">
+        Үргэлжлүүлэх
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6" transform="scale(-1,1) translate(-24,0)"/>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-async function submitBooking() {
-  const nextBtn = document.getElementById('nextBtn');
-  nextBtn.disabled = true;
-  nextBtn.textContent = 'Илгээж байна...';
-  const payload = {
-    categoryName: CATEGORIES[selectedCategory].name,
-    serviceName: selectedService.name,
-    serviceDuration: selectedService.duration,
-    servicePrice: selectedService.price,
-    date: selectedDate,
-    time: selectedTime,
-    customerName: document.getElementById('nameInput').value.trim(),
-    phone: document.getElementById('phoneInput').value.trim(),
-    note: document.getElementById('noteInput').value.trim()
-  };
-  try {
-    const r = await fetch('/booking-submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const data = await r.json();
-    if (!r.ok) {
-      alert(data.error || 'Алдаа гарлаа.');
-      if (data.code === 'SLOT_TAKEN') {
-        showPanel(2);
-        await loadUnavailableTimes(selectedDate);
-        renderTimes();
+  <script>
+    const ICONS = {
+      sparkle: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"/>
+        </svg>
+      `,
+      hand: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 11V5a1.5 1.5 0 1 1 3 0v5"/><path d="M11 10V4a1.5 1.5 0 1 1 3 0v6"/><path d="M14 11V6a1.5 1.5 0 1 1 3 0v7"/><path d="M8 12.5l-1.2-1.2a1.7 1.7 0 0 0-2.4 2.4l4.7 4.7A4 4 0 0 0 12 20h4a4 4 0 0 0 4-4v-4.5"/>
+        </svg>
+      `,
+      nails: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+        </svg>
+      `,
+      eye: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+      `,
+      hair: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M20 4L8 16"/><path d="M8.5 8.5L15 15"/><path d="M16 16l4 4"/>
+        </svg>
+      `,
+      laser: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/>
+        </svg>
+      `,
+      piercing: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a4 4 0 1 1 0 8"/><path d="M12 11a4 4 0 1 0 0 8"/><path d="M12 7v10"/>
+        </svg>
+      `,
+      chevron: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      `,
+      check: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      `
+    };
+
+    const CATEGORIES = {
+      beauty: {
+        title: 'Гоо сайхны үйлчилгээ',
+        subtitle: 'Нүүр арчилгаа, маск, цэвэрлэгээ',
+        icon: 'sparkle',
+        services: [
+          { name: 'Энгийн массаж', duration: '45 мин', price: '65,000₮' },
+          { name: 'Гуаша массаж', duration: '60 мин', price: '85,000₮' },
+          { name: 'Miracle CO2', duration: '45 мин', price: '85,000₮' },
+          { name: 'Carbon peel', duration: '45 мин', price: '85,000₮' },
+          { name: 'Green peel', duration: '60 мин', price: '350,000–540,000₮' },
+          { name: 'Батга цэвэрлэгээ', duration: '60 мин', price: '85,000–120,000₮' },
+          { name: 'Carboxy', duration: '45 мин', price: '85,000₮' }
+        ]
+      },
+      massage: {
+        title: 'Бариа · Массаж',
+        subtitle: 'Бүтэн бие, толгой нуруу, гар хөл',
+        icon: 'hand',
+        services: [
+          { name: 'Бүтэн бие /эмэгтэй/', duration: '60 мин', price: '50,000₮' },
+          { name: 'Бүтэн бие /эрэгтэй/', duration: '60 мин', price: '60,000₮' },
+          { name: 'Толгой нуруу /эмэгтэй/', duration: '40 мин', price: '30,000₮' },
+          { name: 'Толгой нуруу /эрэгтэй/', duration: '40 мин', price: '40,000₮' }
+        ]
+      },
+      nails: {
+        title: 'Маникюр · Педикюр',
+        subtitle: 'Хумс арчилгаа, будалт',
+        icon: 'nails',
+        services: [
+          { name: 'Маникюр', duration: '60 мин', price: '35,000₮' },
+          { name: 'French будалт', duration: '70 мин', price: '45,000₮' },
+          { name: 'Смарт хумс', duration: '90 мин', price: '65,000₮' },
+          { name: 'Педикюр', duration: '75 мин', price: '85,000₮' }
+        ]
+      },
+      eyes: {
+        title: 'Сормуус · Хөмсөг',
+        subtitle: 'Сормуус, хөмсөгний үйлчилгээ',
+        icon: 'eye',
+        services: [
+          { name: 'Сормуус', duration: '60 мин', price: '65,000₮' },
+          { name: 'Хөмсөг засах', duration: '20 мин', price: '10,000₮' },
+          { name: 'Хөмсөг хими', duration: '45 мин', price: '35,000₮' },
+          { name: 'Сормуус хими', duration: '45 мин', price: '35,000₮' }
+        ]
+      },
+      hair: {
+        title: 'Үсчин · Хими · Будаг',
+        subtitle: 'Үс тайралт, будаг, кератин',
+        icon: 'hair',
+        services: [
+          { name: 'Шулуун хими', duration: '90 мин', price: '85,000–280,000₮' },
+          { name: 'Кератин', duration: '120 мин', price: '120,000–280,000₮' },
+          { name: 'Будаг', duration: '80 мин', price: '45,000–65,000₮' },
+          { name: 'Угны будаг', duration: '70 мин', price: '45,000–55,000₮' }
+        ]
+      },
+      laser: {
+        title: 'Laser эмчилгээ',
+        subtitle: 'Сэвх, шивээс, нүжжилт',
+        icon: 'laser',
+        services: [
+          { name: 'Сэвхний лазер', duration: '40 мин', price: '250,000₮' },
+          { name: 'Нүжжилтийн эсрэг', duration: '40 мин', price: '250,000₮' },
+          { name: 'Шивээс арилгах', duration: '45 мин', price: '120,000–650,000₮' }
+        ]
+      },
+      piercing: {
+        title: 'Персинг',
+        subtitle: 'Чих, хамар, хүйс болон бусад',
+        icon: 'piercing',
+        services: [
+          { name: 'Чих цоолох', duration: '20 мин', price: '20,000₮' },
+          { name: 'Хүйс цоолох', duration: '30 мин', price: '45,000₮' },
+          { name: 'Хамар цоолох', duration: '20 мин', price: '35,000₮' },
+          { name: 'Хөмсөг цоолох', duration: '20 мин', price: '35,000₮' }
+        ]
       }
-      return;
-    }
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('bottomBar').style.display = 'none';
-    document.getElementById('successWrap').classList.add('show');
-    document.getElementById('successCard').innerHTML = `
-      <div class="summary-row"><div class="sum-key">Booking ID</div><div class="sum-val">${data.bookingId}</div></div>
-      <div class="summary-row"><div class="sum-key">Үйлчилгээ</div><div class="sum-val">${selectedService.name}</div></div>
-      <div class="summary-row"><div class="sum-key">Огноо</div><div class="sum-val">${selectedDate}</div></div>
-      <div class="summary-row"><div class="sum-key">Цаг</div><div class="sum-val">${selectedTime}</div></div>
-      <div class="summary-row"><div class="sum-key">Нэр</div><div class="sum-val">${payload.customerName}</div></div>
-      <div class="summary-row"><div class="sum-key">Утас</div><div class="sum-val">${payload.phone}</div></div>
-    `;
-  } catch (e) {
-    alert('Сүлжээний алдаа гарлаа.');
-  } finally {
-    nextBtn.disabled = false;
-    nextBtn.textContent = 'Илгээх';
-  }
-}
+    };
 
-renderCategories();
-renderDates();
-renderTimes();
-updateButtons();
-updateSteps();
-</script>
+    const MORNING_TIMES = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
+    const AFTERNOON_TIMES = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30'];
+    const EVENING_TIMES = ['16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30'];
+
+    let currentPanel = '1';
+    let selectedCategoryKey = '';
+    let selectedCategory = null;
+    let selectedService = null;
+    let selectedDate = '';
+    let selectedTime = '';
+    let unavailableTimes = [];
+
+    const sparkles = document.getElementById('sparkles');
+    for (let i = 0; i < 34; i++) {
+      const s = document.createElement('div');
+      s.className = 'spark';
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.top = Math.random() * 100 + 'vh';
+      s.style.animationDuration = (Math.random() * 4 + 3) + 's';
+      s.style.animationDelay = (Math.random() * 2) + 's';
+      sparkles.appendChild(s);
+    }
+
+    function launchConfetti() {
+      const wrap = document.getElementById('confetti');
+      const colors = ['#ffffff', 'var(--primary)', 'var(--primary-2)', 'var(--primary-3)', '#f4c95d'];
+      for (let i = 0; i < 70; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.width = (Math.random() * 8 + 4) + 'px';
+        piece.style.height = (Math.random() * 10 + 4) + 'px';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (Math.random() * 2 + 1.8) + 's';
+        piece.style.animationDelay = (Math.random() * .8) + 's';
+        wrap.appendChild(piece);
+        setTimeout(() => piece.remove(), 4200);
+      }
+    }
+
+    function updateTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('soyol-booking-theme', theme);
+      document.querySelectorAll('.theme-dot').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === theme);
+      });
+    }
+
+    const savedTheme = localStorage.getItem('soyol-booking-theme');
+    if (savedTheme) updateTheme(savedTheme);
+
+    const themeToggle = document.getElementById('themeToggle');
+    const themePop = document.getElementById('themePop');
+
+    themeToggle.addEventListener('click', () => {
+      themePop.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!themePop.contains(e.target) && !themeToggle.contains(e.target)) {
+        themePop.classList.remove('show');
+      }
+    });
+
+    document.querySelectorAll('.theme-dot').forEach(btn => {
+      btn.addEventListener('click', () => {
+        updateTheme(btn.dataset.theme);
+      });
+    });
+
+    function scrollToCurrentPanel() {
+      window.scrollTo({ top: document.querySelector('.page-wrap').offsetTop - 10, behavior: 'smooth' });
+    }
+
+    function renderCategories() {
+      const container = document.getElementById('categoryList');
+      container.innerHTML = Object.entries(CATEGORIES).map(([key, cat], index) => `
+        <div class="category-item" onclick="openCategory('${key}')" style="animation: fadeUp .45s ease ${index * 40}ms both;">
+          <div class="cat-icon">${ICONS[cat.icon]}</div>
+          <div class="cat-content">
+            <div class="cat-name">${cat.title}</div>
+            <div class="cat-meta">${cat.subtitle} · ${cat.services.length} үйлчилгээ</div>
+          </div>
+          <div class="cat-arrow">${ICONS.chevron}</div>
+        </div>
+      `).join('');
+    }
+
+    function openCategory(key) {
+      selectedCategoryKey = key;
+      selectedCategory = CATEGORIES[key];
+      selectedService = null;
+
+      document.getElementById('serviceCategoryTitle').textContent = selectedCategory.title;
+
+      const container = document.getElementById('serviceList');
+      container.innerHTML = selectedCategory.services.map((service, index) => `
+        <div class="service-item" onclick="selectService(${index}, this)" style="animation: fadeUp .42s ease ${index * 35}ms both;">
+          <div class="service-check">${ICONS.check}</div>
+          <div class="service-content">
+            <div class="service-name">${service.name}</div>
+            <div class="service-meta">${service.duration}</div>
+          </div>
+          <div class="service-price">${service.price}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('serviceError').classList.remove('show');
+      showPanel('1b');
+    }
+
+    function selectService(index, element) {
+      document.querySelectorAll('.service-item').forEach(item => item.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedService = selectedCategory.services[index];
+      document.getElementById('serviceError').classList.remove('show');
+      updateSelectedBar();
+    }
+
+    function updateSelectedBar() {
+      const bar = document.getElementById('selectedBar');
+      if (!selectedService || !selectedCategory) {
+        bar.classList.remove('show');
+        return;
+      }
+      document.getElementById('selectedBarName').textContent = `${selectedCategory.title} — ${selectedService.name}`;
+      document.getElementById('selectedBarPrice').textContent = selectedService.price;
+      bar.classList.add('show');
+    }
+
+    function buildDates() {
+      const list = document.getElementById('dateList');
+      const today = new Date();
+      const weekdays = ['Ня', 'Да', 'Мя', 'Лх', 'Пү', 'Ба', 'Бя'];
+      const months = ['1-р', '2-р', '3-р', '4-р', '5-р', '6-р', '7-р', '8-р', '9-р', '10-р', '11-р', '12-р'];
+
+      list.innerHTML = '';
+
+      for (let i = 0; i < 14; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + i);
+        const iso = dateToISO(d);
+
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'date-chip';
+        chip.style.animationDelay = `${i * 35}ms`;
+        chip.innerHTML = `
+          <div class="date-day">${weekdays[d.getDay()]}</div>
+          <div class="date-num">${d.getDate()}</div>
+          <div class="date-month">${months[d.getMonth()]}</div>
+        `;
+        chip.addEventListener('click', async () => {
+          document.querySelectorAll('.date-chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          selectedDate = iso;
+          selectedTime = '';
+          await loadUnavailableTimes(iso);
+          renderTimes();
+          document.getElementById('dateTimeError').classList.remove('show');
+        });
+
+        list.appendChild(chip);
+      }
+    }
+
+    function renderTimes() {
+      renderTimeGroup(MORNING_TIMES, 'morningTimes');
+      renderTimeGroup(AFTERNOON_TIMES, 'afternoonTimes');
+      renderTimeGroup(EVENING_TIMES, 'eveningTimes');
+    }
+
+    function renderTimeGroup(times, targetId) {
+      const target = document.getElementById(targetId);
+      target.innerHTML = times.map((time, index) => {
+        const unavailable = unavailableTimes.includes(time);
+        const selected = selectedTime === time;
+        return `
+          <button
+            type="button"
+            class="time-chip${unavailable ? ' unavailable' : ''}${selected ? ' selected' : ''}"
+            style="animation-delay:${index * 28}ms"
+            ${unavailable ? 'disabled' : ''}
+            onclick="${unavailable ? '' : `selectTime('${time}')`}"
+          >
+            ${time}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectTime(time) {
+      selectedTime = time;
+      renderTimes();
+      document.getElementById('dateTimeError').classList.remove('show');
+    }
+
+    async function loadUnavailableTimes(date) {
+      unavailableTimes = [];
+      try {
+        const res = await fetch('/booking-unavailable?date=' + encodeURIComponent(date));
+        const data = await res.json();
+        if (res.ok) unavailableTimes = data.unavailable || [];
+      } catch (e) {
+        unavailableTimes = [];
+      }
+    }
+
+    function dateToISO(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function formatDate(isoDate) {
+      const d = new Date(isoDate + 'T00:00:00');
+      return d.toLocaleDateString('mn-MN', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long'
+      });
+    }
+
+    function updateProgress() {
+      const stepMap = { '1': 1, '1b': 1, '2': 2, '3': 3, '4': 4 };
+      const step = stepMap[currentPanel];
+
+      for (let i = 1; i <= 4; i++) {
+        const tab = document.getElementById('step' + i);
+        const dot = document.getElementById('dot' + i);
+        tab.classList.remove('active', 'done');
+        dot.classList.remove('active', 'done');
+
+        if (i < step) {
+          tab.classList.add('done');
+          dot.classList.add('done');
+        } else if (i === step) {
+          tab.classList.add('active');
+          dot.classList.add('active');
+        }
+      }
+    }
+
+    function updateBottomBar() {
+      const back = document.getElementById('bottomBack');
+      const next = document.getElementById('bottomNext');
+
+      back.style.display = currentPanel === '1' ? 'none' : 'inline-flex';
+
+      if (currentPanel === '4') {
+        next.innerHTML = `
+          Захиалга үүсгэх
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        `;
+      } else {
+        next.innerHTML = `
+          Үргэлжлүүлэх
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" transform="scale(-1,1) translate(-24,0)"/>
+          </svg>
+        `;
+      }
+    }
+
+    function showPanel(panelId) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel' + panelId).classList.add('active');
+      currentPanel = panelId;
+      updateProgress();
+      updateBottomBar();
+      scrollToCurrentPanel();
+    }
+
+    function clearFieldError(inputId, errorId) {
+      document.getElementById(inputId).classList.remove('error');
+      document.getElementById(errorId).classList.remove('show');
+    }
+
+    function showFieldError(inputId, errorId) {
+      document.getElementById(inputId).classList.add('error');
+      document.getElementById(errorId).classList.add('show');
+    }
+
+    function goBack() {
+      if (currentPanel === '1b') {
+        showPanel('1');
+        return;
+      }
+      if (currentPanel === '2') {
+        showPanel('1b');
+        return;
+      }
+      if (currentPanel === '3') {
+        showPanel('2');
+        return;
+      }
+      if (currentPanel === '4') {
+        showPanel('3');
+      }
+    }
+
+    function renderSummary() {
+      document.getElementById('summaryCategory').textContent = selectedCategory?.title || '—';
+      document.getElementById('summaryService').textContent = selectedService?.name || '—';
+      document.getElementById('summaryPrice').textContent = selectedService?.price || '—';
+      document.getElementById('summaryDate').textContent = selectedDate ? formatDate(selectedDate) : '—';
+      document.getElementById('summaryTime').textContent = selectedTime || '—';
+      document.getElementById('summaryName').textContent = document.getElementById('nameInput').value.trim() || '—';
+      document.getElementById('summaryPhone').textContent = document.getElementById('phoneInput').value.trim() || '—';
+
+      const note = document.getElementById('noteInput').value.trim();
+      const row = document.getElementById('summaryNoteRow');
+      if (note) {
+        row.style.display = 'flex';
+        document.getElementById('summaryNote').textContent = note;
+      } else {
+        row.style.display = 'none';
+      }
+    }
+
+    async function goNext() {
+      if (currentPanel === '1') {
+        return;
+      }
+
+      if (currentPanel === '1b') {
+        if (!selectedService) {
+          document.getElementById('serviceError').classList.add('show');
+          return;
+        }
+        buildDates();
+        renderTimes();
+        showPanel('2');
+        return;
+      }
+
+      if (currentPanel === '2') {
+        if (!selectedDate || !selectedTime) {
+          document.getElementById('dateTimeError').classList.add('show');
+          return;
+        }
+        document.getElementById('dateTimeError').classList.remove('show');
+        showPanel('3');
+        return;
+      }
+
+      if (currentPanel === '3') {
+        const name = document.getElementById('nameInput').value.trim();
+        const phone = document.getElementById('phoneInput').value.trim();
+        let ok = true;
+
+        if (!name) {
+          showFieldError('nameInput', 'nameError');
+          ok = false;
+        } else {
+          clearFieldError('nameInput', 'nameError');
+        }
+
+        if (phone.replace(/\D/g, '').length < 8) {
+          showFieldError('phoneInput', 'phoneError');
+          ok = false;
+        } else {
+          clearFieldError('phoneInput', 'phoneError');
+        }
+
+        if (!ok) return;
+
+        renderSummary();
+        showPanel('4');
+        return;
+      }
+
+      if (currentPanel === '4') {
+        await submitBooking();
+      }
+    }
+
+    async function submitBooking() {
+      const button = document.getElementById('bottomNext');
+      button.disabled = true;
+      button.innerHTML = 'Илгээж байна...';
+
+      const payload = {
+        categoryKey: selectedCategoryKey,
+        categoryName: selectedCategory?.title || '',
+        serviceName: selectedService?.name || '',
+        serviceDuration: selectedService?.duration || '',
+        servicePrice: selectedService?.price || '',
+        date: selectedDate,
+        time: selectedTime,
+        customerName: document.getElementById('nameInput').value.trim(),
+        phone: document.getElementById('phoneInput').value.trim(),
+        note: document.getElementById('noteInput').value.trim()
+      };
+
+      try {
+        const res = await fetch('/booking-submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.error || 'Алдаа гарлаа.');
+          if (data.code === 'SLOT_TAKEN') {
+            await loadUnavailableTimes(selectedDate);
+            renderTimes();
+            showPanel('2');
+          }
+          return;
+        }
+
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('bottomBar').style.display = 'none';
+        document.getElementById('successWrap').classList.add('show');
+
+        document.getElementById('successCard').innerHTML = `
+          <div class="summary-row">
+            <div class="summary-key">Booking ID</div>
+            <div class="summary-value accent">${data.bookingId}</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-key">Үйлчилгээ</div>
+            <div class="summary-value accent">${selectedService.name}</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-key">Огноо</div>
+            <div class="summary-value">${formatDate(selectedDate)}</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-key">Цаг</div>
+            <div class="summary-value">${selectedTime}</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-key">Нэр</div>
+            <div class="summary-value">${payload.customerName}</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-key">Утас</div>
+            <div class="summary-value">${payload.phone}</div>
+          </div>
+        `;
+
+        launchConfetti();
+        scrollToCurrentPanel();
+      } catch (e) {
+        alert('Сүлжээний алдаа гарлаа.');
+      } finally {
+        button.disabled = false;
+        button.innerHTML = `
+          Захиалга үүсгэх
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        `;
+      }
+    }
+
+    document.getElementById('nameInput').addEventListener('input', () => clearFieldError('nameInput', 'nameError'));
+    document.getElementById('phoneInput').addEventListener('input', () => clearFieldError('phoneInput', 'phoneError'));
+
+    renderCategories();
+    updateProgress();
+    updateBottomBar();
+  </script>
 </body>
 </html>
