@@ -2041,72 +2041,72 @@
       document.getElementById(errorId).classList.add('show');
     }
 
-    async function goNext() {
-      if (!bookingStarted) return;
-      if (currentPanel === '1') return;
+async function goNext() {
+  if (!bookingStarted) return;
+  if (currentPanel === '1') return;
 
-      if (currentPanel === '1b') {
-        if (!selectedService) {
-          document.getElementById('serviceError').classList.add('show');
-          return;
-        }
-        selectedDate = '';
-        selectedTime = '';
-        unavailableTimes = [];
-        buildDates();
-        renderTimes();
-        showPanel('2');
-        return;
-      }
-
-      if (currentPanel === '2') {
-        if (!selectedDate || !selectedTime) {
-          document.getElementById('dateTimeError').classList.add('show');
-          return;
-        }
-        document.getElementById('dateTimeError').classList.remove('show');
-        showPanel('3');
-        return;
-      }
-
-      if (currentPanel === '3') {
-        const name = document.getElementById('nameInput').value.trim();
-        const phone = document.getElementById('phoneInput').value.trim();
-        const email = document.getElementById('emailInput').value.trim();
-        let ok = true;
-
-        if (!name) {
-          showFieldError('nameInput', 'nameError');
-          ok = false;
-        } else {
-          clearFieldError('nameInput', 'nameError');
-        }
-
-        if (phone.replace(/\D/g, '').length < 8) {
-          showFieldError('phoneInput', 'phoneError');
-          ok = false;
-        } else {
-          clearFieldError('phoneInput', 'phoneError');
-        }
-
-        if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
-          showFieldError('emailInput', 'emailError');
-          ok = false;
-        } else {
-          clearFieldError('emailInput', 'emailError');
-        }
-
-        if (!ok) return;
-
-        renderSummary();
-        showPanel('4');
-        return;
-      }
-
-      if (currentPanel === '4') {
-        await submitBooking();
-      }
+  if (currentPanel === '1b') {
+    if (!selectedService) {
+      document.getElementById('serviceError').classList.add('show');
+      return;
     }
+    selectedDate = '';
+    selectedTime = '';
+    unavailableTimes = [];
+    buildDates();
+    renderTimes();
+    showPanel('2');
+    return;
+  }
+
+  if (currentPanel === '2') {
+    if (!selectedDate || !selectedTime) {
+      document.getElementById('dateTimeError').classList.add('show');
+      return;
+    }
+    document.getElementById('dateTimeError').classList.remove('show');
+    showPanel('3');
+    return;
+  }
+
+  if (currentPanel === '3') {
+    const name = document.getElementById('nameInput').value.trim();
+    const phone = document.getElementById('phoneInput').value.trim();
+    const email = document.getElementById('emailInput').value.trim();
+    let ok = true;
+
+    if (!name) {
+      showFieldError('nameInput', 'nameError');
+      ok = false;
+    } else {
+      clearFieldError('nameInput', 'nameError');
+    }
+
+    if (phone.replace(/\D/g, '').length < 8) {
+      showFieldError('phoneInput', 'phoneError');
+      ok = false;
+    } else {
+      clearFieldError('phoneInput', 'phoneError');
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showFieldError('emailInput', 'emailError');
+      ok = false;
+    } else {
+      clearFieldError('emailInput', 'emailError');
+    }
+
+    if (!ok) return;
+
+    renderSummary();
+    showPanel('4');
+    return;
+  }
+
+  if (currentPanel === '4') {
+    await submitBooking();
+  }
+}
 
     async function submitBooking() {
       const button = document.getElementById('bottomNext');
