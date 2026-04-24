@@ -223,7 +223,7 @@ const DETAIL_CAROUSELS = {
     {
       title: 'Энгийн массаж',
       image_url:
-        'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       subtitle: 'Үнэ: лавлана уу',
     },
     {
@@ -257,7 +257,7 @@ const DETAIL_CAROUSELS = {
       title: 'Эмэгтэй тайралт',
       image_url:
         'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮-40,000₮',
+      subtitle: 'Үнэ: 35,000-40,000₮',
     },
     {
       title: 'Эмэгтэй үс засалт',
@@ -1040,6 +1040,58 @@ async function sendGenericBookingCarousel(id, items) {
   });
 }
 
+async function setupMessengerProfile() {
+  if (!TOKEN) {
+    console.log('Messenger profile setup skipped: TOKEN missing');
+    return;
+  }
+
+  try {
+    const url = `https://graph.facebook.com/v25.0/me/messenger_profile?access_token=${TOKEN}`;
+
+    const body = {
+      get_started: {
+        payload: 'GET_STARTED',
+      },
+      persistent_menu: [
+        {
+          locale: 'default',
+          composer_input_disabled: false,
+          call_to_actions: [
+            {
+              type: 'postback',
+              title: 'Үйлчилгээ',
+              payload: 'SERVICE',
+            },
+            {
+              type: 'web_url',
+              title: 'Цаг захиалах',
+              url: BOOKING_URL,
+              webview_height_ratio: 'full',
+            },
+            {
+              type: 'postback',
+              title: 'Холбоо барих',
+              payload: 'CONTACT',
+            },
+          ],
+        },
+      ],
+    };
+
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await r.json();
+    console.log('Messenger profile setup:', data);
+  } catch (e) {
+    console.error('Messenger profile setup failed:', e.message);
+  }
+}
+
 app.get('/webhook', (req, res) => {
   if (
     req.query['hub.mode'] === 'subscribe' &&
@@ -1598,6 +1650,7 @@ app.listen(PORT, async () => {
   }
 
   await verifyMailer();
+  await setupMessengerProfile();
 
   console.log(`Server running on port ${PORT}`);
   if (PAGE_ID) console.log(`Page ID: ${PAGE_ID}`);
