@@ -22,8 +22,6 @@
       --bg: #120d18;
       --bg-2: #1a1223;
       --panel: rgba(24, 16, 34, 0.92);
-      --panel-solid: #1b1325;
-      --panel-soft: #241932;
       --line: rgba(199, 155, 255, 0.14);
       --line-strong: rgba(199, 155, 255, 0.22);
       --text: #f4eefb;
@@ -44,8 +42,6 @@
       --bg: #f7f1fb;
       --bg-2: #f1e6f8;
       --panel: rgba(255,255,255,0.90);
-      --panel-solid: #ffffff;
-      --panel-soft: #f7f0fb;
       --line: rgba(125, 60, 150, 0.12);
       --line-strong: rgba(125, 60, 150, 0.20);
       --text: #25152c;
@@ -66,8 +62,6 @@
       --bg: #fff5f8;
       --bg-2: #fde7ee;
       --panel: rgba(255,255,255,0.92);
-      --panel-solid: #ffffff;
-      --panel-soft: #fff2f6;
       --line: rgba(190, 63, 117, 0.12);
       --line-strong: rgba(190, 63, 117, 0.20);
       --text: #30131d;
@@ -88,8 +82,6 @@
       --bg: #f2f7f3;
       --bg-2: #e5efe8;
       --panel: rgba(255,255,255,0.92);
-      --panel-solid: #ffffff;
-      --panel-soft: #f2f8f4;
       --line: rgba(55, 113, 84, 0.12);
       --line-strong: rgba(55, 113, 84, 0.20);
       --text: #12231b;
@@ -110,8 +102,6 @@
       --bg: #fbf7ef;
       --bg-2: #f4ead7;
       --panel: rgba(255,255,255,0.92);
-      --panel-solid: #ffffff;
-      --panel-soft: #faf4e6;
       --line: rgba(145, 110, 30, 0.12);
       --line-strong: rgba(145, 110, 30, 0.22);
       --text: #2b210d;
@@ -429,9 +419,7 @@
         var(--panel);
     }
 
-    .hero::before {
-      animation: sheen 8s linear infinite;
-    }
+    .hero::before { animation: sheen 8s linear infinite; }
 
     .hero-grid {
       display: grid;
@@ -440,11 +428,21 @@
       align-items: stretch;
     }
 
-    .hero-copy {
-      padding: 6px 4px;
+    .hero-copy,
+    .hero-side,
+    .mini-card,
+    .category-item,
+    .service-item,
+    .date-scroll,
+    .time-wrap,
+    .time-hint,
+    .form-row,
+    .summary-row {
       position: relative;
       z-index: 1;
     }
+
+    .hero-copy { padding: 6px 4px; }
 
     .hero-badge {
       display: inline-flex;
@@ -499,8 +497,6 @@
       text-decoration: none;
       font-size: 14px;
       font-weight: 800;
-      position: relative;
-      z-index: 1;
     }
 
     .hero-btn {
@@ -520,8 +516,6 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       align-content: start;
-      position: relative;
-      z-index: 1;
     }
 
     .mini-card {
@@ -531,8 +525,6 @@
       padding: 18px;
       min-height: 150px;
       animation: fadeUp .45s ease;
-      position: relative;
-      z-index: 1;
     }
 
     .mini-icon {
@@ -732,8 +724,6 @@
       border-bottom: 1px solid var(--line);
       cursor: pointer;
       transition: background .16s ease, transform .16s ease;
-      position: relative;
-      z-index: 1;
     }
 
     .category-item:last-child,
@@ -819,8 +809,6 @@
       overflow-x: auto;
       padding: 20px;
       scrollbar-width: none;
-      position: relative;
-      z-index: 1;
     }
 
     .date-scroll::-webkit-scrollbar { display: none; }
@@ -884,16 +872,12 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.8;
-      position: relative;
-      z-index: 1;
     }
 
     .time-wrap {
       display: none;
       padding: 0 20px 20px;
       animation: fadeUp .2s ease;
-      position: relative;
-      z-index: 1;
     }
 
     .time-group { margin-top: 10px; }
@@ -949,8 +933,6 @@
     .form-row {
       padding: 20px;
       border-bottom: 1px solid var(--line);
-      position: relative;
-      z-index: 1;
     }
 
     .form-row:last-child { border-bottom: none; }
@@ -1032,8 +1014,6 @@
       gap: 16px;
       padding: 16px 20px;
       border-bottom: 1px solid var(--line);
-      position: relative;
-      z-index: 1;
     }
 
     .summary-row:last-child { border-bottom: none; }
@@ -1196,88 +1176,31 @@
     }
 
     @media (max-width: 900px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
+      .hero-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 760px) {
-      .topbar-inner {
-        grid-template-columns: auto 1fr auto;
-      }
-
-      .top-left .btn-mini span:last-child {
-        display: none;
-      }
-
-      .hero {
-        padding: 22px;
-      }
-
-      .hero-side {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .time-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      .topbar-inner { grid-template-columns: auto 1fr auto; }
+      .top-left .btn-mini span:last-child { display: none; }
+      .hero { padding: 22px; }
+      .hero-side { grid-template-columns: 1fr 1fr; }
+      .time-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
     @media (max-width: 560px) {
-      .page {
-        padding: 94px 12px 112px;
-      }
-
-      .logo {
-        height: 40px;
-      }
-
-      .theme-pop {
-        left: 12px;
-        right: 12px;
-      }
-
-      .hero {
-        padding: 22px 18px;
-      }
-
-      .hero-title {
-        font-size: 48px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .hero-btn,
-      .hero-btn-secondary {
-        width: 100%;
-      }
-
-      .hero-side {
-        grid-template-columns: 1fr;
-      }
-
-      .step-label {
-        display: none;
-      }
-
-      .step-tab {
-        justify-content: center;
-        padding: 14px 8px;
-      }
-
-      .time-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .summary-row {
-        flex-direction: column;
-      }
-
-      .summary-value {
-        text-align: left;
-      }
+      .page { padding: 94px 12px 112px; }
+      .logo { height: 40px; }
+      .theme-pop { left: 12px; right: 12px; }
+      .hero { padding: 22px 18px; }
+      .hero-title { font-size: 48px; }
+      .hero-actions { flex-direction: column; }
+      .hero-btn, .hero-btn-secondary { width: 100%; }
+      .hero-side { grid-template-columns: 1fr; }
+      .step-label { display: none; }
+      .step-tab { justify-content: center; padding: 14px 8px; }
+      .time-grid { grid-template-columns: repeat(2, 1fr); }
+      .summary-row { flex-direction: column; }
+      .summary-value { text-align: left; }
     }
   </style>
 </head>
@@ -1542,7 +1465,7 @@
       <div class="success-wrap" id="successWrap">
         <div class="success-ring" id="successRing"></div>
         <h2 class="success-title">Захиалга амжилттай</h2>
-        <p class="success-sub">Таны хүсэлт амжилттай хадгалагдлаа. Баталгаажуулах и-мэйл илгээгдэнэ.</p>
+        <p class="success-sub">Таны хүсэлт амжилттай хадгалагдлаа.</p>
 
         <div class="card success-card" id="successCard"></div>
 
@@ -1598,7 +1521,6 @@
           { name: 'Мэнгэ түүх /1ш/', duration: 'Хугацаа тодруулах', price: '35,000–65,000₮' }
         ]
       },
-
       nails: {
         title: 'Маникюр · Педикюр',
         subtitle: 'Хумс арчилгаа, будалт',
@@ -1611,7 +1533,6 @@
           { name: 'Энгийн педикюр', duration: '75 мин', price: '65,000₮' }
         ]
       },
-
       eyes: {
         title: 'Сормуус · Хөмсөг',
         subtitle: 'Сормуус, хөмсөг, шивээс',
@@ -1624,7 +1545,6 @@
           { name: '6D үстэй мэт уусгалттай хөмсөгний шивээс', duration: 'Хугацаа тодруулах', price: '250,000₮ (450,000₮-аас хямдарсан)' }
         ]
       },
-
       hair: {
         title: 'Үсчин · Хими · Будаг',
         subtitle: 'Үс засалт, тайралт, хими, будаг',
@@ -1647,7 +1567,6 @@
           { name: 'Өнгө гаргаж будах', duration: 'Хугацаа тодруулах', price: '20–40% хямдрал' }
         ]
       },
-
       laser: {
         title: 'Laser эмчилгээ',
         subtitle: 'Сэвх, шивээс, нүжжилт',
@@ -1658,7 +1577,6 @@
           { name: 'Шивээс арилгах', duration: '45 мин', price: '120,000–650,000₮' }
         ]
       },
-
       hairtreat: {
         title: 'Үсний эмчилгээ',
         subtitle: 'Хуйхны спа, уураг, тосон тэжээл',
@@ -1674,7 +1592,6 @@
           { name: 'Тосон тэжээл /курс/', duration: 'Хугацаа тодруулах', price: '150,000₮-аас' }
         ]
       },
-
       piercing: {
         title: 'Персинг',
         subtitle: 'Чих, хамар, хүйс болон бусад',
@@ -1883,6 +1800,7 @@
         document.getElementById('eveningTimes').innerHTML = '';
         return;
       }
+
       renderTimeGroup(MORNING_TIMES, 'morningTimes');
       renderTimeGroup(AFTERNOON_TIMES, 'afternoonTimes');
       renderTimeGroup(EVENING_TIMES, 'eveningTimes');
@@ -2041,72 +1959,72 @@
       document.getElementById(errorId).classList.add('show');
     }
 
-async function goNext() {
-  if (!bookingStarted) return;
-  if (currentPanel === '1') return;
+    async function goNext() {
+      if (!bookingStarted) return;
+      if (currentPanel === '1') return;
 
-  if (currentPanel === '1b') {
-    if (!selectedService) {
-      document.getElementById('serviceError').classList.add('show');
-      return;
+      if (currentPanel === '1b') {
+        if (!selectedService) {
+          document.getElementById('serviceError').classList.add('show');
+          return;
+        }
+        selectedDate = '';
+        selectedTime = '';
+        unavailableTimes = [];
+        buildDates();
+        renderTimes();
+        showPanel('2');
+        return;
+      }
+
+      if (currentPanel === '2') {
+        if (!selectedDate || !selectedTime) {
+          document.getElementById('dateTimeError').classList.add('show');
+          return;
+        }
+        document.getElementById('dateTimeError').classList.remove('show');
+        showPanel('3');
+        return;
+      }
+
+      if (currentPanel === '3') {
+        const name = document.getElementById('nameInput').value.trim();
+        const phone = document.getElementById('phoneInput').value.trim();
+        const email = document.getElementById('emailInput').value.trim();
+        let ok = true;
+
+        if (!name) {
+          showFieldError('nameInput', 'nameError');
+          ok = false;
+        } else {
+          clearFieldError('nameInput', 'nameError');
+        }
+
+        if (phone.replace(/\D/g, '').length < 8) {
+          showFieldError('phoneInput', 'phoneError');
+          ok = false;
+        } else {
+          clearFieldError('phoneInput', 'phoneError');
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showFieldError('emailInput', 'emailError');
+          ok = false;
+        } else {
+          clearFieldError('emailInput', 'emailError');
+        }
+
+        if (!ok) return;
+
+        renderSummary();
+        showPanel('4');
+        return;
+      }
+
+      if (currentPanel === '4') {
+        await submitBooking();
+      }
     }
-    selectedDate = '';
-    selectedTime = '';
-    unavailableTimes = [];
-    buildDates();
-    renderTimes();
-    showPanel('2');
-    return;
-  }
-
-  if (currentPanel === '2') {
-    if (!selectedDate || !selectedTime) {
-      document.getElementById('dateTimeError').classList.add('show');
-      return;
-    }
-    document.getElementById('dateTimeError').classList.remove('show');
-    showPanel('3');
-    return;
-  }
-
-  if (currentPanel === '3') {
-    const name = document.getElementById('nameInput').value.trim();
-    const phone = document.getElementById('phoneInput').value.trim();
-    const email = document.getElementById('emailInput').value.trim();
-    let ok = true;
-
-    if (!name) {
-      showFieldError('nameInput', 'nameError');
-      ok = false;
-    } else {
-      clearFieldError('nameInput', 'nameError');
-    }
-
-    if (phone.replace(/\D/g, '').length < 8) {
-      showFieldError('phoneInput', 'phoneError');
-      ok = false;
-    } else {
-      clearFieldError('phoneInput', 'phoneError');
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      showFieldError('emailInput', 'emailError');
-      ok = false;
-    } else {
-      clearFieldError('emailInput', 'emailError');
-    }
-
-    if (!ok) return;
-
-    renderSummary();
-    showPanel('4');
-    return;
-  }
-
-  if (currentPanel === '4') {
-    await submitBooking();
-  }
-}
 
     async function submitBooking() {
       const button = document.getElementById('bottomNext');
@@ -2150,6 +2068,11 @@ async function goNext() {
         document.getElementById('bottomBar').style.display = 'none';
         document.getElementById('successWrap').classList.add('show');
 
+        document.querySelector('.success-sub').textContent =
+          data.emailSent
+            ? 'Таны хүсэлт амжилттай хадгалагдлаа. Баталгаажуулах и-мэйл илгээгдэнэ.'
+            : 'Таны хүсэлт амжилттай хадгалагдлаа. Баталгаажуулах и-мэйл илгээгдсэнгүй, гэхдээ захиалга бүртгэгдсэн.';
+
         document.getElementById('successCard').innerHTML = `
           <div class="summary-row">
             <div class="summary-key">Booking ID</div>
@@ -2179,6 +2102,14 @@ async function goNext() {
             <div class="summary-key">И-мэйл</div>
             <div class="summary-value">${payload.email}</div>
           </div>
+          ${
+            data.warning
+              ? `<div class="summary-row">
+                  <div class="summary-key">Тэмдэглэл</div>
+                  <div class="summary-value">${data.warning}</div>
+                </div>`
+              : ''
+          }
         `;
       } catch (e) {
         alert('Сүлжээний алдаа гарлаа.');
