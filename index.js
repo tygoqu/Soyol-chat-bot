@@ -188,49 +188,61 @@ const SERVICE_MENU = [
 
 const DETAIL_CAROUSELS = {
   BEAUTY_SERVICE: [
-    {
-      title: 'Miracle CO2',
-      image_url:
-        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮',
-    },
-    {
-      title: 'Carbon peel',
-      image_url:
-        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮',
-    },
-    {
-      title: 'Green peel',
-      image_url:
-        'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 350,000₮-аас',
-    },
-    {
-      title: 'Батга цэвэрлэгээ',
-      image_url:
-        'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮-аас',
-    },
-    {
-      title: 'Carboxy',
-      image_url:
-        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮',
-    },
-    {
-      title: 'Үү ургацаг /1ш/',
-      image_url:
-        'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 15,000₮-аас',
-    },
-    {
-      title: 'Мэнгэ түүх /1ш/',
-      image_url:
-        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮-аас',
-    },
-  ],
+  {
+    title: 'Miracle CO2',
+    image_url:
+      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: 85,000₮',
+  },
+  {
+    title: 'Carbon peel',
+    image_url:
+      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: 85,000₮',
+  },
+  {
+    title: 'Green peel',
+    image_url:
+      'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: 350,000₮-аас',
+  },
+  {
+    title: 'Батга цэвэрлэгээ',
+    image_url:
+      'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: 85,000₮-аас',
+  },
+  {
+    title: 'Carboxy',
+    image_url:
+      'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: 85,000₮',
+  },
+  {
+    title: 'Энгийн массаж',
+    image_url:
+      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: лавлана уу',
+  },
+  {
+    title: 'Гуаша массаж',
+    image_url:
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: лавлана уу',
+  },
+  {
+    title: 'Үү ургацаг /1ш/',
+    image_url:
+      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: 15,000₮-аас',
+  },
+  {
+    title: 'Мэнгэ түүх /1ш/',
+    image_url:
+      'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үнэ: 35,000₮-аас',
+  },
+],
 
   HAIR_SERVICE: [
     {
