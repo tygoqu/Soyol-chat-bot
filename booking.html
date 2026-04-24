@@ -419,7 +419,9 @@
         var(--panel);
     }
 
-    .hero::before { animation: sheen 8s linear infinite; }
+    .hero::before {
+      animation: sheen 8s linear infinite;
+    }
 
     .hero-grid {
       display: grid;
@@ -442,7 +444,9 @@
       z-index: 1;
     }
 
-    .hero-copy { padding: 6px 4px; }
+    .hero-copy {
+      padding: 6px 4px;
+    }
 
     .hero-badge {
       display: inline-flex;
@@ -1176,31 +1180,88 @@
     }
 
     @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; }
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 760px) {
-      .topbar-inner { grid-template-columns: auto 1fr auto; }
-      .top-left .btn-mini span:last-child { display: none; }
-      .hero { padding: 22px; }
-      .hero-side { grid-template-columns: 1fr 1fr; }
-      .time-grid { grid-template-columns: repeat(3, 1fr); }
+      .topbar-inner {
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .top-left .btn-mini span:last-child {
+        display: none;
+      }
+
+      .hero {
+        padding: 22px;
+      }
+
+      .hero-side {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .time-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     @media (max-width: 560px) {
-      .page { padding: 94px 12px 112px; }
-      .logo { height: 40px; }
-      .theme-pop { left: 12px; right: 12px; }
-      .hero { padding: 22px 18px; }
-      .hero-title { font-size: 48px; }
-      .hero-actions { flex-direction: column; }
-      .hero-btn, .hero-btn-secondary { width: 100%; }
-      .hero-side { grid-template-columns: 1fr; }
-      .step-label { display: none; }
-      .step-tab { justify-content: center; padding: 14px 8px; }
-      .time-grid { grid-template-columns: repeat(2, 1fr); }
-      .summary-row { flex-direction: column; }
-      .summary-value { text-align: left; }
+      .page {
+        padding: 94px 12px 112px;
+      }
+
+      .logo {
+        height: 40px;
+      }
+
+      .theme-pop {
+        left: 12px;
+        right: 12px;
+      }
+
+      .hero {
+        padding: 22px 18px;
+      }
+
+      .hero-title {
+        font-size: 48px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-btn,
+      .hero-btn-secondary {
+        width: 100%;
+      }
+
+      .hero-side {
+        grid-template-columns: 1fr;
+      }
+
+      .step-label {
+        display: none;
+      }
+
+      .step-tab {
+        justify-content: center;
+        padding: 14px 8px;
+      }
+
+      .time-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .summary-row {
+        flex-direction: column;
+      }
+
+      .summary-value {
+        text-align: left;
+      }
     }
   </style>
 </head>
@@ -1509,100 +1570,108 @@
     const CATEGORIES = {
       beauty: {
         title: 'Гоо сайхны үйлчилгээ',
-        subtitle: 'Нүүр арчилгаа, маск, цэвэрлэгээ',
+        subtitle: 'Нүүр арчилгаа, маск, цэвэрлэгээ, массаж',
         icon: 'beauty',
         services: [
-          { name: 'Miracle CO2', duration: '45 мин', price: '85,000₮' },
-          { name: 'Carbon peel', duration: '45 мин', price: '85,000₮' },
-          { name: 'Green peel', duration: '60 мин', price: '350,000–540,000₮' },
-          { name: 'Батга цэвэрлэгээ', duration: '60 мин', price: '85,000–120,000₮' },
-          { name: 'Carboxy', duration: '45 мин', price: '85,000₮' },
-          { name: 'Үү ургацаг /1ш/', duration: 'Хугацаа тодруулах', price: '15,000–85,000₮' },
-          { name: 'Мэнгэ түүх /1ш/', duration: 'Хугацаа тодруулах', price: '35,000–65,000₮' }
+          { name: 'Miracle CO2', price: '85,000₮' },
+          { name: 'Carbon peel', price: '85,000₮' },
+          { name: 'Green peel', price: '350,000–540,000₮' },
+          { name: 'Батга цэвэрлэгээ', price: '85,000–120,000₮' },
+          { name: 'Carboxy', price: '85,000₮' },
+          { name: 'Энгийн массаж', price: 'Үнэ лавлана уу' },
+          { name: 'Гуаша массаж', price: 'Үнэ лавлана уу' },
+          { name: 'Үү ургацаг /1ш/', price: '15,000–85,000₮' },
+          { name: 'Мэнгэ түүх /1ш/', price: '35,000–65,000₮' }
         ]
       },
+
       nails: {
         title: 'Маникюр · Педикюр',
         subtitle: 'Хумс арчилгаа, будалт',
         icon: 'nails',
         services: [
-          { name: 'Маникюр', duration: '60 мин', price: '35,000₮' },
-          { name: 'French будалт', duration: '70 мин', price: '45,000₮' },
-          { name: 'Смарт хумс', duration: '90 мин', price: '65,000₮' },
-          { name: 'Педикюр', duration: '75 мин', price: '85,000₮' },
-          { name: 'Энгийн педикюр', duration: '75 мин', price: '65,000₮' }
+          { name: 'Маникюр', price: '35,000₮' },
+          { name: 'French будалт', price: '45,000₮' },
+          { name: 'Смарт хумс', price: '65,000₮' },
+          { name: 'Педикюр', price: '85,000₮' },
+          { name: 'Энгийн педикюр', price: '65,000₮' }
         ]
       },
+
       eyes: {
         title: 'Сормуус · Хөмсөг',
         subtitle: 'Сормуус, хөмсөг, шивээс',
         icon: 'eyes',
         services: [
-          { name: 'Сормуус', duration: '60 мин', price: '65,000₮' },
-          { name: 'Хөмсөг засах', duration: '20 мин', price: '10,000₮' },
-          { name: 'Хөмсөг хими', duration: '45 мин', price: '35,000₮' },
-          { name: 'Сормуус хими', duration: '45 мин', price: '35,000₮' },
-          { name: '6D үстэй мэт уусгалттай хөмсөгний шивээс', duration: 'Хугацаа тодруулах', price: '250,000₮ (450,000₮-аас хямдарсан)' }
+          { name: 'Сормуус', price: '65,000₮' },
+          { name: 'Хөмсөг засах', price: '10,000₮' },
+          { name: 'Хөмсөг хими', price: '35,000₮' },
+          { name: 'Сормуус хими', price: '35,000₮' },
+          { name: '6D үстэй мэт уусгалттай хөмсөгний шивээс', price: '250,000₮ (450,000₮-аас хямдарсан)' }
         ]
       },
+
       hair: {
         title: 'Үсчин · Хими · Будаг',
         subtitle: 'Үс засалт, тайралт, хими, будаг',
         icon: 'hair',
         services: [
-          { name: 'Эрэгтэй үс засалт', duration: 'Хугацаа тодруулах', price: '25,000₮' },
-          { name: 'Эмэгтэй тайралт', duration: 'Хугацаа тодруулах', price: '35,000₮' },
-          { name: 'Эмэгтэй үс засалт', duration: 'Хугацаа тодруулах', price: '35,000₮' },
-          { name: 'Шулуун хими', duration: 'Хугацаа тодруулах', price: '85,000₮-аас' },
-          { name: 'Шулуун хими /хүүхэд/', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
-          { name: 'Шулуун хими /эрэгтэй/', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
-          { name: 'Тосон буржгар хими', duration: 'Хугацаа тодруулах', price: '65,000₮-аас' },
-          { name: 'Тосон буржгар хими /хүүхэд/', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
-          { name: 'Ботокс', duration: 'Хугацаа тодруулах', price: '80,000₮-аас' },
-          { name: 'Кератин', duration: 'Хугацаа тодруулах', price: '120,000₮-аас' },
-          { name: 'Хими арчих', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
-          { name: 'Угны хими', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
-          { name: 'Будаг', duration: 'Хугацаа тодруулах', price: '45,000₮-аас' },
-          { name: 'Угны будаг', duration: 'Хугацаа тодруулах', price: '45,000₮-аас' },
-          { name: 'Өнгө гаргаж будах', duration: 'Хугацаа тодруулах', price: '20–40% хямдрал' }
+          { name: 'Эрэгтэй үс засалт', price: '25,000₮' },
+          { name: 'Эмэгтэй тайралт', price: '35,000₮' },
+          { name: 'Эмэгтэй үс засалт', price: '35,000₮' },
+          { name: 'Шулуун хими', price: '85,000₮-аас' },
+          { name: 'Шулуун хими /хүүхэд/', price: '50,000₮-аас' },
+          { name: 'Шулуун хими /эрэгтэй/', price: '50,000₮-аас' },
+          { name: 'Тосон буржгар хими', price: '65,000₮-аас' },
+          { name: 'Тосон буржгар хими /хүүхэд/', price: '50,000₮-аас' },
+          { name: 'Ботокс', price: '80,000₮-аас' },
+          { name: 'Кератин', price: '120,000₮-аас' },
+          { name: 'Хими арчих', price: '50,000₮-аас' },
+          { name: 'Угны хими', price: '50,000₮-аас' },
+          { name: 'Будаг', price: '45,000₮-аас' },
+          { name: 'Угны будаг', price: '45,000₮-аас' },
+          { name: 'Өнгө гаргаж будах', price: '20–40% хямдрал' }
         ]
       },
+
       laser: {
         title: 'Laser эмчилгээ',
         subtitle: 'Сэвх, шивээс, нүжжилт',
         icon: 'laser',
         services: [
-          { name: 'Сэвхний лазер', duration: '40 мин', price: '250,000₮' },
-          { name: 'Нүжжилтийн эсрэг', duration: '40 мин', price: '250,000₮' },
-          { name: 'Шивээс арилгах', duration: '45 мин', price: '120,000–650,000₮' }
+          { name: 'Сэвхний лазер', price: '250,000₮' },
+          { name: 'Нүжжилтийн эсрэг', price: '250,000₮' },
+          { name: 'Шивээс арилгах', price: '120,000–650,000₮' }
         ]
       },
+
       hairtreat: {
         title: 'Үсний эмчилгээ',
         subtitle: 'Хуйхны спа, уураг, тосон тэжээл',
         icon: 'treatment',
         services: [
-          { name: 'Хуйхны спа цэвэрлэгээ', duration: 'Хугацаа тодруулах', price: '65,000₮-аас' },
-          { name: 'Хуйхны спа цэвэрлэгээ /хүүхэд/', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
-          { name: 'Эрчимжүүлсэн эмчилгээний тос /1 удаа/', duration: 'Хугацаа тодруулах', price: '65,000₮-аас' },
-          { name: 'Эрчимжүүлсэн эмчилгээний тос /курс/', duration: 'Хугацаа тодруулах', price: '255,000₮-аас' },
-          { name: 'Уураг /1 удаа/', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
-          { name: 'Уураг /курс/', duration: 'Хугацаа тодруулах', price: '250,000₮-аас' },
-          { name: 'Тосон тэжээл /1 удаа/', duration: 'Хугацаа тодруулах', price: '35,000₮-аас' },
-          { name: 'Тосон тэжээл /курс/', duration: 'Хугацаа тодруулах', price: '150,000₮-аас' }
+          { name: 'Хуйхны спа цэвэрлэгээ', price: '65,000₮-аас' },
+          { name: 'Хуйхны спа цэвэрлэгээ /хүүхэд/', price: '50,000₮-аас' },
+          { name: 'Эрчимжүүлсэн эмчилгээний тос /1 удаа/', price: '65,000₮-аас' },
+          { name: 'Эрчимжүүлсэн эмчилгээний тос /курс/', price: '255,000₮-аас' },
+          { name: 'Уураг /1 удаа/', price: '50,000₮-аас' },
+          { name: 'Уураг /курс/', price: '250,000₮-аас' },
+          { name: 'Тосон тэжээл /1 удаа/', price: '35,000₮-аас' },
+          { name: 'Тосон тэжээл /курс/', price: '150,000₮-аас' }
         ]
       },
+
       piercing: {
         title: 'Персинг',
         subtitle: 'Чих, хамар, хүйс болон бусад',
         icon: 'piercing',
         services: [
-          { name: 'Чих цоолох', duration: '20 мин', price: '20,000₮' },
-          { name: 'Хүйс цоолох', duration: '30 мин', price: '45,000₮' },
-          { name: 'Хөмсөг цоолох', duration: '20 мин', price: '35,000₮' },
-          { name: 'Хамар цоолох', duration: '20 мин', price: '35,000₮' },
-          { name: 'Хэл цоолох', duration: 'Хугацаа тодруулах', price: 'Үнэ тохирно' },
-          { name: 'Хацар цоолох', duration: 'Хугацаа тодруулах', price: 'Үнэ тохирно' }
+          { name: 'Чих цоолох', price: '20,000₮' },
+          { name: 'Хүйс цоолох', price: '45,000₮' },
+          { name: 'Хөмсөг цоолох', price: '35,000₮' },
+          { name: 'Хамар цоолох', price: '35,000₮' },
+          { name: 'Хэл цоолох', price: 'Үнэ тохирно' },
+          { name: 'Хацар цоолох', price: 'Үнэ тохирно' }
         ]
       }
     };
@@ -1722,7 +1791,6 @@
           <div class="service-check">✓</div>
           <div class="item-content">
             <div class="item-title">${service.name}</div>
-            <div class="item-sub">${service.duration}</div>
           </div>
           <div class="service-price">${service.price}</div>
         </div>
@@ -2035,7 +2103,7 @@
         categoryKey: selectedCategoryKey,
         categoryName: selectedCategory?.title || '',
         serviceName: selectedService?.name || '',
-        serviceDuration: selectedService?.duration || '',
+        serviceDuration: '',
         servicePrice: selectedService?.price || '',
         date: selectedDate,
         time: selectedTime,
