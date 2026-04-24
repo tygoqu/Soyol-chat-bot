@@ -77,6 +77,8 @@ const SYSTEM_PROMPT = `Та Soyol Spa Salon-ын AI туслах юм. Зөвх�
 - Green peel: 350,000-540,000₮
 - Carboxy: 85,000₮
 - Батга цэвэрлэгээ: 85,000-120,000₮
+- Энгийн массаж: үнэ лавлана уу
+- Гуаша массаж: үнэ лавлана уу
 - Үү ургацаг /1ш/: 15,000-85,000₮
 - Мэнгэ түүх /1ш/: 35,000-65,000₮
 
@@ -139,7 +141,7 @@ const SERVICE_MENU = [
     title: 'Гоо сайхны үйлчилгээ',
     image_url:
       'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Нүүр арчилгаа, цэвэрлэгээ, peel',
+    subtitle: 'Нүүр арчилгаа, цэвэрлэгээ, массаж',
     payload: 'BEAUTY_SERVICE',
   },
   {
@@ -188,61 +190,61 @@ const SERVICE_MENU = [
 
 const DETAIL_CAROUSELS = {
   BEAUTY_SERVICE: [
-  {
-    title: 'Miracle CO2',
-    image_url:
-      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: 85,000₮',
-  },
-  {
-    title: 'Carbon peel',
-    image_url:
-      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: 85,000₮',
-  },
-  {
-    title: 'Green peel',
-    image_url:
-      'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: 350,000₮-аас',
-  },
-  {
-    title: 'Батга цэвэрлэгээ',
-    image_url:
-      'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: 85,000₮-аас',
-  },
-  {
-    title: 'Carboxy',
-    image_url:
-      'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: 85,000₮',
-  },
-  {
-    title: 'Энгийн массаж',
-    image_url:
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: лавлана уу',
-  },
-  {
-    title: 'Гуаша массаж',
-    image_url:
-      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: лавлана уу',
-  },
-  {
-    title: 'Үү ургацаг /1ш/',
-    image_url:
-      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: 15,000₮-аас',
-  },
-  {
-    title: 'Мэнгэ түүх /1ш/',
-    image_url:
-      'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-    subtitle: 'Үнэ: 35,000₮-аас',
-  },
-],
+    {
+      title: 'Miracle CO2',
+      image_url:
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮',
+    },
+    {
+      title: 'Carbon peel',
+      image_url:
+        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮',
+    },
+    {
+      title: 'Green peel',
+      image_url:
+        'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 350,000₮-аас',
+    },
+    {
+      title: 'Батга цэвэрлэгээ',
+      image_url:
+        'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮-аас',
+    },
+    {
+      title: 'Carboxy',
+      image_url:
+        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮',
+    },
+    {
+      title: 'Энгийн массаж',
+      image_url:
+        'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: лавлана уу',
+    },
+    {
+      title: 'Гуаша массаж',
+      image_url:
+        'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: лавлана уу',
+    },
+    {
+      title: 'Үү ургацаг /1ш/',
+      image_url:
+        'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 15,000₮-аас',
+    },
+    {
+      title: 'Мэнгэ түүх /1ш/',
+      image_url:
+        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮-аас',
+    },
+  ],
 
   HAIR_SERVICE: [
     {
@@ -1172,25 +1174,36 @@ app.post('/booking-submit', async (req, res) => {
 
     const bookingId = await addBooking(payload);
 
-    const emailResult = await sendBookingConfirmationEmail({
-      bookingId,
-      customerName: payload.customerName,
-      email: payload.email,
-      phone: payload.phone,
-      categoryName: payload.categoryName,
-      serviceName: payload.serviceName,
-      date: payload.date,
-      time: payload.time,
-      servicePrice: payload.servicePrice,
-    });
+    let emailSent = false;
+    let warning = '';
+
+    try {
+      const emailResult = await sendBookingConfirmationEmail({
+        bookingId,
+        customerName: payload.customerName,
+        email: payload.email,
+        phone: payload.phone,
+        categoryName: payload.categoryName,
+        serviceName: payload.serviceName,
+        date: payload.date,
+        time: payload.time,
+        servicePrice: payload.servicePrice,
+      });
+
+      emailSent = !!emailResult?.ok;
+      if (!emailSent) {
+        warning = 'Захиалга хадгалагдсан боловч баталгаажуулах и-мэйл илгээгдсэнгүй.';
+      }
+    } catch (mailErr) {
+      console.error('Booking email failed:', mailErr.message);
+      warning = 'Захиалга хадгалагдсан боловч баталгаажуулах и-мэйл илгээгдсэнгүй.';
+    }
 
     return res.json({
       ok: true,
       bookingId,
-      emailSent: emailResult.ok,
-      warning: emailResult.ok
-        ? ''
-        : 'Захиалга хадгалагдсан боловч баталгаажуулах и-мэйл илгээгдсэнгүй.',
+      emailSent,
+      warning,
     });
   } catch (e) {
     console.error('Failed to save booking:', e.message);
