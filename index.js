@@ -223,13 +223,13 @@ const DETAIL_CAROUSELS = {
     {
       title: 'Энгийн массаж',
       image_url:
-        'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1200&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       subtitle: 'Үнэ: лавлана уу',
     },
     {
       title: 'Гуаша массаж',
       image_url:
-        'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1200&auto=format&fit=crop',
+        'https://assets.clevelandclinic.org/transform/LargeFeatureImage/b9bd499d-f631-42c3-87c6-4ba1bd3ef9f3/guasha-2177381155',
       subtitle: 'Үнэ: лавлана уу',
     },
     {
@@ -257,7 +257,7 @@ const DETAIL_CAROUSELS = {
       title: 'Эмэгтэй тайралт',
       image_url:
         'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
+      subtitle: 'Үнэ: 35,000₮-40,000₮',
     },
     {
       title: 'Эмэгтэй үс засалт',
