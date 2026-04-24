@@ -1046,9 +1046,23 @@ async function setupMessengerProfile() {
     return;
   }
 
-  try {
-    const url = `https://graph.facebook.com/v25.0/me/messenger_profile?access_token=${TOKEN}`;
+  const url = `https://graph.facebook.com/v25.0/me/messenger_profile?access_token=${TOKEN}`;
 
+  // Step 1: Delete existing profile fields to force a fresh registration
+  try {
+    const delRes = await fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: ['get_started', 'persistent_menu'] }),
+    });
+    const delData = await delRes.json();
+    console.log('Messenger profile DELETE:', JSON.stringify(delData));
+  } catch (e) {
+    console.error('Messenger profile DELETE failed:', e.message);
+  }
+
+  // Step 2: Re-set get_started and persistent_menu
+  try {
     const body = {
       get_started: {
         payload: 'GET_STARTED',
@@ -1086,9 +1100,15 @@ async function setupMessengerProfile() {
     });
 
     const data = await r.json();
-    console.log('Messenger profile setup:', data);
+    console.log('Messenger profile POST:', JSON.stringify(data));
+
+    if (data.result === 'success') {
+      console.log('✅ Persistent menu & Get Started button registered successfully.');
+    } else {
+      console.error('❌ Messenger profile setup returned unexpected result:', JSON.stringify(data));
+    }
   } catch (e) {
-    console.error('Messenger profile setup failed:', e.message);
+    console.error('Messenger profile POST failed:', e.message);
   }
 }
 
@@ -1632,6 +1652,15 @@ app.get('/admin', (req, res) => {
   </script>
 </body>
 </html>`);
+});
+
+// Manual trigger: visit /setup?secret=YOUR_ADMIN_SECRET to re-register the menu
+app.get('/setup', async (req, res) => {
+  if (req.query.secret !== ADMIN_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  await setupMessengerProfile();
+  res.json({ ok: true, message: 'Setup triggered — check Render logs for result.' });
 });
 
 app.get('/', (req, res) => {
