@@ -142,6 +142,28 @@
       transition: background .25s ease, color .25s ease;
     }
 
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 18% 24%, var(--primary-soft), transparent 18%),
+        radial-gradient(circle at 82% 72%, var(--gold-soft), transparent 20%);
+      opacity: .8;
+    }
+
+    body::after {
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+      opacity: .35;
+    }
+
     .bg-grid,
     .bg-orb,
     .bg-orb-2,
@@ -154,11 +176,11 @@
 
     .bg-grid {
       background-image:
-        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
       background-size: 34px 34px;
       mask-image: radial-gradient(circle at center, black 24%, transparent 88%);
-      opacity: .45;
+      opacity: .5;
     }
 
     .bg-line::before,
@@ -367,7 +389,9 @@
 
     .card {
       position: relative;
-      background: var(--panel);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+        var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-soft);
@@ -384,10 +408,25 @@
       pointer-events: none;
     }
 
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, var(--primary-soft), transparent 30%),
+        linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.02) 45%, transparent 100%);
+      pointer-events: none;
+      opacity: .8;
+    }
+
     .hero {
       padding: 30px;
       margin-top: 8px;
       animation: fadeScale .45s ease;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.03), transparent 40%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+        var(--panel);
     }
 
     .hero::before {
@@ -403,6 +442,8 @@
 
     .hero-copy {
       padding: 6px 4px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-badge {
@@ -458,6 +499,8 @@
       text-decoration: none;
       font-size: 14px;
       font-weight: 800;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-btn {
@@ -477,6 +520,8 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       align-content: start;
+      position: relative;
+      z-index: 1;
     }
 
     .mini-card {
@@ -486,6 +531,8 @@
       padding: 18px;
       min-height: 150px;
       animation: fadeUp .45s ease;
+      position: relative;
+      z-index: 1;
     }
 
     .mini-icon {
@@ -518,15 +565,15 @@
 
     .booking-shell {
       display: none;
-      margin-top: 28px;
+      margin-top: 34px;
       animation: fadeUp .3s ease;
     }
 
     .booking-shell.show { display: block; }
 
     .stepbar-wrap {
-      margin-bottom: 16px;
-      padding-top: 4px;
+      margin-bottom: 20px;
+      padding-top: 6px;
     }
 
     .stepbar {
@@ -685,6 +732,8 @@
       border-bottom: 1px solid var(--line);
       cursor: pointer;
       transition: background .16s ease, transform .16s ease;
+      position: relative;
+      z-index: 1;
     }
 
     .category-item:last-child,
@@ -770,6 +819,8 @@
       overflow-x: auto;
       padding: 20px;
       scrollbar-width: none;
+      position: relative;
+      z-index: 1;
     }
 
     .date-scroll::-webkit-scrollbar { display: none; }
@@ -833,12 +884,16 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.8;
+      position: relative;
+      z-index: 1;
     }
 
     .time-wrap {
       display: none;
       padding: 0 20px 20px;
       animation: fadeUp .2s ease;
+      position: relative;
+      z-index: 1;
     }
 
     .time-group { margin-top: 10px; }
@@ -894,6 +949,8 @@
     .form-row {
       padding: 20px;
       border-bottom: 1px solid var(--line);
+      position: relative;
+      z-index: 1;
     }
 
     .form-row:last-child { border-bottom: none; }
@@ -975,6 +1032,8 @@
       gap: 16px;
       padding: 16px 20px;
       border-bottom: 1px solid var(--line);
+      position: relative;
+      z-index: 1;
     }
 
     .summary-row:last-child { border-bottom: none; }
@@ -1073,6 +1132,8 @@
       color: var(--primary);
       border: 1px solid var(--line);
       display: none;
+      align-items: center;
+      justify-content: center;
     }
 
     .bottom-btn {
@@ -1097,6 +1158,8 @@
       width: 18px;
       height: 18px;
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
       flex: 0 0 18px;
     }
 
@@ -1110,6 +1173,26 @@
       width: 26px;
       height: 26px;
       flex-basis: 26px;
+    }
+
+    .svg-icon svg,
+    .icon-box svg,
+    .mini-icon svg,
+    .success-ring svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      stroke: currentColor;
+    }
+
+    .icon-box svg,
+    .mini-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .bottom-back .svg-icon {
+      margin: 0;
     }
 
     @media (max-width: 900px) {
@@ -1142,20 +1225,24 @@
 
     @media (max-width: 560px) {
       .page {
-        padding: 96px 14px 112px;
+        padding: 94px 12px 112px;
       }
 
       .logo {
-        height: 42px;
+        height: 40px;
       }
 
       .theme-pop {
-        left: 14px;
-        right: 14px;
+        left: 12px;
+        right: 12px;
+      }
+
+      .hero {
+        padding: 22px 18px;
       }
 
       .hero-title {
-        font-size: 54px;
+        font-size: 48px;
       }
 
       .hero-actions {
@@ -1177,6 +1264,7 @@
 
       .step-tab {
         justify-content: center;
+        padding: 14px 8px;
       }
 
       .time-grid {
@@ -1477,7 +1565,6 @@
       chevronLeft: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
       check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
       beauty: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"/><path d="M5 19h14"/></svg>`,
-      massage: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11V5a1.5 1.5 0 1 1 3 0v5"/><path d="M11 10V4a1.5 1.5 0 1 1 3 0v6"/><path d="M14 11V6a1.5 1.5 0 1 1 3 0v7"/><path d="M8 12.5l-1.2-1.2a1.7 1.7 0 0 0-2.4 2.4l4.7 4.7A4 4 0 0 0 12 20h4a4 4 0 0 0 4-4v-4.5"/></svg>`,
       nails: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`,
       eyes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>`,
       hair: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M20 4L8 16"/><path d="M8.5 8.5L15 15"/><path d="M16 16l4 4"/></svg>`,
@@ -1486,31 +1573,12 @@
       piercing: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 1 1 0 8"/><path d="M12 11a4 4 0 1 0 0 8"/><path d="M12 7v10"/></svg>`
     };
 
-    function setStaticIcons() {
-      document.getElementById('phoneMiniIcon').innerHTML = svgIcons.phone;
-      document.getElementById('themeBtnIcon').innerHTML = svgIcons.sun;
-      document.getElementById('heroBadgeIcon').innerHTML = svgIcons.sparkle;
-      document.getElementById('heroBookIcon').innerHTML = svgIcons.calendar;
-      document.getElementById('heroPhoneIcon').innerHTML = svgIcons.phone;
-      document.getElementById('miniClock').innerHTML = svgIcons.clock;
-      document.getElementById('miniMap').innerHTML = svgIcons.map;
-      document.getElementById('miniPhone').innerHTML = svgIcons.phone;
-      document.getElementById('miniStar').innerHTML = svgIcons.star;
-      document.getElementById('backIcon1').innerHTML = svgIcons.chevronLeft;
-      document.getElementById('summaryIcon').innerHTML = svgIcons.check;
-      document.getElementById('successRing').innerHTML = `<span class="svg-icon lg">${svgIcons.check}</span>`;
-      document.getElementById('successPhoneIcon').innerHTML = svgIcons.phone;
-      document.getElementById('bottomBackIcon').innerHTML = svgIcons.chevronLeft;
-    }
-
     const CATEGORIES = {
       beauty: {
         title: 'Гоо сайхны үйлчилгээ',
         subtitle: 'Нүүр арчилгаа, маск, цэвэрлэгээ',
         icon: 'beauty',
         services: [
-          { name: 'Энгийн массаж', duration: '45 мин', price: '65,000₮' },
-          { name: 'Гуаша массаж', duration: '60 мин', price: '85,000₮' },
           { name: 'Miracle CO2', duration: '45 мин', price: '85,000₮' },
           { name: 'Carbon peel', duration: '45 мин', price: '85,000₮' },
           { name: 'Green peel', duration: '60 мин', price: '350,000–540,000₮' },
@@ -1520,17 +1588,7 @@
           { name: 'Мэнгэ түүх /1ш/', duration: 'Хугацаа тодруулах', price: '35,000–65,000₮' }
         ]
       },
-      massage: {
-        title: 'Бариа · Массаж',
-        subtitle: 'Бүтэн бие, толгой нуруу, гар хөл',
-        icon: 'massage',
-        services: [
-          { name: 'Бүтэн /эмэгтэй/', duration: '60 мин', price: '50,000₮' },
-          { name: 'Бүтэн /эрэгтэй/', duration: '60 мин', price: '60,000₮' },
-          { name: 'Толгой нуруу /эмэгтэй/', duration: '40 мин', price: '30,000₮' },
-          { name: 'Толгой нуруу /эрэгтэй/', duration: '40 мин', price: '40,000₮' }
-        ]
-      },
+
       nails: {
         title: 'Маникюр · Педикюр',
         subtitle: 'Хумс арчилгаа, будалт',
@@ -1540,9 +1598,10 @@
           { name: 'French будалт', duration: '70 мин', price: '45,000₮' },
           { name: 'Смарт хумс', duration: '90 мин', price: '65,000₮' },
           { name: 'Педикюр', duration: '75 мин', price: '85,000₮' },
-          { name: 'Яншин педикюр', duration: '75 мин', price: '65,000₮' }
+          { name: 'Энгийн педикюр', duration: '75 мин', price: '65,000₮' }
         ]
       },
+
       eyes: {
         title: 'Сормуус · Хөмсөг',
         subtitle: 'Сормуус, хөмсөг, шивээс',
@@ -1555,6 +1614,7 @@
           { name: '6D үстэй мэт уусгалттай хөмсөгний шивээс', duration: 'Хугацаа тодруулах', price: '250,000₮ (450,000₮-аас хямдарсан)' }
         ]
       },
+
       hair: {
         title: 'Үсчин · Хими · Будаг',
         subtitle: 'Үс засалт, тайралт, хими, будаг',
@@ -1574,10 +1634,10 @@
           { name: 'Угны хими', duration: 'Хугацаа тодруулах', price: '50,000₮-аас' },
           { name: 'Будаг', duration: 'Хугацаа тодруулах', price: '45,000₮-аас' },
           { name: 'Угны будаг', duration: 'Хугацаа тодруулах', price: '45,000₮-аас' },
-          { name: 'Өнгө гаргаж будах', duration: 'Хугацаа тодруулах', price: '20–40% хямдрал' },
-          { name: 'Бүх төрлийн хими', duration: 'Хугацаа тодруулах', price: '20–40% хямдрал' }
+          { name: 'Өнгө гаргаж будах', duration: 'Хугацаа тодруулах', price: '20–40% хямдрал' }
         ]
       },
+
       laser: {
         title: 'Laser эмчилгээ',
         subtitle: 'Сэвх, шивээс, нүжжилт',
@@ -1588,6 +1648,7 @@
           { name: 'Шивээс арилгах', duration: '45 мин', price: '120,000–650,000₮' }
         ]
       },
+
       hairtreat: {
         title: 'Үсний эмчилгээ',
         subtitle: 'Хуйхны спа, уураг, тосон тэжээл',
@@ -1603,6 +1664,7 @@
           { name: 'Тосон тэжээл /курс/', duration: 'Хугацаа тодруулах', price: '150,000₮-аас' }
         ]
       },
+
       piercing: {
         title: 'Персинг',
         subtitle: 'Чих, хамар, хүйс болон бусад',
@@ -1632,20 +1694,31 @@
     let unavailableTimes = [];
 
     function setStaticIcons() {
-      document.getElementById('phoneMiniIcon').innerHTML = svgIcons.phone;
-      document.getElementById('themeBtnIcon').innerHTML = svgIcons.sun;
-      document.getElementById('heroBadgeIcon').innerHTML = svgIcons.sparkle;
-      document.getElementById('heroBookIcon').innerHTML = svgIcons.calendar;
-      document.getElementById('heroPhoneIcon').innerHTML = svgIcons.phone;
-      document.getElementById('miniClock').innerHTML = svgIcons.clock;
-      document.getElementById('miniMap').innerHTML = svgIcons.map;
-      document.getElementById('miniPhone').innerHTML = svgIcons.phone;
-      document.getElementById('miniStar').innerHTML = svgIcons.star;
-      document.getElementById('backIcon1').innerHTML = svgIcons.chevronLeft;
-      document.getElementById('summaryIcon').innerHTML = svgIcons.check;
-      document.getElementById('successRing').innerHTML = `<span class="svg-icon lg">${svgIcons.check}</span>`;
-      document.getElementById('successPhoneIcon').innerHTML = svgIcons.phone;
-      document.getElementById('bottomBackIcon').innerHTML = svgIcons.chevronLeft;
+      const map = {
+        phoneMiniIcon: svgIcons.phone,
+        themeBtnIcon: svgIcons.sun,
+        heroBadgeIcon: svgIcons.sparkle,
+        heroBookIcon: svgIcons.calendar,
+        heroPhoneIcon: svgIcons.phone,
+        miniClock: svgIcons.clock,
+        miniMap: svgIcons.map,
+        miniPhone: svgIcons.phone,
+        miniStar: svgIcons.star,
+        backIcon1: svgIcons.chevronLeft,
+        summaryIcon: svgIcons.check,
+        successPhoneIcon: svgIcons.phone,
+        bottomBackIcon: svgIcons.chevronLeft
+      };
+
+      Object.entries(map).forEach(([id, svg]) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = svg;
+      });
+
+      const successRing = document.getElementById('successRing');
+      if (successRing) {
+        successRing.innerHTML = svgIcons.check;
+      }
     }
 
     function updateTheme(theme) {
@@ -1677,11 +1750,19 @@
 
     function startBooking() {
       bookingStarted = true;
-      document.getElementById('heroSection').style.display = 'none';
-      document.getElementById('bookingShell').classList.add('show');
-      document.getElementById('bottomBar').style.display = 'block';
-      updateBottomBar();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const hero = document.getElementById('heroSection');
+      hero.style.opacity = '0';
+      hero.style.transform = 'translateY(-10px)';
+      hero.style.transition = 'opacity .22s ease, transform .22s ease';
+
+      setTimeout(() => {
+        hero.style.display = 'none';
+        document.getElementById('bookingShell').classList.add('show');
+        document.getElementById('bottomBar').style.display = 'block';
+        updateBottomBar();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 180);
     }
 
     function scrollToCurrentPanel() {
