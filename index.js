@@ -8,12 +8,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const TOKEN = process.env.TOKEN;
-const VERIFY = process.env.VERIFY_TOKEN;
+const TOKEN = process.env.TOKEN || '';
+const VERIFY = process.env.VERIFY_TOKEN || '';
 const PAGE_ID = process.env.PAGE_ID || '';
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'soyol2024';
 
-const SHEET_ID = process.env.SHEET_ID || '1-Dqv0Jj9BCKMZc2RXaT6VC0_xwiAmz9gje3vpMKf2Yo';
+const SHEET_ID =
+  process.env.SHEET_ID || '1-Dqv0Jj9BCKMZc2RXaT6VC0_xwiAmz9gje3vpMKf2Yo';
 const SUBSCRIBERS_SHEET = process.env.SUBSCRIBERS_SHEET || 'Sheet1';
 const BOOKINGS_SHEET = process.env.BOOKINGS_SHEET || 'Sheet2';
 const CREDENTIALS_PATH =
@@ -24,8 +25,10 @@ const GEMINI_URL = GEMINI_API_KEY
   ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
   : '';
 
-const BOOKING_URL = process.env.BOOKING_URL || 'https://soyol-chat-bot.onrender.com/booking';
-const BASE_URL = process.env.BASE_URL || BOOKING_URL.replace(/\/booking\/?$/, '');
+const BOOKING_URL =
+  process.env.BOOKING_URL || 'https://soyol-chat-bot.onrender.com/booking';
+const BASE_URL =
+  process.env.BASE_URL || BOOKING_URL.replace(/\/booking\/?$/, '');
 
 const SMTP_HOST = process.env.SMTP_HOST || '';
 const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
@@ -90,7 +93,6 @@ const SYSTEM_PROMPT = `Та Soyol Spa Salon-ын AI туслах юм. Зөвх�
 - Хөмсөг хими: 35,000₮
 - Сормуус хими: 35,000₮
 - 6D үстэй мэт уусгалттай хөмсөгний шивээс: 250,000₮
-- 6D үстэй мэт уусгалттай хөмсөгний шивээс нь 450,000₮-аас 250,000₮ болж хямдарсан
 
 ПЕРСИНГ:
 - Чих цоолох: 20,000₮
@@ -121,7 +123,6 @@ LASER ЭМЧИЛГЭЭ:
 - Будаг: 45,000-65,000₮
 - Угны будаг: 45,000-55,000₮
 - Өнгө гаргаж будах: 20-40% хямдрал
-- Хими болон өнгө гаргаж будах үйлчилгээнд 20-40% хямдралтай
 
 ҮСНИЙ ЭМЧИЛГЭЭ:
 - Хуйхны спа цэвэрлэгээ: 65,000-85,000₮
@@ -132,6 +133,327 @@ LASER ЭМЧИЛГЭЭ:
 - Уураг /курс/: 250,000-500,000₮
 - Тосон тэжээл /1 удаа/: 35,000-60,000₮
 - Тосон тэжээл /курс/: 150,000-300,000₮`;
+
+const SERVICE_MENU = [
+  {
+    title: 'Гоо сайхны үйлчилгээ',
+    image_url:
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Нүүр арчилгаа, цэвэрлэгээ, peel',
+    payload: 'BEAUTY_SERVICE',
+  },
+  {
+    title: 'Үсчин',
+    image_url:
+      'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Үс засалт, тайралт, хими, будаг',
+    payload: 'HAIR_SERVICE',
+  },
+  {
+    title: 'Маникюр, педикюр',
+    image_url:
+      'https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Маникюр, педикюр, хумсны үйлчилгээ',
+    payload: 'NAIL_SERVICE',
+  },
+  {
+    title: 'Сормуус, хөмсөг',
+    image_url:
+      'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Сормуус, хөмсөг, 6D шивээс',
+    payload: 'EYELASH_SERVICE',
+  },
+  {
+    title: 'Чих цоолох, персинг',
+    image_url:
+      'https://images.unsplash.com/photo-1596944948860-67d8f0d2f30e?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Чих, хамар, хүйс болон бусад',
+    payload: 'PIERCING_SERVICE',
+  },
+  {
+    title: 'Мэнгэ, үү, ургацаг авах',
+    image_url:
+      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Мэнгэ түүх, үү ургацаг авах',
+    payload: 'REMOVAL_SERVICE',
+  },
+  {
+    title: 'Үсний эмчилгээ',
+    image_url:
+      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+    subtitle: 'Хуйхны спа, уураг, тосон тэжээл',
+    payload: 'HAIRTREATMENT_SERVICE',
+  },
+];
+
+const DETAIL_CAROUSELS = {
+  BEAUTY_SERVICE: [
+    {
+      title: 'Miracle CO2',
+      image_url:
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮',
+    },
+    {
+      title: 'Carbon peel',
+      image_url:
+        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮',
+    },
+    {
+      title: 'Green peel',
+      image_url:
+        'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 350,000₮-аас',
+    },
+    {
+      title: 'Батга цэвэрлэгээ',
+      image_url:
+        'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮-аас',
+    },
+    {
+      title: 'Carboxy',
+      image_url:
+        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮',
+    },
+    {
+      title: 'Үү ургацаг /1ш/',
+      image_url:
+        'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 15,000₮-аас',
+    },
+    {
+      title: 'Мэнгэ түүх /1ш/',
+      image_url:
+        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮-аас',
+    },
+  ],
+
+  HAIR_SERVICE: [
+    {
+      title: 'Эрэгтэй үс засалт',
+      image_url:
+        'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 25,000₮',
+    },
+    {
+      title: 'Эмэгтэй тайралт',
+      image_url:
+        'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Эмэгтэй үс засалт',
+      image_url:
+        'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Шулуун хими',
+      image_url:
+        'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮-аас',
+    },
+    {
+      title: 'Тосон буржгар хими',
+      image_url:
+        'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 65,000₮-аас',
+    },
+    {
+      title: 'Ботокс',
+      image_url:
+        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 80,000₮-аас',
+    },
+    {
+      title: 'Кератин',
+      image_url:
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 120,000₮-аас',
+    },
+    {
+      title: 'Өнгө гаргаж будах',
+      image_url:
+        'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: '20–40% хямдрал',
+    },
+  ],
+
+  EYELASH_SERVICE: [
+    {
+      title: 'Сормуус',
+      image_url:
+        'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 65,000₮',
+    },
+    {
+      title: 'Хөмсөг засах',
+      image_url:
+        'https://images.unsplash.com/photo-1487412912498-0447578fcca8?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 10,000₮',
+    },
+    {
+      title: 'Хөмсөг хими',
+      image_url:
+        'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Сормуус хими',
+      image_url:
+        'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: '6D үстэй мэт уусгалттай хөмсөгний шивээс',
+      image_url:
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+      subtitle: '450,000₮-аас 250,000₮',
+    },
+  ],
+
+  NAIL_SERVICE: [
+    {
+      title: 'Маникюр',
+      image_url:
+        'https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'French будалт',
+      image_url:
+        'https://images.unsplash.com/photo-1610992015732-2449b76344bc?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 45,000₮',
+    },
+    {
+      title: 'Смарт хумс',
+      image_url:
+        'https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 65,000₮',
+    },
+    {
+      title: 'Педикюр',
+      image_url:
+        'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 85,000₮',
+    },
+    {
+      title: 'Энгийн педикюр',
+      image_url:
+        'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 65,000₮',
+    },
+  ],
+
+  HAIRTREATMENT_SERVICE: [
+    {
+      title: 'Хуйхны спа цэвэрлэгээ',
+      image_url:
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 65,000₮-аас',
+    },
+    {
+      title: 'Хуйхны спа цэвэрлэгээ /хүүхэд/',
+      image_url:
+        'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 50,000₮-аас',
+    },
+    {
+      title: 'Эрчимжүүлсэн эмчилгээний тос /1 удаа/',
+      image_url:
+        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 65,000₮-аас',
+    },
+    {
+      title: 'Эрчимжүүлсэн эмчилгээний тос /курс/',
+      image_url:
+        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 255,000₮-аас',
+    },
+    {
+      title: 'Уураг /1 удаа/',
+      image_url:
+        'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 50,000₮-аас',
+    },
+    {
+      title: 'Уураг /курс/',
+      image_url:
+        'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 250,000₮-аас',
+    },
+    {
+      title: 'Тосон тэжээл /1 удаа/',
+      image_url:
+        'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮-аас',
+    },
+    {
+      title: 'Тосон тэжээл /курс/',
+      image_url:
+        'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 150,000₮-аас',
+    },
+  ],
+
+  PIERCING_SERVICE: [
+    {
+      title: 'Чих цоолох',
+      image_url:
+        'https://images.unsplash.com/photo-1589987607627-09c0b5f7fd3f?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 20,000₮',
+    },
+    {
+      title: 'Хүйс цоолох',
+      image_url:
+        'https://images.unsplash.com/photo-1596944948860-67d8f0d2f30e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 45,000₮',
+    },
+    {
+      title: 'Хөмсөг цоолох',
+      image_url:
+        'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Хамар цоолох',
+      image_url:
+        'https://images.unsplash.com/photo-1487412912498-0447578fcca8?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮',
+    },
+    {
+      title: 'Хэл цоолох',
+      image_url:
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: тохиролцоно',
+    },
+    {
+      title: 'Хацар цоолох',
+      image_url:
+        'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: тохиролцоно',
+    },
+  ],
+
+  REMOVAL_SERVICE: [
+    {
+      title: 'Үү ургацаг /1ш/',
+      image_url:
+        'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 15,000₮–85,000₮',
+    },
+    {
+      title: 'Мэнгэ түүх /1ш/',
+      image_url:
+        'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
+      subtitle: 'Үнэ: 35,000₮–65,000₮',
+    },
+  ],
+};
 
 function getSheets() {
   const auth = new google.auth.GoogleAuth({
@@ -148,9 +470,10 @@ function getSheets() {
 async function ensureSheetExists(sheetTitle) {
   const sheets = getSheets();
   const meta = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
+
   const titles = new Set(
     (meta.data.sheets || [])
-      .map((s) => s.properties && s.properties.title)
+      .map((s) => s.properties?.title)
       .filter(Boolean)
   );
 
@@ -213,9 +536,7 @@ async function ensureBookingSheetStructure() {
       spreadsheetId: SHEET_ID,
       range: `${BOOKINGS_SHEET}!A1:M1`,
       valueInputOption: 'RAW',
-      requestBody: {
-        values: [desiredHeaders],
-      },
+      requestBody: { values: [desiredHeaders] },
     });
     return;
   }
@@ -256,9 +577,7 @@ async function ensureBookingSheetStructure() {
       spreadsheetId: SHEET_ID,
       range: `${BOOKINGS_SHEET}!A1:M${migrated.length}`,
       valueInputOption: 'RAW',
-      requestBody: {
-        values: migrated,
-      },
+      requestBody: { values: migrated },
     });
     return;
   }
@@ -267,9 +586,7 @@ async function ensureBookingSheetStructure() {
     spreadsheetId: SHEET_ID,
     range: `${BOOKINGS_SHEET}!A1:M1`,
     valueInputOption: 'RAW',
-    requestBody: {
-      values: [desiredHeaders],
-    },
+    requestBody: { values: [desiredHeaders] },
   });
 }
 
@@ -295,7 +612,7 @@ async function loadSubscribers() {
         .filter((v) => v && v !== 'subscriber_id')
     );
   } catch (e) {
-    console.error('Failed to load subscribers from Sheets:', e.message);
+    console.error('Failed to load subscribers:', e.message);
     return new Set();
   }
 }
@@ -312,7 +629,7 @@ async function addSubscriber(id) {
       },
     });
   } catch (e) {
-    console.error('Failed to add subscriber to Sheets:', e.message);
+    console.error('Failed to add subscriber:', e.message);
   }
 }
 
@@ -347,9 +664,9 @@ async function getAllBookings() {
 async function getUnavailableTimes(date) {
   const bookings = await getAllBookings();
   return bookings
-    .filter((row) => row.date === date)
-    .filter((row) => String(row.status || '').toLowerCase() !== 'cancelled')
-    .map((row) => row.time)
+    .filter((b) => b.date === date)
+    .filter((b) => String(b.status || '').toLowerCase() !== 'cancelled')
+    .map((b) => b.time)
     .filter(Boolean);
 }
 
@@ -431,63 +748,95 @@ async function cancelBookingById(bookingId, verifier) {
 }
 
 async function sendBookingConfirmationEmail(booking) {
-  if (!mailer || !booking.email) return;
+  if (!mailer || !booking.email) {
+    return { ok: false, reason: 'mailer_not_configured' };
+  }
 
-  const cancelUrl = `${BASE_URL}/cancel?bookingId=${encodeURIComponent(booking.bookingId)}`;
+  try {
+    const cancelUrl = `${BASE_URL}/cancel?bookingId=${encodeURIComponent(booking.bookingId)}`;
 
-  const html = `
-    <div style="font-family:Arial,sans-serif;line-height:1.6;color:#222">
-      <h2 style="margin-bottom:8px;">Soyol Spa Salon</h2>
-      <p>Таны захиалга амжилттай бүртгэгдлээ.</p>
+    const html = `
+      <div style="font-family:Arial,sans-serif;line-height:1.6;color:#222">
+        <h2 style="margin-bottom:8px;">Soyol Spa Salon</h2>
+        <p>Таны захиалга амжилттай бүртгэгдлээ.</p>
 
-      <table style="border-collapse:collapse;margin-top:12px;">
-        <tr><td style="padding:6px 12px 6px 0;"><strong>Booking ID:</strong></td><td>${booking.bookingId}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;"><strong>Нэр:</strong></td><td>${booking.customerName}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;"><strong>Үйлчилгээ:</strong></td><td>${booking.serviceName}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;"><strong>Ангилал:</strong></td><td>${booking.categoryName}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;"><strong>Огноо:</strong></td><td>${booking.date}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;"><strong>Цаг:</strong></td><td>${booking.time}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;"><strong>Үнэ:</strong></td><td>${booking.servicePrice || '-'}</td></tr>
-      </table>
+        <table style="border-collapse:collapse;margin-top:12px;">
+          <tr><td style="padding:6px 12px 6px 0;"><strong>Booking ID:</strong></td><td>${booking.bookingId}</td></tr>
+          <tr><td style="padding:6px 12px 6px 0;"><strong>Нэр:</strong></td><td>${booking.customerName}</td></tr>
+          <tr><td style="padding:6px 12px 6px 0;"><strong>Үйлчилгээ:</strong></td><td>${booking.serviceName}</td></tr>
+          <tr><td style="padding:6px 12px 6px 0;"><strong>Ангилал:</strong></td><td>${booking.categoryName}</td></tr>
+          <tr><td style="padding:6px 12px 6px 0;"><strong>Огноо:</strong></td><td>${booking.date}</td></tr>
+          <tr><td style="padding:6px 12px 6px 0;"><strong>Цаг:</strong></td><td>${booking.time}</td></tr>
+          <tr><td style="padding:6px 12px 6px 0;"><strong>Үнэ:</strong></td><td>${booking.servicePrice || '-'}</td></tr>
+        </table>
 
-      <p style="margin-top:18px;">Захиалгаа цуцлах бол доорх холбоосыг ашиглана уу:</p>
+        <p style="margin-top:18px;">Захиалгаа цуцлах бол доорх холбоосыг ашиглана уу:</p>
 
-      <p>
-        <a href="${cancelUrl}" style="display:inline-block;padding:10px 16px;background:#7b2d8b;color:#fff;text-decoration:none;border-radius:8px;">
-          Захиалга цуцлах
-        </a>
-      </p>
+        <p>
+          <a href="${cancelUrl}" style="display:inline-block;padding:10px 16px;background:#7b2d8b;color:#fff;text-decoration:none;border-radius:8px;">
+            Захиалга цуцлах
+          </a>
+        </p>
 
-      <p style="margin-top:18px;">Холбоо барих: 7059-9999, 9119-1215</p>
-    </div>
-  `;
+        <p style="margin-top:18px;">Холбоо барих: 7059-9999, 9119-1215</p>
+      </div>
+    `;
 
-  await mailer.sendMail({
-    from: SMTP_FROM,
-    to: booking.email,
-    subject: `Soyol Spa Salon - Захиалга баталгаажлаа (${booking.bookingId})`,
-    html,
-  });
+    await mailer.sendMail({
+      from: SMTP_FROM,
+      to: booking.email,
+      subject: `Soyol Spa Salon - Захиалга баталгаажлаа (${booking.bookingId})`,
+      html,
+    });
+
+    return { ok: true };
+  } catch (e) {
+    console.error('Confirmation email failed:', e.message);
+    return { ok: false, reason: e.message };
+  }
 }
 
 async function sendCancellationEmail({ email, bookingId, customerName }) {
-  if (!mailer || !email) return;
+  if (!mailer || !email) {
+    return { ok: false, reason: 'mailer_not_configured' };
+  }
 
-  const html = `
-    <div style="font-family:Arial,sans-serif;line-height:1.6;color:#222">
-      <h2 style="margin-bottom:8px;">Soyol Spa Salon</h2>
-      <p>${customerName || 'Хэрэглэгч'} таны захиалга цуцлагдлаа.</p>
-      <p><strong>Booking ID:</strong> ${bookingId}</p>
-      <p>Хэрэв алдаа гарсан бол 7059-9999, 9119-1215 дугаараар холбогдоно уу.</p>
-    </div>
-  `;
+  try {
+    const html = `
+      <div style="font-family:Arial,sans-serif;line-height:1.6;color:#222">
+        <h2 style="margin-bottom:8px;">Soyol Spa Salon</h2>
+        <p>${customerName || 'Хэрэглэгч'} таны захиалга цуцлагдлаа.</p>
+        <p><strong>Booking ID:</strong> ${bookingId}</p>
+        <p>Хэрэв алдаа гарсан бол 7059-9999, 9119-1215 дугаараар холбогдоно уу.</p>
+      </div>
+    `;
 
-  await mailer.sendMail({
-    from: SMTP_FROM,
-    to: email,
-    subject: `Soyol Spa Salon - Захиалга цуцлагдлаа (${bookingId})`,
-    html,
-  });
+    await mailer.sendMail({
+      from: SMTP_FROM,
+      to: email,
+      subject: `Soyol Spa Salon - Захиалга цуцлагдлаа (${bookingId})`,
+      html,
+    });
+
+    return { ok: true };
+  } catch (e) {
+    console.error('Cancellation email failed:', e.message);
+    return { ok: false, reason: e.message };
+  }
+}
+
+async function verifyMailer() {
+  if (!mailer) {
+    console.log('SMTP is not configured. Confirmation emails are disabled.');
+    return;
+  }
+
+  try {
+    await mailer.verify();
+    console.log('SMTP ready');
+  } catch (e) {
+    console.error('SMTP verify failed:', e.message);
+  }
 }
 
 async function askGemini(userId, userMessage) {
@@ -572,22 +921,6 @@ async function broadcastToAll(message) {
   return results;
 }
 
-function makeGenericElements(items) {
-  return items.map((item) => ({
-    title: item.title,
-    image_url: item.image_url,
-    subtitle: item.subtitle,
-    buttons: [
-      {
-        type: 'web_url',
-        title: 'Цаг авах',
-        url: BOOKING_URL,
-        webview_height_ratio: 'full',
-      },
-    ],
-  }));
-}
-
 async function sendMainMenu(id) {
   let name = 'та';
 
@@ -632,452 +965,6 @@ async function sendMainMenu(id) {
   console.log('mainMenu:', await r.json());
 }
 
-async function sendServiceCarousel(id) {
-  const elements = [
-    {
-      title: 'Гоо сайхны үйлчилгээ',
-      image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Нүүр арчилгаа, цэвэрлэгээ, peel',
-      buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'BEAUTY_SERVICE' }],
-    },
-    {
-      title: 'Үсчин',
-      image_url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үс засалт, тайралт, хими, будаг',
-      buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIR_SERVICE' }],
-    },
-    {
-      title: 'Маникюр, педикюр',
-      image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Маникюр, педикюр, хумсны үйлчилгээ',
-      buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'NAIL_SERVICE' }],
-    },
-    {
-      title: 'Сормуус, хөмсөг',
-      image_url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Сормуус, хөмсөг, 6D шивээс',
-      buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'EYELASH_SERVICE' }],
-    },
-    {
-      title: 'Чих цоолох, персинг',
-      image_url: 'https://images.unsplash.com/photo-1596944948860-67d8f0d2f30e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Чих, хамар, хүйс болон бусад',
-      buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'PIERCING_SERVICE' }],
-    },
-    {
-      title: 'Мэнгэ, үү, ургацаг авах',
-      image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Мэнгэ түүх, үү ургацаг авах',
-      buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'REMOVAL_SERVICE' }],
-    },
-    {
-      title: 'Үсний эмчилгээ',
-      image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Хуйхны спа, уураг, тосон тэжээл',
-      buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: 'HAIRTREATMENT_SERVICE' }],
-    },
-  ];
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: {
-              template_type: 'generic',
-              elements,
-            },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('services:', await r.json());
-}
-
-async function sendBeautyCarousel(id) {
-  const elements = makeGenericElements([
-    {
-      title: 'Miracle CO2',
-      image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮',
-    },
-    {
-      title: 'Carbon peel',
-      image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮',
-    },
-    {
-      title: 'Green peel',
-      image_url: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 350,000₮-аас',
-    },
-    {
-      title: 'Батга цэвэрлэгээ',
-      image_url: 'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮-аас',
-    },
-    {
-      title: 'Carboxy',
-      image_url: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮',
-    },
-    {
-      title: 'Үү ургацаг /1ш/',
-      image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 15,000₮-аас',
-    },
-    {
-      title: 'Мэнгэ түүх /1ш/',
-      image_url: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮-аас',
-    },
-  ]);
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: { template_type: 'generic', elements },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('beauty:', await r.json());
-}
-
-async function sendHairCarousel(id) {
-  const elements = makeGenericElements([
-    {
-      title: 'Эрэгтэй үс засалт',
-      image_url: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 25,000₮',
-    },
-    {
-      title: 'Эмэгтэй тайралт',
-      image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
-    },
-    {
-      title: 'Эмэгтэй үс засалт',
-      image_url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
-    },
-    {
-      title: 'Шулуун хими',
-      image_url: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮-аас',
-    },
-    {
-      title: 'Тосон буржгар хими',
-      image_url: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 65,000₮-аас',
-    },
-    {
-      title: 'Ботокс',
-      image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 80,000₮-аас',
-    },
-    {
-      title: 'Кератин',
-      image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 120,000₮-аас',
-    },
-    {
-      title: 'Өнгө гаргаж будах',
-      image_url: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: '20–40% хямдрал',
-    },
-  ]);
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: { template_type: 'generic', elements },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('hair:', await r.json());
-}
-
-async function sendEyelashCarousel(id) {
-  const elements = makeGenericElements([
-    {
-      title: 'Сормуус',
-      image_url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 65,000₮',
-    },
-    {
-      title: 'Хөмсөг засах',
-      image_url: 'https://images.unsplash.com/photo-1487412912498-0447578fcca8?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 10,000₮',
-    },
-    {
-      title: 'Хөмсөг хими',
-      image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
-    },
-    {
-      title: 'Сормуус хими',
-      image_url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
-    },
-    {
-      title: '6D үстэй мэт уусгалттай хөмсөгний шивээс',
-      image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-      subtitle: '450,000₮-аас 250,000₮',
-    },
-  ]);
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: { template_type: 'generic', elements },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('eyes:', await r.json());
-}
-
-async function sendEyebrowCarousel(id) {
-  return sendEyelashCarousel(id);
-}
-
-async function sendNailCarousel(id) {
-  const elements = makeGenericElements([
-    {
-      title: 'Маникюр',
-      image_url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
-    },
-    {
-      title: 'French будалт',
-      image_url: 'https://images.unsplash.com/photo-1610992015732-2449b76344bc?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 45,000₮',
-    },
-    {
-      title: 'Смарт хумс',
-      image_url: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 65,000₮',
-    },
-    {
-      title: 'Педикюр',
-      image_url: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 85,000₮',
-    },
-    {
-      title: 'Энгийн педикюр',
-      image_url: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 65,000₮',
-    },
-  ]);
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: { template_type: 'generic', elements },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('nail:', await r.json());
-}
-
-async function sendHairTreatmentCarousel(id) {
-  const elements = makeGenericElements([
-    {
-      title: 'Хуйхны спа цэвэрлэгээ',
-      image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 65,000₮-аас',
-    },
-    {
-      title: 'Хуйхны спа цэвэрлэгээ /хүүхэд/',
-      image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 50,000₮-аас',
-    },
-    {
-      title: 'Эрчимжүүлсэн эмчилгээний тос /1 удаа/',
-      image_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 65,000₮-аас',
-    },
-    {
-      title: 'Эрчимжүүлсэн эмчилгээний тос /курс/',
-      image_url: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 255,000₮-аас',
-    },
-    {
-      title: 'Уураг /1 удаа/',
-      image_url: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 50,000₮-аас',
-    },
-    {
-      title: 'Уураг /курс/',
-      image_url: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 250,000₮-аас',
-    },
-    {
-      title: 'Тосон тэжээл /1 удаа/',
-      image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮-аас',
-    },
-    {
-      title: 'Тосон тэжээл /курс/',
-      image_url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 150,000₮-аас',
-    },
-  ]);
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: { template_type: 'generic', elements },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('hair treatment:', await r.json());
-}
-
-async function sendPiercingCarousel(id) {
-  const elements = makeGenericElements([
-    {
-      title: 'Чих цоолох',
-      image_url: 'https://images.unsplash.com/photo-1589987607627-09c0b5f7fd3f?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 20,000₮',
-    },
-    {
-      title: 'Хүйс цоолох',
-      image_url: 'https://images.unsplash.com/photo-1596944948860-67d8f0d2f30e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 45,000₮',
-    },
-    {
-      title: 'Хөмсөг цоолох',
-      image_url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
-    },
-    {
-      title: 'Хамар цоолох',
-      image_url: 'https://images.unsplash.com/photo-1487412912498-0447578fcca8?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮',
-    },
-    {
-      title: 'Хэл цоолох',
-      image_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: тохиролцоно',
-    },
-    {
-      title: 'Хацар цоолох',
-      image_url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: тохиролцоно',
-    },
-  ]);
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: { template_type: 'generic', elements },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('piercing:', await r.json());
-}
-
-async function sendRemovalCarousel(id) {
-  const elements = makeGenericElements([
-    {
-      title: 'Үү ургацаг /1ш/',
-      image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 15,000₮–85,000₮',
-    },
-    {
-      title: 'Мэнгэ түүх /1ш/',
-      image_url: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop',
-      subtitle: 'Үнэ: 35,000₮–65,000₮',
-    },
-  ]);
-
-  const r = await fetch(
-    `https://graph.facebook.com/v18.0/me/messages?access_token=${TOKEN}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient: { id },
-        message: {
-          attachment: {
-            type: 'template',
-            payload: { template_type: 'generic', elements },
-          },
-        },
-      }),
-    }
-  );
-
-  console.log('removal:', await r.json());
-}
-
 async function sendContactMenu(id) {
   return sendMessage(id, {
     attachment: {
@@ -1089,6 +976,51 @@ async function sendContactMenu(id) {
           { type: 'phone_number', title: 'Залгах', payload: '+97670599999' },
           { type: 'postback', title: 'Үндсэн цэс', payload: 'MAIN_MENU' },
         ],
+      },
+    },
+  });
+}
+
+async function sendServiceCarousel(id) {
+  const elements = SERVICE_MENU.map((item) => ({
+    title: item.title,
+    image_url: item.image_url,
+    subtitle: item.subtitle,
+    buttons: [{ type: 'postback', title: 'Дэлгэрэнгүй', payload: item.payload }],
+  }));
+
+  return sendMessage(id, {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements,
+      },
+    },
+  });
+}
+
+async function sendGenericBookingCarousel(id, items) {
+  const elements = items.map((item) => ({
+    title: item.title,
+    image_url: item.image_url,
+    subtitle: item.subtitle,
+    buttons: [
+      {
+        type: 'web_url',
+        title: 'Цаг авах',
+        url: BOOKING_URL,
+        webview_height_ratio: 'full',
+      },
+    ],
+  }));
+
+  return sendMessage(id, {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements,
       },
     },
   });
@@ -1111,7 +1043,7 @@ app.post('/webhook', async (req, res) => {
 
     for (const entry of body.entry || []) {
       for (const event of entry.messaging || []) {
-        const id = event.sender && event.sender.id;
+        const id = event.sender?.id;
         if (!id) continue;
 
         if (!subscribers.has(id)) {
@@ -1120,7 +1052,7 @@ app.post('/webhook', async (req, res) => {
           console.log(`New subscriber: ${id} | Total: ${subscribers.size}`);
         }
 
-        const payload = event.postback && event.postback.payload;
+        const payload = event.postback?.payload;
 
         if (payload === 'GET_STARTED' || payload === 'MAIN_MENU') {
           await sendMainMenu(id);
@@ -1128,23 +1060,9 @@ app.post('/webhook', async (req, res) => {
           await sendServiceCarousel(id);
         } else if (payload === 'CONTACT') {
           await sendContactMenu(id);
-        } else if (payload === 'BEAUTY_SERVICE') {
-          await sendBeautyCarousel(id);
-        } else if (payload === 'HAIR_SERVICE') {
-          await sendHairCarousel(id);
-        } else if (payload === 'EYEBROW_SERVICE') {
-          await sendEyebrowCarousel(id);
-        } else if (payload === 'EYELASH_SERVICE') {
-          await sendEyelashCarousel(id);
-        } else if (payload === 'NAIL_SERVICE') {
-          await sendNailCarousel(id);
-        } else if (payload === 'HAIRTREATMENT_SERVICE') {
-          await sendHairTreatmentCarousel(id);
-        } else if (payload === 'PIERCING_SERVICE') {
-          await sendPiercingCarousel(id);
-        } else if (payload === 'REMOVAL_SERVICE') {
-          await sendRemovalCarousel(id);
-        } else if (event.message && event.message.text) {
+        } else if (DETAIL_CAROUSELS[payload]) {
+          await sendGenericBookingCarousel(id, DETAIL_CAROUSELS[payload]);
+        } else if (event.message?.text) {
           const userText = event.message.text.trim();
           const aiReply = await askGemini(id, userText);
 
@@ -1242,7 +1160,7 @@ app.post('/booking-submit', async (req, res) => {
 
     const bookingId = await addBooking(payload);
 
-    await sendBookingConfirmationEmail({
+    const emailResult = await sendBookingConfirmationEmail({
       bookingId,
       customerName: payload.customerName,
       email: payload.email,
@@ -1254,7 +1172,14 @@ app.post('/booking-submit', async (req, res) => {
       servicePrice: payload.servicePrice,
     });
 
-    return res.json({ ok: true, bookingId });
+    return res.json({
+      ok: true,
+      bookingId,
+      emailSent: emailResult.ok,
+      warning: emailResult.ok
+        ? ''
+        : 'Захиалга хадгалагдсан боловч баталгаажуулах и-мэйл илгээгдсэнгүй.',
+    });
   } catch (e) {
     console.error('Failed to save booking:', e.message);
     return res.status(500).json({ error: 'Failed to save booking' });
@@ -1367,7 +1292,9 @@ app.post('/cancel-booking', async (req, res) => {
     const verifier = String(req.body.verifier || '').trim();
 
     if (!bookingId || !verifier) {
-      return res.status(400).json({ message: 'Booking ID болон утас эсвэл и-мэйл шаардлагатай.' });
+      return res.status(400).json({
+        message: 'Booking ID болон утас эсвэл и-мэйл шаардлагатай.',
+      });
     }
 
     const result = await cancelBookingById(bookingId, verifier);
@@ -1377,16 +1304,22 @@ app.post('/cancel-booking', async (req, res) => {
     }
 
     if (result.alreadyCancelled) {
-      return res.status(200).json({ message: 'Энэ захиалга өмнө нь цуцлагдсан байна.' });
+      return res.status(200).json({
+        message: 'Энэ захиалга өмнө нь цуцлагдсан байна.',
+      });
     }
 
-    await sendCancellationEmail({
+    const emailResult = await sendCancellationEmail({
       email: result.email,
       bookingId,
       customerName: result.customerName,
     });
 
-    return res.json({ message: 'Захиалга амжилттай цуцлагдлаа.' });
+    return res.json({
+      message: emailResult.ok
+        ? 'Захиалга амжилттай цуцлагдлаа.'
+        : 'Захиалга амжилттай цуцлагдлаа. Гэхдээ цуцлалтын и-мэйл илгээгдсэнгүй.',
+    });
   } catch (e) {
     console.error('Cancel booking error:', e.message);
     return res.status(500).json({ message: 'Цуцлах үед алдаа гарлаа.' });
@@ -1639,7 +1572,8 @@ app.listen(PORT, async () => {
     console.error('Startup error:', e.message);
   }
 
+  await verifyMailer();
+
   console.log(`Server running on port ${PORT}`);
   if (PAGE_ID) console.log(`Page ID: ${PAGE_ID}`);
-  if (!mailer) console.log('SMTP is not configured. Confirmation emails are disabled.');
 });
