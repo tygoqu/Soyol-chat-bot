@@ -1477,6 +1477,12 @@
           </div>
 
           <div class="form-row">
+            <label class="field-label" for="emailInput">И-мэйл</label>
+            <input class="field-input" id="emailInput" type="email" placeholder="И-мэйл хаяг">
+            <div class="field-error" id="emailError">Зөв и-мэйл оруулна уу.</div>
+          </div>
+
+          <div class="form-row">
             <label class="field-label" for="noteInput">Нэмэлт тайлбар</label>
             <textarea class="field-textarea" id="noteInput" placeholder="Хүсвэл нэмэлт хүсэлтээ бичиж болно"></textarea>
           </div>
@@ -1522,6 +1528,10 @@
             <div class="summary-key">Утас</div>
             <div class="summary-value" id="summaryPhone">—</div>
           </div>
+          <div class="summary-row">
+            <div class="summary-key">И-мэйл</div>
+            <div class="summary-value" id="summaryEmail">—</div>
+          </div>
           <div class="summary-row" id="summaryNoteRow" style="display:none;">
             <div class="summary-key">Тайлбар</div>
             <div class="summary-value" id="summaryNote">—</div>
@@ -1532,7 +1542,7 @@
       <div class="success-wrap" id="successWrap">
         <div class="success-ring" id="successRing"></div>
         <h2 class="success-title">Захиалга амжилттай</h2>
-        <p class="success-sub">Таны хүсэлт амжилттай хадгалагдлаа. Бид тантай удахгүй холбогдох болно.</p>
+        <p class="success-sub">Таны хүсэлт амжилттай хадгалагдлаа. Баталгаажуулах и-мэйл илгээгдэнэ.</p>
 
         <div class="card success-card" id="successCard"></div>
 
@@ -2009,6 +2019,7 @@
       document.getElementById('summaryTime').textContent = selectedTime || '—';
       document.getElementById('summaryName').textContent = document.getElementById('nameInput').value.trim() || '—';
       document.getElementById('summaryPhone').textContent = document.getElementById('phoneInput').value.trim() || '—';
+      document.getElementById('summaryEmail').textContent = document.getElementById('emailInput').value.trim() || '—';
 
       const note = document.getElementById('noteInput').value.trim();
       const row = document.getElementById('summaryNoteRow');
@@ -2061,6 +2072,7 @@
       if (currentPanel === '3') {
         const name = document.getElementById('nameInput').value.trim();
         const phone = document.getElementById('phoneInput').value.trim();
+        const email = document.getElementById('emailInput').value.trim();
         let ok = true;
 
         if (!name) {
@@ -2075,6 +2087,13 @@
           ok = false;
         } else {
           clearFieldError('phoneInput', 'phoneError');
+        }
+
+        if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+          showFieldError('emailInput', 'emailError');
+          ok = false;
+        } else {
+          clearFieldError('emailInput', 'emailError');
         }
 
         if (!ok) return;
@@ -2104,6 +2123,7 @@
         time: selectedTime,
         customerName: document.getElementById('nameInput').value.trim(),
         phone: document.getElementById('phoneInput').value.trim(),
+        email: document.getElementById('emailInput').value.trim(),
         note: document.getElementById('noteInput').value.trim()
       };
 
@@ -2155,6 +2175,10 @@
             <div class="summary-key">Утас</div>
             <div class="summary-value">${payload.phone}</div>
           </div>
+          <div class="summary-row">
+            <div class="summary-key">И-мэйл</div>
+            <div class="summary-value">${payload.email}</div>
+          </div>
         `;
       } catch (e) {
         alert('Сүлжээний алдаа гарлаа.');
@@ -2166,6 +2190,7 @@
 
     document.getElementById('nameInput').addEventListener('input', () => clearFieldError('nameInput', 'nameError'));
     document.getElementById('phoneInput').addEventListener('input', () => clearFieldError('phoneInput', 'phoneError'));
+    document.getElementById('emailInput').addEventListener('input', () => clearFieldError('emailInput', 'emailError'));
 
     setStaticIcons();
     renderCategories();
