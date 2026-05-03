@@ -36,6 +36,7 @@ const SMTP_USER = process.env.SMTP_USER || '';
 const SMTP_PASS = process.env.SMTP_PASS || '';
 const SMTP_FROM = process.env.SMTP_FROM || SMTP_USER;
 
+// SMTP Timeout тохиргоог энд нэмж өгөв
 const mailer =
   SMTP_HOST && SMTP_USER && SMTP_PASS
     ? nodemailer.createTransport({
@@ -46,6 +47,9 @@ const mailer =
           user: SMTP_USER,
           pass: SMTP_PASS,
         },
+        connectionTimeout: 10000, // 10 секунд
+        greetingTimeout: 10000,
+        socketTimeout: 15000,
       })
     : null;
 
